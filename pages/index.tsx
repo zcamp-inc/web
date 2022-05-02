@@ -3,73 +3,50 @@ import {
   Heading,
   Box,
   Button,
+  Text,
   ChakraProvider,
   VStack,
+  HStack,
   FormControl,
-  FormLabel,
+  useToast,
   FormErrorMessage,
   FormHelperText,
   Input,
-  Container,
-  extendTheme,
+  Link,
+  InputRightElement,
+  InputGroup,
 } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
-
-const activeLabelStyles = {
-  transform: "scale(0.85) translateY(-24px)",
-};
-
-export const theme = extendTheme({
-  components: {
-    Form: {
-      variants: {
-        floating: {
-          container: {
-            _focusWithin: {
-              label: {
-                ...activeLabelStyles,
-              },
-            },
-            "input:not(:placehostlder-shown) + label, .chakra-select__wrapper + label":
-              {
-                ...activeLabelStyles,
-              },
-            label: {
-              top: 0,
-              left: 0,
-              zIndex: 2,
-              position: "absolute",
-              backgroundColor: "white",
-              pointerEvents: "none",
-              mx: 3,
-              px: 1,
-              my: 2,
-              transformOrigin: "left top",
-            },
-          },
-        },
-      },
-    },
-  },
-});
+import NextLink from "next/link";
+import { useState } from "react";
 
 const ImgPage = () => {
+  const toast = useToast()
+
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
+
+  const [input, setInput] = useState('')
+  const handleInputChange = (e) => setInput(e.target.value)
+  const isError = input === ' '
+
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider>
       <Flex justifyContent="center">
-        <img src="/signuppic.png" width="70%" />
+        <img src="/signuppic.png" width="60%" />
       </Flex>
       <Box
         w={["full", "lg"]}
-        p={[8, 10]}
+        p={[5 ,5]}
         mx="auto"
-        border={["none", "1px"]}
+        border={["none"]}
         borderRadius={10}
+        alignSelf="center"
       >
-        <VStack spacing={1} align="flex-start" w="full">
-          <Flex alignItems="center" justifyContent="space-between" mb={5}>
+        <HStack spacing={1} align='center' justify='space-between' w='full' mb={5}>
+          {/* <Flex mb={5} alignSelf="center"> */}
             <Heading as="h5" size="sm">
-              Signup to zcmap
+              Signup to zcamp
             </Heading>
             <Button
               leftIcon={
@@ -81,47 +58,109 @@ const ImgPage = () => {
               color="white"
               colorScheme="cyan"
               variant="solid"
-              marginLeft={20}
+              
             >
               Signup with Google
             </Button>
-          </Flex>
+          {/* </Flex> */}
+        </HStack>
 
-          <Box alignSelf='center'>
-            <FormControl variant="floating" id="full_name" isRequired>
-              <Input placeholder=" " variant="outline" rounded={10} width={80} />
-              <FormLabel>Name</FormLabel>
+          <Box alignSelf="center">
+            <FormControl isInvalid={isError}>
+              <Input
+                onChange={handleInputChange}
+                placeholder="Full Name"
+                variant="filled"
+                rounded={10}
+                value={input}
+                id="full_name"
+              />
+              {!isError ? (
+                <FormHelperText>
+                  
+                </FormHelperText>
+              ): (
+                <FormErrorMessage>Fullname is required</FormErrorMessage>
+              )}
             </FormControl>
 
-            <FormControl variant="floating" id="email" isRequired mt={4}>
+            <FormControl id="email" isInvalid={isError} mt={4}>
               <Input
-                placeholder=" "
-                variant="outline"
+                placeholder="Email"
+                variant="filled"
                 rounded={10}
                 type="email"
+                value={input}
+                onChange={handleInputChange}
               />
-              <FormLabel>Email</FormLabel>
-              <FormHelperText>Your CU Email Only</FormHelperText>
+              {!isError ? (
+                 <FormHelperText>Your CU Email Only</FormHelperText>
+              ): (
+                <FormErrorMessage>Email is required</FormErrorMessage>
+              )}
+             
             </FormControl>
 
-            <FormControl variant="floating" id="pass" isRequired mt={4}>
-              <Input
-                placeholder=" "
-                variant="outline"
-                rounded={10}
-                type="password"
-              />
-              <FormLabel>Password</FormLabel>
-              <FormHelperText>Minimum of 8 characters</FormHelperText>
+            <FormControl id="pass" isInvalid={isError} mt={4}>
+              <InputGroup>
+                <Input
+                  placeholder="Password"
+                  variant="filled"
+                  rounded={10}
+                  type={show ? "text" : "password"}
+                  value={input}
+                  onChange={handleInputChange}
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={handleClick}>
+                    {show ? "Hide" : "Show"}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+
+              {!isError ? (
+                 <FormHelperText>Minimum of 8 Characters</FormHelperText>
+              ): (
+                <FormErrorMessage>Password is required</FormErrorMessage>
+              )}
             </FormControl>
+
 
           </Box>
-          <Flex alignSelf='center'>
-            <Button color="white" backgroundColor="#D99EFF" variant="solid" width={60} >
+          <Flex alignSelf="center">
+            <Button
+              mt={5}
+              color="white"
+              backgroundColor="#D99EFF"
+              variant="solid"
+              width={60}
+              _hover= {{ bg: '#B94EFF'}}
+              onClick = {() => 
+                toast({
+                  title: 'Account Created.',
+                  description: "Check your email address for verification",
+                  status: 'success',
+                  duration: 6000,
+                  isClosable: true,
+                })
+              }
+            >
               Continue
             </Button>
-          </Flex>
-        </VStack>
+            <Text
+              fontWeight={600}
+              color="GrayText"
+              alignSelf="center"
+              mt={5}
+              ml={5}
+              fontSize='0.8rem'
+            >
+              Already a member?{" "}
+              <NextLink href="/signin" passHref>
+                <Link color="#D99EFF" _hover={{ color: '#B94EFF'}}> Sign In</Link>
+              </NextLink>
+            </Text>
+          </Flex>   
       </Box>
     </ChakraProvider>
   );
