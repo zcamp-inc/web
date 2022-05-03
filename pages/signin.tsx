@@ -19,14 +19,14 @@ import {
   } from "@chakra-ui/react";
   import { FcGoogle } from "react-icons/fc";
   import NextLink from "next/link";
-  import { useState } from "react";
+  import { SetStateAction, useState } from "react";
   
   const Signin = () => {
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
   
     const [input, setInput] = useState('')
-    const handleInputChange = (e) => setInput(e.target.value)
+    const handleInputChange = (e: any) => setInput(e.target.value)
     const isError = input === ' '
   
     return (
