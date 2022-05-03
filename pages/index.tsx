@@ -27,8 +27,14 @@ const ImgPage = () => {
   const handleClick = () => setShow(!show);
 
   const [input, setInput] = useState('')
+  const [pass, setPass] = useState('')
+  const [email, setEmail] = useState('')
   const handleInputChange = (e:any) => setInput(e.target.value)
+  const handlePassChange = (e: any) => setPass(e.target.value)
+  const handleEmailChange = (e: any) => setEmail(e.target.value)
   const isError = input === ' '
+  const isError1 = pass === ' '
+  const isError2 = email === ' '
 
   return (
     <ChakraProvider>
@@ -84,14 +90,14 @@ const ImgPage = () => {
               )}
             </FormControl>
 
-            <FormControl id="email" isInvalid={isError} mt={4}>
+            <FormControl id="email" isInvalid={isError2} mt={4}>
               <Input
                 placeholder="Email"
                 variant="filled"
                 rounded={10}
                 type="email"
-                value={input}
-                onChange={handleInputChange}
+                value={email}
+                onChange={handleEmailChange}
               />
               {!isError ? (
                  <FormHelperText>Your CU Email Only</FormHelperText>
@@ -101,15 +107,15 @@ const ImgPage = () => {
              
             </FormControl>
 
-            <FormControl id="pass" isInvalid={isError} mt={4}>
+            <FormControl id="pass" isInvalid={isError1} mt={4}>
               <InputGroup>
                 <Input
                   placeholder="Password"
                   variant="filled"
                   rounded={10}
                   type={show ? "text" : "password"}
-                  value={input}
-                  onChange={handleInputChange}
+                  value={pass}
+                  onChange={handlePassChange}
                 />
                 <InputRightElement width="4.5rem">
                   <Button h="1.75rem" size="sm" onClick={handleClick}>

@@ -28,6 +28,10 @@ import {
     const [input, setInput] = useState('')
     const handleInputChange = (e: any) => setInput(e.target.value)
     const isError = input === ' '
+
+    const [pass, setPass] = useState('')
+    const handlePassChange = (e: any) => setPass(e.target.value)
+    const isError1 = pass === ' '
   
     return (
       <ChakraProvider>
@@ -84,15 +88,15 @@ import {
               </FormControl>
   
   
-              <FormControl id="pass" isInvalid={isError} mt={4}>
+              <FormControl id="pass" isInvalid={isError1} mt={4}>
                 <InputGroup>
                   <Input
                     placeholder="Password"
                     variant="filled"
                     rounded={10}
                     type={show ? "text" : "password"}
-                    value={input}
-                    onChange={handleInputChange}
+                    value={pass}
+                    onChange={handlePassChange}
                   />
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleClick}>
