@@ -19,7 +19,7 @@ import {
   } from "@chakra-ui/react";
   import { FcGoogle } from "react-icons/fc";
   import NextLink from "next/link";
-  import { SetStateAction, useState } from "react";
+  import { useState } from "react";
   
   const Signin = () => {
     const [show, setShow] = useState(false);
@@ -27,16 +27,16 @@ import {
   
     const [input, setInput] = useState('')
     const handleInputChange = (e: any) => setInput(e.target.value)
-    const isError = input === ' '
+    const isError = input === ''
 
     const [pass, setPass] = useState('')
     const handlePassChange = (e: any) => setPass(e.target.value)
-    const isError1 = pass === ' '
+    const isError1 = pass === ''
   
     return (
       <ChakraProvider>
         <Flex justifyContent="center">
-          <img src="/signinpic.png" width="60%" />
+          <img src="/signinpic.png" width="60%" alt="signin_banner" />
         </Flex>
         <Box
           w={["full", "lg"]}

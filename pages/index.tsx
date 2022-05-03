@@ -18,7 +18,8 @@ import {
 } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import NextLink from "next/link";
-import { SetStateAction, useState } from "react";
+import Image from "next/image";
+import { useState } from "react";
 
 const ImgPage = () => {
   const toast = useToast()
@@ -32,14 +33,14 @@ const ImgPage = () => {
   const handleInputChange = (e:any) => setInput(e.target.value)
   const handlePassChange = (e: any) => setPass(e.target.value)
   const handleEmailChange = (e: any) => setEmail(e.target.value)
-  const isError = input === ' '
-  const isError1 = pass === ' '
-  const isError2 = email === ' '
+  const isError = input === ''
+  const isError1 = pass === ''
+  const isError2 = email === ''
 
   return (
     <ChakraProvider>
       <Flex justifyContent="center">
-        <img src="/signuppic.png" width="60%" />
+        <img src="/signuppic.png" width="60%" alt="signup_banner" />
       </Flex>
       <Box
         w={["full", "lg"]}
