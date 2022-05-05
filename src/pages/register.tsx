@@ -24,6 +24,8 @@ import NextLink from "next/link";
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import { useState } from "react";
 
+
+
 const activeLabelStyles = {
   transform: 'scale(0.85) translateY(-24px)',
 }
@@ -74,7 +76,7 @@ const Register = () => {
   //   password: string;
   // }
 
-  function validateEmail(value: string) {
+  function validateName(value: string) {
     let error;
     if (!value) {
       error = "Email is required";
@@ -86,8 +88,8 @@ const Register = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <Flex justifyContent="center">
-        <img src="/signuppic.png" width="60%" alt="signup_banner" />
+      <Flex justifyContent="center" mt={5}>
+        <img src="/signuppic.png" width="500vh" alt="signup_banner" />
       </Flex>
       <Box
         w={["full", "lg"]}
@@ -105,7 +107,7 @@ const Register = () => {
           mb={5}
         >
           {/* <Flex mb={5} alignSelf="center"> */}
-          <Heading as="h5" size="sm">
+          <Heading as="h5" fontSize="2vh">
             Signup to zcamp
           </Heading>
           <Button
@@ -118,6 +120,8 @@ const Register = () => {
             color="white"
             colorScheme="cyan"
             variant="solid"
+            width="25vh" 
+            fontSize="2vh"     
           >
             Signup with Google
           </Button>
@@ -150,7 +154,7 @@ const Register = () => {
                   <FormLabel>Full Name</FormLabel>
                 </FormControl>
 
-                <Field name="email" validate={validateEmail}>
+                <Field name='email' validate={validateName}>
                   {({ field, form }: { field: any; form: any }) => (
                     <FormControl
                       mt={4}

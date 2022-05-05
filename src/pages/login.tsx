@@ -36,7 +36,7 @@ import {
     return (
       <ChakraProvider>
         <Flex justifyContent="center">
-          <img src="/signinpic.png" width="60%" alt="signin_banner" />
+          <img src="/signinpic.png" width="500vh" alt="signin_banner" />
         </Flex>
         <Box
           w={["full", "lg"]}
