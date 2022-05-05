@@ -23,12 +23,11 @@ import { FcGoogle } from "react-icons/fc";
 import NextLink from "next/link";
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import { useState } from "react";
-
-
+import * as Yup from "yup";
 
 const activeLabelStyles = {
-  transform: 'scale(0.85) translateY(-24px)',
-}
+  transform: "scale(0.85) translateY(-24px)",
+};
 
 export const theme = extendTheme({
   components: {
@@ -41,7 +40,7 @@ export const theme = extendTheme({
                 ...activeLabelStyles,
               },
             },
-            'input:not(:placeholder-shown) + label, .chakra-select__wrapper + label':
+            "input:not(:placeholder-shown) + label, .chakra-select__wrapper + label":
               {
                 ...activeLabelStyles,
               },
@@ -49,20 +48,29 @@ export const theme = extendTheme({
               top: 0,
               left: 0,
               zIndex: 2,
-              position: 'absolute',
-              backgroundColor: 'white',
-              pointerEvents: 'none',
+              position: "absolute",
+              backgroundColor: "white",
+              pointerEvents: "none",
               mx: 3,
               px: 1,
               my: 2,
-              transformOrigin: 'left top'
+              transformOrigin: "left top",
             },
           },
         },
       },
     },
   },
-})
+});
+
+const RegisterSchema = Yup.object().shape({
+  fullname: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Full name is Required"),
+  email: Yup.string().email("Invalid Email").required("Email is Required"),
+  // password: Yup.string().required('Password is required'),
+});
 
 const Register = () => {
   const toast = useToast();
@@ -79,17 +87,28 @@ const Register = () => {
   function validateName(value: string) {
     let error;
     if (!value) {
-      error = "Email is required";
+      error = "Name is required";
     } else if (value.toLowerCase() !== "john") {
       error = "Lol! You're not john😂";
     }
     return error;
   }
 
+  function validateEmail(value){
+    let error;
+    if(!value){
+      error='Email is Required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)){
+      error = 'Invalid email address'
+    }
+  }
+
   return (
     <ChakraProvider theme={theme}>
       <Flex justifyContent="center" mt={5}>
-        <img src="/signuppic.png" width="500vh" alt="signup_banner" />
+        <NextLink href="/test">
+          <img src="/signuppic.png" width="500vh" alt="signup_banner" />
+        </NextLink>
       </Flex>
       <Box
         w={["full", "lg"]}
@@ -120,8 +139,8 @@ const Register = () => {
             color="white"
             colorScheme="cyan"
             variant="solid"
-            width="25vh" 
-            fontSize="2vh"     
+            width="25vh"
+            fontSize="2vh"
           >
             Signup with Google
           </Button>
@@ -135,6 +154,7 @@ const Register = () => {
               email: "",
               password: "",
             }}
+            
             onSubmit={(values, actions) => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
@@ -144,39 +164,34 @@ const Register = () => {
           >
             {(props) => (
               <Form>
-                <FormControl variant='floating' id='full-name' isRequired>
-                  <Input
-                    placeholder=" "
-                    variant="outline"
-                    rounded={10}
-                    
-                  />
-                  <FormLabel>Full Name</FormLabel>
-                </FormControl>
-
-                <Field name='email' validate={validateName}>
-                  {({ field, form }: { field: any; form: any }) => (
-                    <FormControl
-                      mt={4}
-                      variant='floating' id='full-name' isRequired
-                    >
-                      <InputGroup>
+                <Field name="fullname" validate={validateName}>
+                  {({ field, form }) => (
+                    <FormControl variant="floating" id="fullname" isRequired isInvalid={form.errors.fullname && form.touched.fullname}>
                       <Input
-                        {...field}
-                        id="email"
                         placeholder=" "
                         variant="outline"
                         rounded={10}
+                        {...field}
+                        id='fullname'
                       />
-                      <InputRightAddon children='@stu.cu.edu.ng' />
-                      </InputGroup>
-                      <FormLabel>Email</FormLabel>
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                      <FormLabel htmlFor="fullname">Full Name</FormLabel>
+                      <FormErrorMessage>{form.errors.fullname}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
 
-                <FormControl id="pass" mt={4}  variant='floating' isRequired>
+                <FormControl variant="floating" id="email" isRequired mt={4}>
+                  <Input
+                    placeholder=" "
+                    variant="outline"
+                    rounded={10}
+                    type="email"
+                    name="email"
+                  />                 
+                  <FormLabel>Email</FormLabel>
+                </FormControl>
+
+                <FormControl variant="floating" id="password" mt={4} isRequired>
                   <InputGroup>
                     <Input
                       placeholder=" "
@@ -184,13 +199,13 @@ const Register = () => {
                       rounded={10}
                       type={show ? "text" : "password"}
                     />
+                    <FormLabel>Password</FormLabel>
                     <InputRightElement width="4.5rem">
                       <Button h="1.75rem" size="sm" onClick={handleClick}>
                         {show ? "Hide" : "Show"}
                       </Button>
                     </InputRightElement>
                   </InputGroup>
-                  <FormLabel>Password</FormLabel>
                 </FormControl>
 
                 <Flex alignSelf="center">
@@ -201,18 +216,17 @@ const Register = () => {
                     variant="solid"
                     width={60}
                     _hover={{ bg: "#B94EFF" }}
-                    isLoading={props.isSubmitting}
                     type="submit"
-                    onClick={() =>
-                      toast({
-                        title: "Account Created.",
-                        description:
-                          "Check your email address for verification",
-                        status: "success",
-                        duration: 6000,
-                        isClosable: true,
-                      })
-                    }
+                    // onClick={() =>
+                    //   toast({
+                    //     title: "Account Created.",
+                    //     description:
+                    //       "Check your email address for verification",
+                    //     status: "success",
+                    //     duration: 6000,
+                    //     isClosable: true,
+                    //   })
+                    // }
                   >
                     Continue
                   </Button>

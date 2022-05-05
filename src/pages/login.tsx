@@ -36,7 +36,9 @@ import {
     return (
       <ChakraProvider>
         <Flex justifyContent="center">
-          <img src="/signinpic.png" width="500vh" alt="signin_banner" />
+          <NextLink href="/">
+            <img src="/signinpic.png" width="500vh" alt="signin_banner" />
+          </NextLink>
         </Flex>
         <Box
           w={["full", "lg"]}
