@@ -139,7 +139,7 @@ import {
                 fontSize='0.8rem'
               >
                 Don't have an account?{" "}
-                <NextLink href="/" passHref>
+                <NextLink href="/register" passHref>
                   <Link color="#FF55A8" _hover={{ color: '#FF1E8B'}}> Sign Up</Link>
                 </NextLink>
               </Text>
