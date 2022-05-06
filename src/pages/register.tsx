@@ -93,20 +93,42 @@ const Register = () => {
     }
     return error;
   }
+  var emailRegEx = new RegExp("\\b" + ".edu.ng" + "\\b");
 
-  function validateEmail(value){
+  function validateEmail(value: string) {
     let error;
-    if(!value){
-      error='Email is Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)){
-      error = 'Invalid email address'
+    if (!value) {
+      error = "Email is Required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      error = "Invalid email address";
+    } else if (!emailRegEx.test(value)) {
+      error = "Not a Student?";
     }
+    return error;
+  }
+
+  const strongPass = new RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
+  );
+  function validatePass(value: string) {
+    let error;
+    if (!value) {
+      error = "Password is Required";
+    } else if (!strongPass.test(value)) {
+      error =
+        "Password must contain atleast 1 cap letter and 1 number";
+    } else if (value.length < 8) {
+      error = "Password must be atleast 8 characters";
+    } else if (value === "password") {
+      error = "I think you're not serious";
+    }
+    return error;
   }
 
   return (
     <ChakraProvider theme={theme}>
       <Flex justifyContent="center" mt={5}>
-        <NextLink href="/test">
+        <NextLink href="/">
           <img src="/signuppic.png" width="500vh" alt="signup_banner" />
         </NextLink>
       </Flex>
@@ -154,7 +176,6 @@ const Register = () => {
               email: "",
               password: "",
             }}
-            
             onSubmit={(values, actions) => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
@@ -166,47 +187,88 @@ const Register = () => {
               <Form>
                 <Field name="fullname" validate={validateName}>
                   {({ field, form }) => (
-                    <FormControl variant="floating" id="fullname" isRequired isInvalid={form.errors.fullname && form.touched.fullname}>
+                    <FormControl
+                      variant="floating"
+                      id="fullname"
+                      isRequired
+                      isInvalid={form.errors.fullname && form.touched.fullname}
+                    >
                       <Input
                         placeholder=" "
                         variant="outline"
                         rounded={10}
                         {...field}
-                        id='fullname'
+                        id="fullname"
                       />
                       <FormLabel htmlFor="fullname">Full Name</FormLabel>
-                      <FormErrorMessage>{form.errors.fullname}</FormErrorMessage>
+                      <FormErrorMessage>
+                        {form.errors.fullname}
+                      </FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
 
-                <FormControl variant="floating" id="email" isRequired mt={4}>
-                  <Input
-                    placeholder=" "
-                    variant="outline"
-                    rounded={10}
-                    type="email"
-                    name="email"
-                  />                 
-                  <FormLabel>Email</FormLabel>
-                </FormControl>
+                <Field name="email" validate={validateEmail}>
+                  {({ field, form }) => (
+                    <FormControl
+                      variant="floating"
+                      id="email"
+                      mt={4}
+                      isRequired
+                      isInvalid={form.errors.email && form.touched.email}
+                    >
+                      <Input
+                        placeholder=" "
+                        variant="outline"
+                        rounded={10}
+                        type="email"
+                        {...field}
+                      />
+                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <NextLink href="/">
+                        <Link>
+                          <FormErrorMessage fontWeight={600}>
+                            {form.errors.email}
+                          </FormErrorMessage>
+                        </Link>
+                      </NextLink>
+                    </FormControl>
+                  )}
+                </Field>
 
-                <FormControl variant="floating" id="password" mt={4} isRequired>
-                  <InputGroup>
-                    <Input
-                      placeholder=" "
-                      variant="outline"
-                      rounded={10}
-                      type={show ? "text" : "password"}
-                    />
-                    <FormLabel>Password</FormLabel>
-                    <InputRightElement width="4.5rem">
-                      <Button h="1.75rem" size="sm" onClick={handleClick}>
-                        {show ? "Hide" : "Show"}
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup>
-                </FormControl>
+                <Field name="password" validate={validatePass}>
+                  {({ field, form }) => (
+                    <FormControl
+                      variant="floating"
+                      id="password"
+                      mt={4}
+                      isRequired
+                      isInvalid={form.errors.password && form.touched.password}
+                    >
+                      <InputGroup>
+                        <Input
+                          placeholder=" "
+                          variant="outline"
+                          rounded={10}
+                          type={show ? "text" : "password"}
+                          {...field}
+                        />
+                        <FormLabel>Password</FormLabel>
+                        <InputRightElement width="4.5rem">
+                          <Button h="1.75rem" size="sm" onClick={handleClick}>
+                            {show ? "Hide" : "Show"}
+                          </Button>
+                        </InputRightElement>
+                      </InputGroup>
+                      <FormHelperText>
+                        Password should be more than 8 characters
+                      </FormHelperText>
+                      <FormErrorMessage>
+                        {form.errors.password}
+                      </FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
 
                 <Flex alignSelf="center">
                   <Button
