@@ -93,9 +93,6 @@ const Login = () => {
     let error;
     if (!value) {
       error = "Password is Required";
-    } else if (!strongPass.test(value)) {
-      error =
-      "Password must contain atleast 1 cap letter and 1 number";
     } else if (value.length < 8) {
       error = "Password must be atleast 8 characters";
     }
@@ -104,7 +101,7 @@ const Login = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <Flex justifyContent="center" mt={5}>
+      <Flex justifyContent="center" mt={5} p={5}>
         <NextLink href="/">
           <img src="/signinpic.png" width="500vh" alt="signin_banner" />
         </NextLink>
@@ -126,7 +123,7 @@ const Login = () => {
         >
           {/* <Flex mb={5} alignSelf="center"> */}
           <Heading as="h5" fontSize="2vh">
-            Signup to zcamp
+            Signin to zcamp
           </Heading>
           <Button
             leftIcon={
@@ -141,7 +138,7 @@ const Login = () => {
             width="25vh"
             fontSize="2vh"
           >
-            Signup with Google
+            Signin with Google
           </Button>
           {/* </Flex> */}
         </HStack>
@@ -162,7 +159,7 @@ const Login = () => {
             {(props) => (
               <Form>
                 <Field name="username" validate={validateName}>
-                  {({ field, form }) => (
+                  {({ field, form }: {field: any, form: any}) => (
                     <FormControl
                       variant="floating"
                       id="username"
@@ -185,7 +182,7 @@ const Login = () => {
                 </Field>
 
                 <Field name="password" validate={validatePass}>
-                  {({ field, form }) => (
+                  {({ field, form }: {field: any, form: any}) => (
                     <FormControl
                       variant="floating"
                       id="password"

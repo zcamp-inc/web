@@ -127,7 +127,7 @@ const Register = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <Flex justifyContent="center" mt={5}>
+      <Flex justifyContent="center" mt={5} p={5}>
         <NextLink href="/">
           <img src="/signuppic.png" width="500vh" alt="signup_banner" />
         </NextLink>
@@ -186,7 +186,7 @@ const Register = () => {
             {(props) => (
               <Form>
                 <Field name="fullname" validate={validateName}>
-                  {({ field, form }) => (
+                  {({ field, form }: {field: any, form: any}) => (
                     <FormControl
                       variant="floating"
                       id="fullname"
@@ -209,7 +209,7 @@ const Register = () => {
                 </Field>
 
                 <Field name="email" validate={validateEmail}>
-                  {({ field, form }) => (
+                  {({ field, form }: {field: any, form: any}) => (
                     <FormControl
                       variant="floating"
                       id="email"
@@ -237,7 +237,7 @@ const Register = () => {
                 </Field>
 
                 <Field name="password" validate={validatePass}>
-                  {({ field, form }) => (
+                  {({ field, form }: {field: any, form: any}) => (
                     <FormControl
                       variant="floating"
                       id="password"
