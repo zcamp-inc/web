@@ -8,7 +8,7 @@ import {
   Flex,
   Heading,
   Text,
-  Avatar,
+  HStack,
   Badge,
   Popover,
   PopoverTrigger,
@@ -17,7 +17,8 @@ import {
   PopoverHeader,
   PopoverArrow,
   PopoverCloseButton,
- 
+  Button,
+  VStack,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -27,7 +28,7 @@ import {
   FiSettings,
 } from "react-icons/fi";
 
-import { HiOutlineViewGridAdd } from 'react-icons/hi';
+import { HiOutlineViewGridAdd } from "react-icons/hi";
 
 import NavLink from "./NavLink";
 import UserProfile from "./UserProfile";
@@ -40,7 +41,7 @@ const LinkItems = [
   { label: "Settings", icon: FiSettings, href: "#" },
 ];
 
-export default function LeftBar({ onClose, ...rest }: { onClose: any}) {
+export default function LeftBar({ onClose, ...rest }: { onClose: any }) {
   const router = useRouter();
 
   useEffect(() => {
@@ -56,11 +57,10 @@ export default function LeftBar({ onClose, ...rest }: { onClose: any}) {
       bg="white"
       w={{ base: "full", md: 60 }}
       pos="fixed"
-      h="95vh"
-
-      left="5"
-      borderRadius="30px 0 0 30px "
-      boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
+      h="390px"
+      borderRadius="10px 0 10px 10px "
+      ml={{ base: 0, md: 5 }}
+      // boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
       {...rest}
     >
       <Flex
@@ -76,7 +76,49 @@ export default function LeftBar({ onClose, ...rest }: { onClose: any}) {
       {LinkItems.map((link, i) => (
         <NavLink key={i} link={link} />
       ))}
-      
+
+      <Box
+        mt='4vh'
+        borderRadius="10px"
+        p={{ base: 2, md: 0 }}
+        w={{ base: "full", md: 60 }}
+      >
+        <Box
+          bg="#000a16"
+          borderRadius="10px"
+          h="280px"
+          w={{ base: "full", md: 60 }}
+        >
+          <Flex borderRadius="10px 10px 0 0">
+            <img src="/rewavy.png" width="100%" />
+          </Flex>
+          <Flex ml={5} mt={2}>
+            <Text color="white" fontWeight={400} fontSize={14} w={56}>
+              You decide your homefeed <br /> Come here to check in and explore
+              your favorite subcamps
+            </Text>
+          </Flex>
+          <VStack mt={2}>
+            <Button
+              w={40}
+              color="#000a16"
+              bg= "#57FFF5"
+              _hover={{ bg: "#57FFF5", color: "#000a16" }}
+            >
+              Create Post
+            </Button>
+            <Button
+              w={40}
+              variant="outline"
+              color="#57FFF5"
+              outlineColor="#57FFF5"
+              _hover={{ bg: "#57FFF5", color: "#000a16" }}
+            >
+              Create Subcamp
+            </Button>
+          </VStack>
+        </Box>
+      </Box>
     </Box>
   );
 }
