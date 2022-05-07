@@ -14,9 +14,7 @@ export default function Layout({ children } : {children: any}) {
                 <DrawerContent>
                     <LeftBar onClose={onClose} />
                 </DrawerContent>
-            </Drawer>
-
-            <Header onOpen={onOpen} />
+            </Drawer>           
             <Box ml={{ base: 0, md: 60 }} p="4"> {children} </Box>
         </Box>
     );

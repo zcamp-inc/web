@@ -6,7 +6,7 @@ import Layout  from "../components/Layout";
 const Index = () => {
     return(
         <Layout>
-           <Heading>This Home Text thicc </Heading>
+           <Heading mx={8}>This Home Text thicc </Heading>
         </Layout>
     )
 }
