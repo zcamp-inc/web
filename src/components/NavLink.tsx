@@ -15,7 +15,7 @@ export default function NavLink({ link, ...rest }: { link: any }) {
           borderRadius="lg"
           role="group"
           cursor="pointer"
-          _hover={{ bg: "cyan.400", color: "white" }}
+          _hover={{ bg:'#FF55A8', color: 'white' }}
           {...rest}
         >
           {icon && (
