@@ -1,17 +1,23 @@
-import React from 'react';
-import { Wrapper, WrapperVariant } from "./Wrapper";
-import { NavBar } from './NavBar';
+import Header from './Header';
+import LeftBar from './LeftBar';
 
-interface LayoutProps{
-    variant?: WrapperVariant;
-    children?: React.ReactNode;
-}
+import { Box, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
 
-export const Layout: React.FC<LayoutProps> = ({ children, variant }) => {
+
+
+export default function Layout({ children } : {children: any}) {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     return (
-        <>
-            <NavBar />
-            <Wrapper variant={variant}>{children}</Wrapper>
-        </>
-    )
+        <Box minH="100vh" bg="gray.100">
+            <LeftBar onClose={() => onClose} display={{ base: "none", md: "block" }} />
+            <Drawer autoFocus={false} isOpen={isOpen} placement="left" onClose={onClose} returnFocusOnClose={false} onOverlayClick={onClose} size="full">
+                <DrawerContent>
+                    <LeftBar onClose={onClose} />
+                </DrawerContent>
+            </Drawer>
+
+            <Header onOpen={onOpen} />
+            <Box ml={{ base: 0, md: 60 }} p="4"> {children} </Box>
+        </Box>
+    );
 }

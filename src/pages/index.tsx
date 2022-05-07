@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import NextLink from 'next/link'
 import { useState } from "react";
-import { Layout } from "../components/Layout";
+import Layout  from "../components/Layout";
 
 const Index = () => {
     return(
