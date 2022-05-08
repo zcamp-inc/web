@@ -41,7 +41,7 @@ const LinkItems = [
   { label: "Settings", icon: FiSettings, href: "#" },
 ];
 
-export default function LeftBar({ onClose, display,  ...rest }: { onClose: any, display?: any }) {
+export default function LeftBar({ onClose,  ...rest }: { onClose: any}) {
   const router = useRouter();
 
   useEffect(() => {
@@ -59,7 +59,9 @@ export default function LeftBar({ onClose, display,  ...rest }: { onClose: any, 
       pos="fixed"
       h="390px"
       borderRadius="10px 0 10px 10px "
-      ml={{ base: 0, md: 5 }}
+      borderRight = "1px" 
+      borderRightColor = "gray.200"
+      // ml={{ base: 0, md: 5 }}
       // boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
       {...rest}
     >

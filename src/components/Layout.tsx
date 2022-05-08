@@ -1,7 +1,7 @@
 import Header from './Header';
 import LeftBar from './LeftBar';
 
-import { Box, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
+import { Box, Drawer, DrawerContent, useDisclosure, Flex } from "@chakra-ui/react";
 
 
 
@@ -10,13 +10,16 @@ export default function Layout({ children } : {children: any}) {
     
     return (
         <Box minH="100vh" bg="gray.100">
-            <LeftBar onClose={() => onClose} display={{ base: "none", md: "block" }} />
+            <Flex  display={{ base: "none", md: "block" }} >
+            <LeftBar onClose={() => onClose} />
+            </Flex>
             <Drawer autoFocus={false} isOpen={isOpen} placement="left" onClose={onClose} returnFocusOnClose={false} onOverlayClick={onClose} >
                 <DrawerContent>
                     <LeftBar onClose={onClose} />
                 </DrawerContent>
-            </Drawer>        
-            <Header onOpen={onOpen} />   
+            </Drawer>  
+            <Header onOpen={onOpen} />       
+              
             <Box ml={{ base: 0, md: 60 }} p="4"> {children} </Box>
         </Box>
     );

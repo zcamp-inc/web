@@ -7,16 +7,17 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
   return (
  
     <Flex
-      ml={{ base: 0, md: 60 }}  
-      mr={5}    
+      ml={{ base: 0, md: 60 }}     
       px="4"
+      top="0"
       position="sticky"      
       height="20"
       zIndex="1"
-      alignItems="center"
-      
+      alignItems="center"      
       bg="white"   
       borderRadius="0 10px 10px 0 "
+      borderBottomWidth="1px"
+      borderBottomColor='gray.200'
       justifyContent={{ base: "space-between", md: "flex-end" }}
       {...rest}
     >
