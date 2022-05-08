@@ -23,21 +23,19 @@ import {
 import {
   FiHome,
   FiTrendingUp,
-  FiCompass,
-  FiStar,
   FiSettings,
+  FiBookmark,
 } from "react-icons/fi";
-
 import { HiOutlineViewGridAdd } from "react-icons/hi";
-
+import { BsListStars } from "react-icons/bs";
 import NavLink from "./NavLink";
-import UserProfile from "./UserProfile";
+
 
 const LinkItems = [
   { label: "Home", icon: FiHome, href: "/" },
   { label: "Trending", icon: FiTrendingUp, href: "#" },
   { label: "Explore", icon: HiOutlineViewGridAdd, href: "#" },
-  { label: "Favorite", icon: FiStar, href: "#" },
+  { label: "Favorites", icon: BsListStars, href: "#" },
   { label: "Settings", icon: FiSettings, href: "#" },
 ];
 

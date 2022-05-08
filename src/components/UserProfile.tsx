@@ -89,8 +89,8 @@ export default function UserProfile() {
           <MenuList fontSize="lg" bg="white" borderColor="gray.200">
             <MenuGroup title="My Stuff">
               <MenuItem icon={<CgProfile />}>Profile</MenuItem>
-              <MenuItem icon={<FiSettings />}>Settings</MenuItem>
               <MenuItem icon={<FiBookmark />}>Saved Posts </MenuItem>
+              <MenuItem icon={<FiSettings />}>Settings</MenuItem>
             </MenuGroup>
             <MenuDivider />
             <MenuGroup title="Help">
