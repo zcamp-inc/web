@@ -15,7 +15,11 @@ import {
   Badge,
   VStack,
   AvatarBadge,
+  Link,
 } from "@chakra-ui/react";
+
+import NextLink from "next/link";
+
 import { CgProfile } from "react-icons/cg";
 import {
   FiChevronDown,
@@ -24,7 +28,7 @@ import {
   FiLogOut,
   FiBell,
 } from "react-icons/fi";
-import { IoMailOutline, IoNotificationsOutline } from 'react-icons/io5';
+import { IoMailOutline, IoNotificationsOutline } from "react-icons/io5";
 
 export default function UserProfile() {
   return (
@@ -34,22 +38,23 @@ export default function UserProfile() {
         variant="ghost"
         aria-label="open notify"
         icon={<IoNotificationsOutline size={26} />}
-        _hover={{ bg: '#000a16', color: 'white'}}
+        _hover={{ bg: "#000a16", color: "white" }}
       />
-      <IconButton
-        size="md"
-        variant="ghost"
-        aria-label="open mail"
-        icon={<IoMailOutline size={26} />}
-        _hover={{ bg: '#000a16', color: 'white'}}
-      />
+      <NextLink href="/login">
+        <IconButton
+          size="md"
+          variant="ghost"
+          aria-label="open mail"
+          icon={<IoMailOutline size={26} />}
+          _hover={{ bg: "#000a16", color: "white" }}
+        />
+      </NextLink>
       <Flex alignItems="center">
         <Menu>
           <MenuButton
             py={2}
             transition="all 0.3s"
             _focus={{ boxShadow: "none" }}
-             
           >
             <HStack
               spacing="4"
@@ -58,7 +63,7 @@ export default function UserProfile() {
               borderRadius={30}
               backgroundColor="#C4C4C4"
               p={2}
-              _hover={{ bg: '#000a16', color: 'white'}}
+              _hover={{ bg: "#000a16", color: "white" }}
             >
               <Avatar size="sm">
                 {" "}
@@ -73,16 +78,16 @@ export default function UserProfile() {
                 spacing="1px"
               >
                 <Heading as="h3" size="sm">
-                  Jane Test
+                  Jane TestGg
                 </Heading>
 
                 <Text>204 Points</Text>
               </VStack>
-              <Box display={{ base: "none", md: "flex"}} >
-              <Badge colorScheme="green" ml={1} mr={2} variant="outline">
-                Fish
-              </Badge>
-              <FiChevronDown />
+              <Box display={{ base: "none", md: "flex" }}>
+                <Badge colorScheme="green" ml={1} mr={2} variant="outline">
+                  Fish
+                </Badge>
+                <FiChevronDown />
               </Box>
             </HStack>
           </MenuButton>
@@ -98,7 +103,9 @@ export default function UserProfile() {
               <MenuItem>FAQ</MenuItem>
             </MenuGroup>
             <MenuDivider />
-            <MenuItem icon={<FiLogOut />}>Logout</MenuItem>
+            <NextLink href="/login" passHref>
+              <MenuItem icon={<FiLogOut />}>Logout</MenuItem>
+            </NextLink>
           </MenuList>
         </Menu>
       </Flex>

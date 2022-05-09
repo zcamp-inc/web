@@ -1,13 +1,22 @@
-import '../styles/globals.css'
-import { ChakraProvider } from '@chakra-ui/react'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import { ChakraProvider } from "@chakra-ui/react";
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import theme from "../theme";
+import "@fontsource/karla";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-  <ChakraProvider>
-    <Component { ...pageProps} />
-  </ChakraProvider>
-  )
-} 
+    <>
+      <Head>
+        <title>zcamp.inc</title>
+      </Head>
 
-export default MyApp
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </>
+  );
+}
+
+export default MyApp;

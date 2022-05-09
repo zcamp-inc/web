@@ -39,50 +39,38 @@ const LinkItems = [
   { label: "Settings", icon: FiSettings, href: "#" },
 ];
 
-export default function LeftBar({ onClose,  ...rest }: { onClose: any}) {
+export default function RightBar() {
   const router = useRouter();
 
-  useEffect(() => {
-    router.events.on("routeChangeComplete", onClose);
-    return () => {
-      router.events.off("routeChangeComplete", onClose);
-    };
-  }, [router.events, onClose]);
+//   useEffect(() => {
+//     router.events.on("routeChangeComplete", onClose);
+//     return () => {
+//       router.events.off("routeChangeComplete", onClose);
+//     };
+//   }, [router.events, onClose]);
 
   return (
     <Box
       transition="1s ease"
-      bg="white"
-      w={{ base: "full", md: 60 }}
-      pos="fixed"
+      bg="tan"
+      w={{ base: "full", md: 60 }}        
       h="full"
-      borderRadius="10px 0 10px 10px "
+      borderRadius="10px "
       borderRight = "1px" 
       borderRightColor = "gray.200"
-      // ml={{ base: 0, md: 5 }}
       // boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
-      {...rest}
+    
     >
-      <Flex
-        h="20"
-        alignItems="center"
-        p={5}
-        mx={2}
-        justifyContent="space-between"
-      >
-        <img src="/homelogo.png" width="40vh" />
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
-      </Flex>
-      {LinkItems.map((link, i) => (
+      
+      {/* {LinkItems.map((link, i) => (
         <NavLink key={i} link={link} />
       ))}
 
-      <Divider />
+      <Divider /> */}
 
       <Box
         mt="5px"
         borderRadius="10px"
-        p={{ base: 2, md: 0 }}
         w={{ base: "full", md: 60 }}
       >
         <Box

@@ -1,16 +1,11 @@
-import { theme as chakraTheme } from '@chakra-ui/react';
+import { extendTheme } from "@chakra-ui/react"
+import "@fontsource/karla"
 
-const fonts = { ...chakraTheme.fonts, mono: `'Karla'` }
-const breakpoints = ['40em', '52em', '64em']
-
-const theme = {
-    ...chakraTheme,
-    colors: {
-        ...chakraTheme.colors,
-        black: '#000A16'
+const theme = extendTheme({
+    fonts: {
+        heading: 'Karla',
+        body: 'Karla',
     },
-    fonts, 
-    breakpoints,
-}
+})
 
 export default theme
