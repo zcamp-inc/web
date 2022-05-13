@@ -28,51 +28,35 @@ import {
   FiLogOut,
   FiBell,
 } from "react-icons/fi";
-import { IoMailOutline, IoNotificationsOutline } from "react-icons/io5";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
+
 
 export default function UserProfile() {
   return (
-    <HStack spacing={{ base: "0", md: "6" }}>
-      <IconButton
-        size="md"
-        variant="ghost"
-        aria-label="open notify"
-        icon={<IoNotificationsOutline size={26} />}
-        _hover={{ bg: "#000a16", color: "white" }}
-      />
-      <NextLink href="/login">
-        <IconButton
-          size="md"
-          variant="ghost"
-          aria-label="open mail"
-          icon={<IoMailOutline size={26} />}
-          _hover={{ bg: "#000a16", color: "white" }}
-        />
-      </NextLink>
-      <Flex alignItems="center">
+    <HStack spacing={{ base: "0", md: "3" }} ml={1}>      
+      <Flex alignItems="center" _hover={{ bg: "#000a16", color: "white" }} borderRadius={10}>
         <Menu>
           <MenuButton
             py={2}
             transition="all 0.3s"
             _focus={{ boxShadow: "none" }}
+
           >
             <HStack
-              spacing="4"
+              spacing="2"
               align="center"
-              cursor="pointer"
-              borderRadius={30}
-              backgroundColor="#C4C4C4"
+              cursor="pointer"              
               p={2}
-              _hover={{ bg: "#000a16", color: "white" }}
+              
             >
-              <Avatar size="sm">
+              <Avatar size="sm" ml={1} mr={2}>
                 {" "}
                 <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
               </Avatar>
               <VStack
                 flexDir="column"
-                ml={4}
-                mr={2}
+                // ml={2}
+                // mr={1}
                 display={{ base: "none", md: "flex" }}
                 alignItems="flex-start"
                 spacing="1px"
@@ -80,18 +64,17 @@ export default function UserProfile() {
                 <Heading as="h3" size="sm">
                   Jane TestGg
                 </Heading>
-
                 <Text>204 Points</Text>
               </VStack>
               <Box display={{ base: "none", md: "flex" }}>
-                <Badge colorScheme="green" ml={1} mr={2} variant="outline">
+                <Badge colorScheme="green" ml={1} mr={4} variant="outline">
                   Fish
                 </Badge>
-                <FiChevronDown />
+                <HiOutlineDotsHorizontal />
               </Box>
             </HStack>
           </MenuButton>
-          <MenuList fontSize="lg" bg="white" borderColor="gray.200">
+          <MenuList fontSize="lg" bg="white" color="#000a16" borderColor="gray.200" display={{ base: "none", md: "flex"}}>
             <MenuGroup title="My Stuff">
               <MenuItem icon={<CgProfile />}>Profile</MenuItem>
               <MenuItem icon={<FiBookmark />}>Saved Posts </MenuItem>

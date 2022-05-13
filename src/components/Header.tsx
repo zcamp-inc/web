@@ -21,25 +21,25 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
       justifyContent={{ base: "space-between", md: "flex-end" }}
       {...rest}
     >
-      <IconButton
+      {/* <IconButton
         display={{ base: "flex", md: "none" }}
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"
         icon={<CgMenuGridO />}
-        size='md'
+        // size='md'
 
-      />
+      /> */}
 
       <Flex
-        display={{ base: "flex", md: "none" }}
-        align="center"
-        ml={4}
+        display={{ base: "flex-start", md: "none" }}
       >
-        <Image src="/megalogo.png" boxSize='100px' objectFit='contain' alt='home logo' />
+        <img src="/relogo.png" width="60vh" alt='home logo' />
       </Flex>
-
+      
+      <Flex onClick={onOpen} display ={{ base: "flex", md: "none" }}>
       <UserProfile />
+      </Flex>
     </Flex>
 
   );
