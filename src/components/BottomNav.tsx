@@ -1,4 +1,4 @@
-import { FiHome, FiTrendingUp, FiSettings, FiBookmark } from "react-icons/fi";
+import { FiHome, FiTrendingUp, FiMail, FiBell } from "react-icons/fi";
 import { HiOutlineViewGridAdd } from "react-icons/hi";
 import { BsListStars } from "react-icons/bs";
 
@@ -12,13 +12,13 @@ export default function BottomNav() {
     console.log("render", { index });
 
     return (
-        <Box>
+        <>
             <BottomNavContent index={index} />
 
             <BottomNavigation 
                 value={index}
                 onChange={setIndex}
-                bg="#white"
+                bg="white"
                 color="#000a16"
                 variant="float"
                 height="10vh"             
@@ -33,12 +33,16 @@ export default function BottomNav() {
                 </BottomNavigationItem>
 
                 <BottomNavigationItem>
-                    <BottomNavigationIcon as={BsListStars} fontSize={24} />
+                    <BottomNavigationIcon as={FiBell} fontSize={24} />
+                </BottomNavigationItem>
+
+                <BottomNavigationItem>
+                    <BottomNavigationIcon as={FiMail} fontSize={24} />
                 </BottomNavigationItem>
 
             </BottomNavigation>
 
-        </Box>
+        </>
 
     )
 }

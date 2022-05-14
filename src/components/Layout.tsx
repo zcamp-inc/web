@@ -9,8 +9,9 @@ import {
   Flex,
   extendTheme,
 } from "@chakra-ui/react";
-import RightBar from "./RightBar";
+import RightBar from "./RightCard";
 import BottomNav from "./BottomNav";
+import UserDrawer from "./UserDrawer";
 
 
 
@@ -23,15 +24,14 @@ export default function Layout({ children }: { children: any }) {
         <LeftBar onClose={() => onClose} />
       </Flex>
       <Drawer
-        autoFocus={false}
         isOpen={isOpen}
         placement="right"
         onClose={onClose}
-        returnFocusOnClose={false}
+        // returnFocusOnClose={false}
         onOverlayClick={onClose}
       >
         <DrawerContent>
-          <LeftBar onClose={onClose} />
+          <UserDrawer onClose={onClose} />
         </DrawerContent>
       </Drawer>
 

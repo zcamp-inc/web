@@ -15,6 +15,7 @@ export default function NavLink({ link, ...rest }: { link: any }) {
           align="center"
           p={4}
           mx={4}
+          
           borderRadius="lg"
           role="group"          
           cursor="pointer"
@@ -24,10 +25,12 @@ export default function NavLink({ link, ...rest }: { link: any }) {
         >
             {icon && (
               <Icon
-                mr={4}
+                mr="15px"
                 fontSize={24}
                 _groupHover={{ color: "#5E00AB" }}
                 as={icon}
+                strokeWidth={1}
+                
               />
             )}
             <Text fontSize="1.1rem"  >

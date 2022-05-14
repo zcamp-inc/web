@@ -10,12 +10,12 @@ import {
 import NextLink from "next/link";
 import { useState } from "react";
 import Layout from "../components/Layout";
-import RightBar from "../components/RightBar";
+import RightBar from "../components/RightCard";
 import Home from "./home";
 
 const Index = () => {
   return (
-    <Box>
+    <Layout>
       <Flex
         display={{ base: "none", md: "flex" }}
         justifyContent={{ base: "none", md: "flex-start" }}
@@ -39,7 +39,7 @@ const Index = () => {
       >
         <RightBar />
       </Flex> 
-    </Box>
+    </Layout>
   );
 };
 

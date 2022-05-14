@@ -20,24 +20,24 @@ import {
   Button,
   VStack,
 } from "@chakra-ui/react";
-import { FiHome, FiTrendingUp, FiSettings, FiBookmark } from "react-icons/fi";
-import {
-  IoMailOutline,
-  IoNotificationsOutline,
-  IoTrendingUp,
-} from "react-icons/io5";
+import { FiHome, FiTrendingUp, FiSettings, FiBookmark, FiMail, FiZap, FiBell } from "react-icons/fi";
+
 import { HiOutlineViewGridAdd } from "react-icons/hi";
-import { BsListStars } from "react-icons/bs";
+
 import NavLink from "./NavLink";
 import UserProfile from "./UserProfile";
 
+function ExploreIcon() {
+  return <HiOutlineViewGridAdd fontSize={26} style={{ marginRight: "15px",}} />;
+}
+
 const LinkItems = [
   { label: "Home", icon: FiHome, href: "/" },
-  { label: "Trending", icon: IoTrendingUp, href: "/Trending" },
-  { label: "Explore", icon: HiOutlineViewGridAdd, href: "/Explore" },
-  { label: "Notifications", icon: IoNotificationsOutline, href: "/" },
-  { label: "Messages", icon: IoMailOutline, href: "/" },
-  { label: "Favorites", icon: BsListStars, href: "#" },
+  { label: "Trending", icon: FiTrendingUp, href: "/Trending" },
+  { label: "Explore", icon: ExploreIcon, href: "/Explore" },
+  { label: "Notifications", icon: FiBell, href: "/" },
+  { label: "Messages", icon: FiMail, href: "/" },
+  { label: "Links", icon: FiZap, href: "#" },
   { label: "Settings", icon: FiSettings, href: "#" },
 ];
 
@@ -79,8 +79,9 @@ export default function LeftBar({ onClose, ...rest }: { onClose: any }) {
         <NavLink key={i} link={link} />
       ))}
 
-      
-      <UserProfile />
+      <Flex display={{ base: "none", md: "flex" }} mt={2}>
+        <UserProfile />
+      </Flex>
 
       <Divider />
 

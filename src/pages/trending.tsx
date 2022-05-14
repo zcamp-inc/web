@@ -11,7 +11,7 @@ import {
 import NextLink from "next/link";
 import { useState } from "react";
 import Layout from "../components/Layout";
-import RightBar from "../components/RightBar";
+import RightBar from "../components/RightCard";
 
 const Trending = () => {
   return (
