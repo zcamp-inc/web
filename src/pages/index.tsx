@@ -12,17 +12,18 @@ import { useState } from "react";
 import Layout from "../components/Layout";
 import RightBar from "../components/RightCard";
 import Home from "./home";
+import Trending from "./trending";
 
 const Index = () => {
   return (
-    <Layout>
+    <>
       <Flex
         display={{ base: "none", md: "flex" }}
-        justifyContent={{ base: "none", md: "flex-start" }}
-        
+        justifyContent={{ base: "none", md: "flex-start" }}        
       >
         <Home />
       </Flex>
+
       <Flex
         display={{ base: "none", md: "flex" }}
         justifyContent={{ base: "none", md: "flex-end" }}
@@ -39,7 +40,7 @@ const Index = () => {
       >
         <RightBar />
       </Flex> 
-    </Layout>
+    </>
   );
 };
 

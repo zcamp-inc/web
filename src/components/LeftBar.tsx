@@ -28,13 +28,13 @@ import NavLink from "./NavLink";
 import UserProfile from "./UserProfile";
 
 function ExploreIcon() {
-  return <HiOutlineViewGridAdd fontSize={26} style={{ marginRight: "15px",}} />;
+  return <HiOutlineViewGridAdd strokeWidth={1} fontSize={26} style={{ marginRight: "15px",}} />;
 }
 
 const LinkItems = [
   { label: "Home", icon: FiHome, href: "/" },
-  { label: "Trending", icon: FiTrendingUp, href: "/Trending" },
-  { label: "Explore", icon: ExploreIcon, href: "/Explore" },
+  { label: "Trending", icon: FiTrendingUp, href: "/trending" },
+  { label: "Explore", icon: ExploreIcon, href: "/explore" },
   { label: "Notifications", icon: FiBell, href: "/" },
   { label: "Messages", icon: FiMail, href: "/" },
   { label: "Links", icon: FiZap, href: "#" },
