@@ -7,7 +7,7 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
   return (
  
     <Flex
-      ml={{ base: 0, md: 60 }}     
+      ml={{ base: 0, md: 80 }}     
       px="4"
       top="0"
       position="sticky"      

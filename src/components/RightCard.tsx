@@ -53,7 +53,7 @@ export default function RightCard() {
     <Box
       transition="1s ease"
       bg="tan"
-      w={{ base: "full", md: 60 }}        
+      w={{ base: "full", md: 80 }}        
       h="full"
       borderRadius="10px "
       borderRight = "1px" 
@@ -71,13 +71,13 @@ export default function RightCard() {
       <Box
         mt="5px"
         borderRadius="10px"
-        w={{ base: "full", md: 60 }}
+        w={{ base: "full", md: 80 }}
       >
         <Box
           bg="#000a16"
           borderRadius="10px"
           h="280px"
-          w={{ base: "full", md: 60 }}
+          w={{ base: "full", md: 80 }}
         >
           <Flex borderRadius="10px 10px 0 0">
             <img src="/rewavy.png" width="100%" />

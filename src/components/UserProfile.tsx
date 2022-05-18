@@ -38,8 +38,8 @@ export default function UserProfile() {
 
   return (
     <HStack spacing={{ base: "0", md: "3" }} ml={1}>
-      {!isAuthenticated && (
-        <NextLink href="/api/auth/signin" passHref>
+      {/* {!isAuthenticated && ( */}
+        {/* <NextLink href="/api/auth/signin" passHref>
           <Button
             onClick={(e: { preventDefault: () => void }) => {
               e.preventDefault();
@@ -49,10 +49,10 @@ export default function UserProfile() {
             {" "}
             Login{" "}
           </Button>
-        </NextLink>
-      )}
+        </NextLink> )} */}
+      
 
-      {isAuthenticated && (
+      {/* {isAuthenticated && ( */}
         <Flex
           alignItems="center"
           _hover={{ bg: "#000a16", color: "white" }}
@@ -78,7 +78,7 @@ export default function UserProfile() {
                   spacing="1px"
                 >
                   <Text fontWeight={600} >
-                    {user?.nickname}
+                    John Doe
                   </Text>
                   <Text>204 Points</Text>
                 </VStack>
@@ -108,17 +108,18 @@ export default function UserProfile() {
                 <MenuItem>FAQ</MenuItem>
               </MenuGroup>
               <MenuDivider />
-
+            <NextLink href="/login" passHref>
               <MenuItem
                 icon={<FiLogOut />}
-                onClick={() => logout({ returnTo: window.location.origin })}
+                // onClick={() => logout({ returnTo: window.location.origin })}
               >
                 Logout
               </MenuItem>
+              </NextLink>
             </MenuList>
           </Menu>
         </Flex>
-      )}
+      {/* )} */}
     </HStack>
   );
 }

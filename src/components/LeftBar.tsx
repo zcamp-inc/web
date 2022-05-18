@@ -55,7 +55,7 @@ export default function LeftBar({ onClose, ...rest }: { onClose: any }) {
     <Box
       transition="1s ease"
       bg="white"
-      w={{ base: "full", md: 60 }}
+      w={{ base: "full", md: 80 }}
       pos="fixed"
       h="full"
       borderRadius="10px 0 10px 10px "
@@ -69,17 +69,19 @@ export default function LeftBar({ onClose, ...rest }: { onClose: any }) {
         h="20"
         alignItems="center"
         p={5}
-        mx={2}
+        mx={10}
         justifyContent="space-between"
       >
         <img src="/relogo.png" width="40vh" />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
+      <Box mx={9}>
       {LinkItems.map((link, i) => (
         <NavLink key={i} link={link} />
-      ))}
+      ))} </Box>
 
-      <Flex display={{ base: "none", md: "flex" }} mt={2}>
+
+      <Flex display={{ base: "none", md: "flex" }} mt={2} ml={50}>
         <UserProfile />
       </Flex>
 

@@ -41,9 +41,6 @@ export default function Layout({ children }: { children: any }) {
         <BottomNav />
       </Flex>
 
-
-      
-
       <Box ml={{ base: 0, md: 60 }} p="4">
         {" "}
         {children}{" "}

@@ -88,7 +88,7 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
 
   return (
     <DrawerBody>
-      {!isAuthenticated && (
+      {/* {!isAuthenticated && (
         <NextLink href="/api/auth/signin" passHref>
           <Button
             onClick={(e: { preventDefault: () => void }) => {
@@ -100,8 +100,8 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
             Login{" "}
           </Button>
         </NextLink>
-      )}
-      {isAuthenticated && (
+      )} */}
+      {!isAuthenticated && (
         <Box
           transition="0.8s ease"
           bg="white"
