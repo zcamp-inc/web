@@ -18,17 +18,18 @@ export default function RightCard() {
       spacing={10}
       bg="white"
       h='full'
-      w={{ base: "full" }}
+      // w={{ base: "full" }}
       borderLeft="1px"
       borderLeftColor="gray.200"
       top='0'
+      display={{ base:'none', md: 'flex'}}
     >
-      <Box borderRadius="10px" p={3} position='sticky' w= {80}>
+      <Box borderRadius="10px" px={7} pt={4}>
         <Box
           bg="#000a16"
           borderRadius="10px"
-          // w={{ base: "full", md: 80 }}
           pb={3}
+          w={80}
         >
           <Flex borderRadius="10px 10px 0 0">
             <img src="/rewavy.png" width="100%" />
@@ -61,12 +62,13 @@ export default function RightCard() {
         </Box>
       </Box>
 
-      <Box borderRadius="10px" p={3} w= {80}>
+      <Box borderRadius="10px" px={7}>
         <Box
           bg="#000a16"
           borderRadius="10px"
-          // w={{ base: "full", md: 80 }}
+          w={80}
           pb={3}
+          
         >
           <Flex borderRadius="10px 10px 0 0">
             <img src="/rewavy.png" width="100%" />
@@ -99,12 +101,12 @@ export default function RightCard() {
         </Box>
       </Box>
 
-      <Box borderRadius="10px" p={3} w= {80}>
+      <Box borderRadius="10px" px={7}>
         <Box
           bg="gray.200"
           borderRadius="10px"
-          // w={{ base: "full", md: 80 }}
           pb={3}
+          w={80}
         >
           <Flex borderRadius="10px 10px 0 0">
             <img src="/WAVYHOME.png" width="100%" />

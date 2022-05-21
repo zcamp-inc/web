@@ -6,7 +6,8 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
  
     <Flex
       
-      w={{ base: 'full', w: 80 }}
+      w={{ base: 'full', md: '140vh' }}
+      ml={{ base: 0, md: 80 }}
       display={{ base: 'flex' }}
       zIndex='1'
       px="4"
