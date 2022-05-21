@@ -55,8 +55,8 @@ export default function UserProfile() {
       {/* {isAuthenticated && ( */}
         <Flex
           alignItems="center"
-          _hover={{ bg: "#000a16", color: "white" }}
-          borderRadius={10}
+          // _hover={{ bg: "#000a16", color: "white" }}
+          // borderRadius={10}
         >
           <Menu>
             <MenuButton

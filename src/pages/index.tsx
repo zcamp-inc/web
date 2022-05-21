@@ -16,31 +16,14 @@ import Trending from "./trending";
 
 const Index = () => {
   return (
-    <>
+
       <Flex
         display={{ base: "none", md: "flex" }}
-        justifyContent={{ base: "none", md: "flex-start" }}        
+    
       >
         <Home />
       </Flex>
 
-      <Flex
-        display={{ base: "none", md: "flex" }}
-        justifyContent={{ base: "none", md: "flex-end" }}
-        mr={4}
-        mt={-10}
-      >
-        <RightBar />
-      </Flex>
-      <Flex
-        display={{ base: "none", md: "flex" }}
-        justifyContent={{ base: "none", md: "flex-end" }}
-        mr={4}
-        mt={5}
-      >
-        <RightBar />
-      </Flex> 
-    </>
   );
 };
 

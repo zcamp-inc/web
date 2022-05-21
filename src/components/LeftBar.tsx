@@ -28,7 +28,7 @@ import NavLink from "./NavLink";
 import UserProfile from "./UserProfile";
 
 function ExploreIcon() {
-  return <HiOutlineViewGridAdd strokeWidth={1} fontSize={26} style={{ marginRight: "15px",}} />;
+  return <HiOutlineViewGridAdd  fontSize={26} style={{ marginRight: "15px",}} />;
 }
 
 const LinkItems = [
@@ -58,6 +58,7 @@ export default function LeftBar({ onClose, ...rest }: { onClose: any }) {
       w={{ base: "full", md: 80 }}
       pos="fixed"
       h="full"
+      zIndex="2"
       borderRadius="10px 0 10px 10px "
       borderRight="1px"
       borderRightColor="gray.200"
@@ -81,7 +82,7 @@ export default function LeftBar({ onClose, ...rest }: { onClose: any }) {
       ))} </Box>
 
 
-      <Flex display={{ base: "none", md: "flex" }} mt={2} ml={50}>
+      <Flex display={{ base: "none", md: "flex" }} mt={3} ml={50}>
         <UserProfile />
       </Flex>
 

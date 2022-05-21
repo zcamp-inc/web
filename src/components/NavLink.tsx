@@ -20,6 +20,7 @@ export default function NavLink({ link, ...rest }: { link: any }) {
           role="group"          
           cursor="pointer"
           color="#000a16"
+          fontWeight= {500}
           _hover={{ bg: "#DDB2FF", color: "#5E00AB", fontWeight: 600 }}
           {...rest}
         >
@@ -29,11 +30,11 @@ export default function NavLink({ link, ...rest }: { link: any }) {
                 fontSize={{ base: 24, md: 30 }}
                 _groupHover={{ color: "#5E00AB" }}
                 as={icon}
-                strokeWidth={1}
+                strokeWidth={1.7}
                 
               />
             )}
-            <Text fontSize={{base: "1.05rem", md: "1.3rem"}}  >
+            <Text fontSize={{base: "1.05rem", lg: "1.3rem"}}  >
               {label}
             </Text>
         </Flex>

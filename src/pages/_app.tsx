@@ -6,6 +6,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import theme from "../theme";
 import "@fontsource/karla";
+import "@fontsource/rubik";
 import Layout from "../components/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {

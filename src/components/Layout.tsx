@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: any }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box minH="100vh" bg="gray.100" >
+    <Box minH="100vh" bg= {{ base: 'gray.200', md: 'white'}} >
       <Flex display={{ base: "none", md: "block" }}>
         <LeftBar onClose={() => onClose} />
       </Flex>
@@ -33,15 +33,15 @@ export default function Layout({ children }: { children: any }) {
         <DrawerContent>
           <UserDrawer onClose={onClose} />
         </DrawerContent>
-      </Drawer>
-
-      <Header onOpen={onOpen} />
+      </Drawer>      
       
+      <Header onOpen={onOpen} />
+
       <Flex display={{ base: "flex", md: "none"}}>
         <BottomNav />
       </Flex>
 
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, lg: 60 }} p="4">
         {" "}
         {children}{" "}
       </Box>

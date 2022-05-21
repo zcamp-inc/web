@@ -15,16 +15,18 @@ import RightBar from "../components/RightCard";
 
 const Trending = () => {
   return (
-    <Box p={5}>
-      <Heading>This Trending text gg</Heading>
-      <Flex
-        display={{ base: "none", md: "flex" }}
-        justifyContent={{ base: "none", md: "flex-end" }}
-        mt={-10}
-      >
-        <RightBar />
-      </Flex>
-    </Box>
+        <Layout>
+          <Box p={5} ml={{ base: 0, md: "50px" }}>
+            <Heading>This Trending text gg</Heading>
+            <Flex
+              display={{ base: "none", md: "flex" }}
+              justifyContent={{ base: "none", md: "flex-end" }}
+              mt={-10}
+            >
+              <RightBar />
+            </Flex>
+          </Box>
+        </Layout>
   );
 };
 
