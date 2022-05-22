@@ -5,7 +5,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import theme from "../theme";
-import "@fontsource/karla";
+//import "@fontsource/karla";
 import "@fontsource/rubik";
 import Layout from "../components/Layout";
 
