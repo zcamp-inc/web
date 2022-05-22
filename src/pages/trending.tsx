@@ -15,7 +15,7 @@ import RightBar from "../components/RightCard";
 
 const Trending = () => {
   return (
-        <Layout>
+
           <Box p={5} ml={{ base: 0, md: "50px" }}>
             <Heading>This Trending text gg</Heading>
             <Flex
@@ -26,7 +26,7 @@ const Trending = () => {
               <RightBar />
             </Flex>
           </Box>
-        </Layout>
+
   );
 };
 
