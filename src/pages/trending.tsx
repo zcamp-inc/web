@@ -15,7 +15,11 @@ import RightBar from "../components/RightCard";
 
 const Trending = () => {
   return (
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> b92f66122063caba1d5610cc7d3af1653b1e115b
           <Box p={5} ml={{ base: 0, md: "50px" }}>
             <Heading>This Trending text gg</Heading>
             <Flex
@@ -26,7 +30,11 @@ const Trending = () => {
               <RightBar />
             </Flex>
           </Box>
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> b92f66122063caba1d5610cc7d3af1653b1e115b
   );
 };
 

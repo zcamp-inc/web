@@ -1,6 +1,6 @@
 import { extendTheme } from "@chakra-ui/react";
 import { BottomNavigationStyleConfig } from "chakra-ui-bottom-navigation";
-import "@fontsource/karla";
+// import "@fontsource/karla";
 import "@fontsource/rubik"
 
 const breakpoints = {
