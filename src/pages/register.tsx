@@ -23,8 +23,13 @@ import { FcGoogle } from "react-icons/fc";
 import NextLink from "next/link";
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import { useState } from "react";
-import * as Yup from "yup";
-
+import {
+  validateName,
+  validateEmail,
+  validatePass,
+} from "../validators/usernamepass";
+import { InputField } from "../components/InputField";
+import { useMutation } from "urql";
 
 const activeLabelStyles = {
   transform: "scale(0.85) translateY(-24px)",
@@ -64,67 +69,25 @@ export const theme = extendTheme({
   },
 });
 
-const RegisterSchema = Yup.object().shape({
-  fullname: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Full name is Required"),
-  email: Yup.string().email("Invalid Email").required("Email is Required"),
-  // password: Yup.string().required('Password is required'),
-});
+interface RegisterProps {}
+const REGISTER_MUT = `mutation Register($options: UsernamePasswordInput!){
+  register(options: $options) {
+    user{
+      createdAt
+      email
+      username
+    }
+    errors {
+      field
+      message
+    }
+  }
+}`
 
-const Register = () => {
-  const toast = useToast();
-
+const Register: React.FC<RegisterProps> = ({}) => {
+  const [, register] = useMutation(REGISTER_MUT);
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-
-  // interface Values {
-  //   fullname: string;
-  //   email: string;
-  //   password: string;
-  // }
-
-  function validateName(value: string) {
-    let error;
-    if (!value) {
-      error = "Name is required";
-    } else if (value.toLowerCase() !== "john") {
-      error = "Lol! You're not john😂";
-    }
-    return error;
-  }
-  var emailRegEx = new RegExp("\\b" + ".edu.ng" + "\\b");
-
-  function validateEmail(value: string) {
-    let error;
-    if (!value) {
-      error = "Email is Required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-      error = "Invalid email address";
-    } else if (!emailRegEx.test(value)) {
-      error = "Not a Student?";
-    }
-    return error;
-  }
-
-  const strongPass = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
-  );
-  function validatePass(value: string) {
-    let error;
-    if (!value) {
-      error = "Password is Required";
-    } else if (!strongPass.test(value)) {
-      error =
-        "Password must contain atleast 1 cap letter and 1 number";
-    } else if (value.length < 8) {
-      error = "Password must be atleast 8 characters";
-    } else if (value === "password") {
-      error = "I think you're not serious";
-    }
-    return error;
-  }
 
   return (
     <ChakraProvider theme={theme}>
@@ -145,11 +108,10 @@ const Register = () => {
           spacing={1}
           align="center"
           justify="space-between"
-          w="full"
           mb={5}
         >
           {/* <Flex mb={5} alignSelf="center"> */}
-          <Heading as="h5" fontSize="2vh">
+          <Heading as="h5" fontSize="1.5rem">
             Signup to zcamp
           </Heading>
           <Button
@@ -162,8 +124,8 @@ const Register = () => {
             color="white"
             colorScheme="cyan"
             variant="solid"
-            width="25vh"
-            fontSize="2vh"
+            width={40}
+            fontSize="0.7rem"
           >
             Signup with Google
           </Button>
@@ -173,103 +135,51 @@ const Register = () => {
         <Box alignSelf="center">
           <Formik
             initialValues={{
-              fullname: "",
+              username: "",
               email: "",
               password: "",
             }}
-            onSubmit={(values, actions) => {
+            onSubmit={ async (values, actions) => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
                 actions.setSubmitting(false);
               }, 1000);
+              console.log(values);
+              const response = await register({options: values})
             }}
           >
-            {(props) => (
+            {({ values, handleChange }) => (
               <Form>
-                <Field name="fullname" validate={validateName}>
-                  {({ field, form }: {field: any, form: any}) => (
-                    <FormControl
-                      variant="floating"
-                      id="fullname"
-                      isRequired
-                      isInvalid={form.errors.fullname && form.touched.fullname}
-                    >
-                      <Input
-                        placeholder=" "
-                        variant="outline"
-                        rounded={10}
-                        {...field}
-                        id="fullname"
-                      />
-                      <FormLabel htmlFor="fullname">Full Name</FormLabel>
-                      <FormErrorMessage>
-                        {form.errors.fullname}
-                      </FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                <InputField
+                  name="username"
+                  placeholder="username"
+                  label="Username"
+                />
 
-                <Field name="email" validate={validateEmail}>
-                  {({ field, form }: {field: any, form: any}) => (
-                    <FormControl
-                      variant="floating"
-                      id="email"
-                      mt={4}
-                      isRequired
-                      isInvalid={form.errors.email && form.touched.email}
-                    >
-                      <Input
-                        placeholder=" "
-                        variant="outline"
-                        rounded={10}
-                        type="email"
-                        {...field}
-                      />
-                      <FormLabel htmlFor="email">Email</FormLabel>
-                      <NextLink href="/">
-                        <Link>
-                          <FormErrorMessage fontWeight={600}>
-                            {form.errors.email}
-                          </FormErrorMessage>
-                        </Link>
-                      </NextLink>
-                    </FormControl>
-                  )}
-                </Field>
-
-                <Field name="password" validate={validatePass}>
-                  {({ field, form }: {field: any, form: any}) => (
-                    <FormControl
-                      variant="floating"
-                      id="password"
-                      mt={4}
-                      isRequired
-                      isInvalid={form.errors.password && form.touched.password}
-                    >
-                      <InputGroup>
-                        <Input
-                          placeholder=" "
-                          variant="outline"
-                          rounded={10}
-                          type={show ? "text" : "password"}
-                          {...field}
-                        />
-                        <FormLabel>Password</FormLabel>
-                        <InputRightElement width="4.5rem">
-                          <Button h="1.75rem" size="sm" onClick={handleClick}>
-                            {show ? "Hide" : "Show"}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                      <FormHelperText>
-                        Password should be more than 8 characters
-                      </FormHelperText>
-                      <FormErrorMessage>
-                        {form.errors.password}
-                      </FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                <Box mt={5}>
+                  <InputField
+                    name="email"
+                    placeholder="email"
+                    label="Email"
+                    type="email"
+                  />
+                </Box>
+                
+                <Box mt={5}>
+                  <InputGroup>
+                    <InputField
+                      name="password"
+                      placeholder="password"
+                      label="Password"
+                      type={show ? "text" : "password"}
+                    />
+                    <InputRightElement width="4.5rem">
+                      <Button h="1.75rem" size="sm" onClick={handleClick}>
+                        {show ? "Hide" : "Show"}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </Box>               
 
                 <Flex alignSelf="center">
                   <Button
@@ -280,16 +190,6 @@ const Register = () => {
                     width={60}
                     _hover={{ bg: "#B94EFF" }}
                     type="submit"
-                    // onClick={() =>
-                    //   toast({
-                    //     title: "Account Created.",
-                    //     description:
-                    //       "Check your email address for verification",
-                    //     status: "success",
-                    //     duration: 6000,
-                    //     isClosable: true,
-                    //   })
-                    // }
                   >
                     Continue
                   </Button>

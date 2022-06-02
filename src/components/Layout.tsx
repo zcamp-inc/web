@@ -1,6 +1,6 @@
 import Header from "./Header";
-import LeftBar from "./LeftBar";
-
+import LeftBar from "./LeftCard";
+import React from "react";
 import {
   Box,
   Drawer,
@@ -13,16 +13,20 @@ import RightBar from "./RightCard";
 import BottomNav from "./BottomNav";
 import UserDrawer from "./UserDrawer";
 
+interface LayoutProps {
+  children?: React.ReactNode;
+}
 
-
-export default function Layout({ children }: { children: any }) {
+export const Layout: React.FC<LayoutProps> = ({children}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box minH="100vh" bg= {{ base: 'gray.200', md: 'white'}} >
-      <Flex display={{ base: "none", md: "block" }}>
+    <Box minH="100vh" bg={{ base: "gray.200", md: "#E3E3E1" }}>
+      {/* <Flex display={{ base: "none", md: "block" }}>
         <LeftBar onClose={() => onClose} />
       </Flex>
+      */}
+     
       <Drawer
         isOpen={isOpen}
         placement="right"
@@ -30,21 +34,20 @@ export default function Layout({ children }: { children: any }) {
         // returnFocusOnClose={false}
         onOverlayClick={onClose}
       >
-        <DrawerContent>
+        <DrawerContent >
           <UserDrawer onClose={onClose} />
         </DrawerContent>
-      </Drawer>      
-      
+      </Drawer> 
+
+
       <Header onOpen={onOpen} />
 
-      <Flex display={{ base: "flex", md: "none"}}>
-        <BottomNav />
-      </Flex>
-
       <Box ml={{ base: 0, lg: 60 }} p="4">
-        {" "}
-        {children}{" "}
+        {children}
       </Box>
+      
     </Box>
   );
-}
+};
+
+

@@ -21,7 +21,7 @@ export default function BottomNav() {
                 bg="white"
                 color="#000a16"
                 variant="float"
-                height="10vh"             
+                height="7vh"             
                 
             >
                 <BottomNavigationItem>

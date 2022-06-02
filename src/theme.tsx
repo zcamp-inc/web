@@ -1,7 +1,8 @@
 import { extendTheme } from "@chakra-ui/react";
 import { BottomNavigationStyleConfig } from "chakra-ui-bottom-navigation";
 // import "@fontsource/karla";
-import "@fontsource/rubik"
+import "@fontsource/rubik";
+import "@fontsource/nunito";
 
 const breakpoints = {
     sm: '320px',
@@ -13,12 +14,13 @@ const breakpoints = {
 
 const theme = extendTheme({
     fonts: {
-        heading: 'Rubik',
-        body: 'Rubik',
+        heading: 'Nunito',
+        body: 'Nunito',
     },
     breakpoints,
     components: {
-        BottomNavigation: BottomNavigationStyleConfig
+        BottomNavigation: BottomNavigationStyleConfig,
+        Button: { baseStyle: {_focus: { boxShadow: 'none'}}}
     }
 })
 

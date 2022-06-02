@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
+import BottomNav from './BottomNav';
 
 export type WrapperVariant = "small" | "regular";
 
@@ -13,6 +14,23 @@ export const Wrapper: React.FC<WrapperProps> = ({
     variant="regular",
 }) => {
     return(
+        <Box>
+            {/* <Flex display={{ base: "none", md: "block" }}>
+        <LeftBar onClose={() => onClose} />
+      </Flex>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={onClose}
+        // returnFocusOnClose={false}
+        onOverlayClick={onClose}
+      >
+        <DrawerContent>
+          <UserDrawer onClose={onClose} />
+        </DrawerContent>
+      </Drawer> */}
+
+      {/* <Header onOpen={onOpen} /> */}
         <Box    
             mt={8}
             mx="auto"
@@ -20,6 +38,11 @@ export const Wrapper: React.FC<WrapperProps> = ({
             w="100%"
         >
             {children}
+        </Box>
+
+        <Flex display={{ base: "flex", md: "none" }}>
+        <BottomNav />
+      </Flex>
         </Box>
     );
 };

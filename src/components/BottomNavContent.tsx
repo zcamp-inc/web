@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
-import Home from "../pages/home";
+import Home from "./home";
 import Trending from "../pages/trending";
-import Layout from "./Layout";
+
 
 export function BottomNavContent({ index }: { index: number | string | any }) {
   return (

@@ -1,31 +1,31 @@
 import "../styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
-import { SessionProvider } from "next-auth/react";
-import { Auth0Provider } from "@auth0/auth0-react";
+
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import theme from "../theme";
-//import "@fontsource/karla";
 import "@fontsource/rubik";
-import Layout from "../components/Layout";
+import { createClient, Provider } from "urql";
+
+const client = createClient({
+  url: "http://localhost:4000/graphql",
+  fetchOptions: {
+    credentials: "include",
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Auth0Provider
-      domain="zcamp-inc.us.auth0.com"
-      clientId="kBckK2R7lscUT7c4xtTbBceeR6ZeObVz"
-      redirectUri="http://localhost:3000"
-    >
+    <Provider value={client}>
       <Head>
+      <link rel="shortcut icon" href="/refavv.svg" />
         <title>zcamp web</title>
       </Head>
 
       <ChakraProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Component {...pageProps} />
       </ChakraProvider>
-    </Auth0Provider>
+    </Provider>
   );
 }
 

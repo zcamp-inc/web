@@ -42,13 +42,6 @@ import UserProfile from "./UserProfile";
 import { BsListStars } from "react-icons/bs";
 import { useAuth0 } from "@auth0/auth0-react";
 
-function FavIcon() {
-  return <BsListStars fontSize={26} style={{ marginRight: "15px" }} />;
-}
-
-function UserIcon() {
-  return <BiUser fontSize={26} style={{ marginRight: "15px" }} />;
-}
 
 const ProfileLinkItems = [
   { label: "Profile", icon: FiUser, href: "/" },
@@ -79,13 +72,6 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
     };
   }, [router.events, onClose]);
 
-  const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
-    useAuth0();
-
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
-
   return (
     <DrawerBody>
       {/* {!isAuthenticated && (
@@ -101,12 +87,11 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
           </Button>
         </NextLink>
       )} */}
-      {!isAuthenticated && (
+
         <Box
           transition="0.8s ease"
           bg="white"
-          //   w={{ base: "full", md: 60 }}
-          //   h="full"
+
           {...rest}
         >
           <Flex
@@ -119,7 +104,7 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
               Account Info
             </Text>
             <CloseButton
-              display={{ base: "flex", md: "none" }}
+              display='flex'
               onClick={onClose}
             />
           </Flex>
@@ -128,12 +113,12 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
             <VStack spacing="2" align="center" p={2} mb={3}>
               <NextLink href="/" passHref>
                 <Stack align="center">
-                  <Avatar size="md" src={user?.picture}>
+                  <Avatar size="md" >
                     {" "}
                     <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
                   </Avatar>
                   <Text fontWeight={600}>
-                    {user?.nickname}
+                    John Doe
                   </Text>
                 </Stack>
               </NextLink>
@@ -152,6 +137,7 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
             </VStack>
             <Box></Box>
           </Box>
+
           {ProfileLinkItems.map((link, i) => (
             <NavLink key={i} link={link} />
           ))}
@@ -202,7 +188,7 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
           </Box>
         </Box> */}
         </Box>
-      )}
+
     </DrawerBody>
   );
 }

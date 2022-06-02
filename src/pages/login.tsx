@@ -24,6 +24,8 @@ import NextLink from "next/link";
 import { Formik, Field, Form } from "formik";
 import { useState } from "react";
 
+import { InputField } from "../components/InputField";
+
 
 const activeLabelStyles = {
   transform: "scale(0.85) translateY(-24px)",
@@ -63,41 +65,13 @@ export const theme = extendTheme({
   },
 });
 
+interface LoginProps {}
 
-const Login = () => {
-  // const toast = useToast();
+
+const Login: React.FC<LoginProps> = ({}) => {
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-
-  // interface Values {
-  //   fullname: string;
-  //   email: string;
-  //   password: string;
-  // }
-
-  function validateName(value: string) {
-    let error;
-    if (!value) {
-      error = "Name is required";
-    } else if (value.toLowerCase() !== "john") {
-      error = "Lol! You're not john😂";
-    }
-    return error;
-  }
-
-  const strongPass = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
-  );
-  function validatePass(value: string) {
-    let error;
-    if (!value) {
-      error = "Password is Required";
-    } else if (value.length < 8) {
-      error = "Password must be atleast 8 characters";
-    }
-      return error;
-  }
 
   return (
     <ChakraProvider theme={theme}>
@@ -122,7 +96,7 @@ const Login = () => {
           mb={5}
         >
           {/* <Flex mb={5} alignSelf="center"> */}
-          <Heading as="h5" fontSize="2vh">
+          <Heading as="h5" fontSize="1.5rem">
             Signin to zcamp
           </Heading>
           <Button
@@ -135,8 +109,8 @@ const Login = () => {
             color="white"
             colorScheme="cyan"
             variant="solid"
-            width="25vh"
-            fontSize="2vh"
+            width={40}
+            fontSize="0.7rem"
           >
             Signin with Google
           </Button>
@@ -154,66 +128,31 @@ const Login = () => {
                 alert(JSON.stringify(values, null, 2));
                 actions.setSubmitting(false);
               }, 1000);
+              console.log(values);
             }}
           >
-            {(props) => (
+            {({values, handleChange}) => (
               <Form>
-                <Field name="username" validate={validateName}>
-                  {({ field, form }: {field: any, form: any}) => (
-                    <FormControl
-                      variant="floating"
-                      id="username"
-                      isRequired
-                      isInvalid={form.errors.username && form.touched.username}
-                    >
-                      <Input
-                        placeholder=" "
-                        variant="outline"
-                        rounded={10}
-                        {...field}
-                        id="username"
-                      />
-                      <FormLabel htmlFor="username">Username or Email</FormLabel>
-                      <FormErrorMessage>
-                        {form.errors.username}
-                      </FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-
-                <Field name="password" validate={validatePass}>
-                  {({ field, form }: {field: any, form: any}) => (
-                    <FormControl
-                      variant="floating"
-                      id="password"
-                      mt={4}
-                      isRequired
-                      isInvalid={form.errors.password && form.touched.password}
-                    >
-                      <InputGroup>
-                        <Input
-                          placeholder=" "
-                          variant="outline"
-                          rounded={10}
-                          type={show ? "text" : "password"}
-                          {...field}
-                        />
-                        <FormLabel>Password</FormLabel>
-                        <InputRightElement width="4.5rem">
-                          <Button h="1.75rem" size="sm" onClick={handleClick}>
-                            {show ? "Hide" : "Show"}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                      <FormHelperText>
-                        Password should be more than 8 characters
-                      </FormHelperText>
-                      <FormErrorMessage>
-                        {form.errors.password}
-                      </FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                <InputField
+                  name="username"
+                  placeholder="username"
+                  label="Username"
+                />                
+                <Box mt={5}>
+                  <InputGroup>
+                    <InputField
+                      name="password"
+                      placeholder="password"
+                      label="Password"
+                      type={show ? "text" : "password"}
+                    />
+                    <InputRightElement width="4.5rem">
+                      <Button h="1.75rem" size="sm" onClick={handleClick}>
+                        {show ? "Hide" : "Show"}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </Box>         
 
                 <Flex alignSelf="center">
                   <Button
@@ -224,16 +163,6 @@ const Login = () => {
                     width={60}
                     _hover={{ bg: "#6bb2ae" }}
                     type="submit"
-                    // onClick={() =>
-                    //   toast({
-                    //     title: "Account Created.",
-                    //     description:
-                    //       "Check your email address for verification",
-                    //     status: "success",
-                    //     duration: 6000,
-                    //     isClosable: true,
-                    //   })
-                    // }
                   >
                     Continue
                   </Button>

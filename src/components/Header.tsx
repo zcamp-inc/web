@@ -1,4 +1,4 @@
-import { IconButton, Flex, Image,  } from "@chakra-ui/react";
+import { IconButton, Flex, Image, Box  } from "@chakra-ui/react";
 import UserProfile from "./UserProfile";
 
 export default function Header({ onOpen, ...rest }: {onOpen: any}) {
@@ -6,15 +6,15 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
  
     <Flex
       
-      w={{ base: 'full', md: '140vh' }}
-      ml={{ base: 0, md: 80 }}
-      display={{ base: 'flex' }}
+      // w={{ base: 'full', md: '140vh' }}
+      // ml={{ base: 0, md: 80 }}
+      display='flex'
       zIndex='1'
-      px="4"
+      px={{ base: 4, md: 20}}
       top="0"
       bg = "white"
       position="sticky"      
-      height="20"
+      h={14}
       alignItems="center"      
       borderBottomWidth="1px"
       borderBottomColor='gray.200'
@@ -23,15 +23,13 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
       {...rest}
     >
 
-      <Flex
-        display={{ base: "flex-start", md: "none" }}
-      >
-        <img src="/relogo.png" width="60vh" alt='home logo' />
-      </Flex>
+      <Box>
+        <img src="/zlogo/zlogo.png" width="44vh" alt='home logo' />
+      </Box>
       
-      <Flex onClick={onOpen} display ={{ base: "flex-end", md: "none" }}>
-      <UserProfile />
-      </Flex>
+      
+      <UserProfile onOpen={onOpen}/>
+      
     </Flex>
 
   );
