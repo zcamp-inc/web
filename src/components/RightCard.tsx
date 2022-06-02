@@ -14,7 +14,7 @@ import NextLink from "next/link";
 
 export default function RightCard() {
   return (
-    <Stack spacing={10} borderRadius="lg" >
+    <Stack spacing={10} borderRadius="lg" position='fixed'>
       <Box borderRadius="10px" px={1} pt={1}>
         <Box bg="#000a16" borderRadius="10px" pb={3} w={80}>
           <Flex borderRadius="10px 10px 0 0">

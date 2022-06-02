@@ -37,9 +37,6 @@ import {
 import { CgProfile } from "react-icons/cg";
 import { FiHome, FiSettings, FiBookmark, FiLogOut } from "react-icons/fi";
 import { RiHome7Fill, RiHome7Line } from "react-icons/ri";
-
-import { useAuth0 } from "@auth0/auth0-react";
-
 import React from "react";
 import { useRouter } from "next/router";
 
@@ -51,14 +48,15 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         <NextLink href="/" passHref>
           <Flex
             align="center"
-            borderRadius="lg"
+            borderRadius="full"
             role="group"
             cursor="pointer"
             color={router.pathname === "/" ? "#57FFF5" : "#000a16"}
-            _hover={{
-              bg: "#5E00AB",
-              color: "white",
-            }}
+            // _hover={{
+            //   // bg: "#DDB2FF",
+            //   color: "white",
+            //   variant: 'outline'
+            // }}
             mr={{ base: 0, md: 2 }}
             bg={router.pathname === "/" ? "#000a16" : "none"}
           >
@@ -87,14 +85,14 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         <NextLink href="/trending" passHref>
           <Flex
             align="center"
-            borderRadius="lg"
+            borderRadius="full"
             role="group"
             cursor="pointer"
             color={router.pathname === "/trending" ? "#57FFF5" : "#000a16"}
-            _hover={{
-              bg: "#5E00AB",
-              color: "white",
-            }}
+            // _hover={{
+            //   bg: "#000a16",
+            //   color: "white",
+            // }}
             mr={{ base: 0, md: 2 }}
             bg={router.pathname === "/trending" ? "#000a16" : "none"}
           >
@@ -123,14 +121,11 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         <NextLink href="/explore" passHref>
           <Flex
             align="center"
-            borderRadius="lg"
+            borderRadius="full"
             role="group"
             cursor="pointer"
             color={router.pathname === "/explore" ? "#57FFF5" : "#000a16"}
-            _hover={{
-              bg: "#5E00AB",
-              color: "white",
-            }}
+            
             mr={{ base: 0, md: 2 }}
             bg={router.pathname === "/explore" ? "#000a16" : "none"}
           >
@@ -159,14 +154,11 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         <NextLink href="/messages" passHref>
           <Flex
             align="center"
-            borderRadius="lg"
+            borderRadius="full"
             role="group"
             cursor="pointer"
             color={router.pathname === "/messages" ? "#57FFF5" : "#000a16"}
-            _hover={{
-              bg: "#5E00AB",
-              color: "white",
-            }}
+            
             mr={{ base: 0, md: 2 }}
             bg={router.pathname === "/messages" ? "#000a16" : "none"}
           >
@@ -195,14 +187,11 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         <NextLink href="/notifications" passHref>
           <Flex
             align="center"
-            borderRadius="lg"
+            borderRadius="full"
             role="group"
             cursor="pointer"
             color={router.pathname === "/notifications" ? "#57FFF5" : "#000a16"}
-            _hover={{
-              bg: "#5E00AB",
-              color: "white",
-            }}
+            
             mr={{ base: 0, md: 2 }}
             bg={router.pathname === "/notifications" ? "#000a16" : "none"}
           >
@@ -232,7 +221,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
       <Flex
         alignItems="center"
         _hover={{ bg: "#000a16", color: "white" }}
-        borderRadius="lg"
+        borderRadius="full"
         bg={{ base: "none", md: "gray.200" }}
         minW={{ base: 0, md: 40 }}
         h={{ base: 0, md: 12 }}
@@ -276,7 +265,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
             </HStack>
           </MenuButton>
           <MenuList
-            fontSize="lg"
+            fontSize="full"
             bg="white"
             color="#000a16"
             borderColor="gray.200"

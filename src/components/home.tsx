@@ -16,7 +16,7 @@ const Home = () => {
           <Flex justify="center">
             <FakePost />
           </Flex>
-          <Box display={{ base: "none", md: "block" }}>
+          <Box display={{ base: "none", md: "block" }} >
             <RightCard />
           </Box>
         </SimpleGrid>

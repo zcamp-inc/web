@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import PostInteraction from "../PostInteraction";
+import { CreatePost } from "./CreatePost";
 
 function FakePost() {
   const postprops = {
@@ -33,6 +34,7 @@ function FakePost() {
 
   return (
     <VStack spacing={{ base: 5, md: 5 }}>
+      <CreatePost />
       <Box
         borderWidth="1px"
         borderRadius="lg"
