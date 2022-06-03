@@ -16,6 +16,7 @@ const theme = extendTheme({
     fonts: {
         heading: 'Nunito',
         body: 'Nunito',
+       
     },
     breakpoints,
     components: {

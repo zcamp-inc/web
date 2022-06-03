@@ -8,7 +8,10 @@ import {
 
 import { IoChatbubbleOutline } from "react-icons/io5";
 
-export default function PostInteraction() {
+
+
+
+export default function PostInteraction({ postVote, comments } : {postVote: number, comments: number }) {
   return (
     <HStack spacing={{ base: 40, md: 60 }}>
       <HStack spacing={{ base: 0, md: 20 }}>
@@ -28,7 +31,7 @@ export default function PostInteraction() {
             variant="ghost"
           />
 
-          <Text>100</Text>
+          <Text>{postVote}</Text>
 
           <IconButton
             icon={<FiChevronDown />}
@@ -59,7 +62,7 @@ export default function PostInteraction() {
             variant="ghost"
           />
           <Text ml="5px" mr={-20}>
-            10
+            {comments}
           </Text>
         </Flex>
       </HStack>

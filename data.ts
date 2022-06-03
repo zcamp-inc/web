@@ -1,0 +1,78 @@
+export const data = [
+  {
+    title:
+      "Hey look! This post has only texts in it. I wonder how it would look if I wrote a lot of words in it. Bye for now!",
+    imageUrl: null,
+    imageAlt: "posted by this user",
+    user: "John",
+    avatar:
+      "/fakeusers/user1.jpg",
+    createdAt: "12mins",
+    postFlair: "Words",
+    flairColor: 'red',
+    group: "z/covenant/danielhall",
+  },
+  {
+    title: "My two favorite people in soccer 🥰🤩",
+    imageUrl: "/fakeimages/trentvpep.jpg",
+    imageAlt: "posted by this user",
+    user: "superuser",
+    avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjaNcG-tBxvlbCZ5DU6nsHSaCY_j1IcDAw9w&usqp=CAU",
+    createdAt: "40mins",
+    postFlair: "Football",
+    flairColor: 'green',
+    flairType: 'solid',
+    group: "z/covenant/cupl",
+  },
+  {
+    title: "I spent 23hrs drawing this, hope y'all like it",
+    imageUrl: "/fakeimages/fakeland.jpg",
+    imageAlt: "posted by this user",
+    user: "mynameisuser",
+    avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrYIt73ReqEqelprvPKGoRHiKFV8wmNm4AHw&usqp=CAU",
+    createdAt: "58mins",
+    postFlair: "Art is life",
+    flairColor: 'cyan',
+    group: "z/covenant",
+  },
+  {
+    title:
+      "Fresher here! So excited to be a part of this wonderful community. Hope to learn a lot",
+    imageUrl:
+      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    imageAlt: "posted by this user",
+    user: "freshest",
+    avatar: "/fakeusers/fresh.jpg",
+    createdAt: "18h",
+    postFlair: "Fresher",
+    flairColor: 'pink',
+    flairType: 'solid',
+    group: "z/covenant/cu100lvl",
+  },
+  {
+    title: "Best friends everrrr😍😎",
+    imageUrl:
+      "https://media.istockphoto.com/photos/multi_ethnic-teenagers-taking-a-self-portrait-stock-photo-picture-id1184216653?k=20&m=1184216653&s=612x612&w=0&h=T6xt_a6r-fmG0l3dzX-EHbVPQkJQeY-VX4zb7skIbPQ=",
+    imageAlt: "posted by this user",
+    user: "random_user",
+    avatar: "/fakeusers/user5.jpg",
+    createdAt: "21h",
+    postFlair: "GENG",
+    flairColor: 'red',
+    flairType: 'outline',
+    group: "z/covenant/cu400lvl",
+  },
+  {
+    title:
+      "I tried to think of something to write but I couldn't so I wrote this instead.",
+    imageUrl: " ",
+    imageAlt: "posted by this user",
+    user: "cantspell",
+    avatar: "/fakeusers/bored.png",
+    createdAt: "Jun 1",
+    postFlair: "Bored Ape",
+    flairColor: 'gray',
+    flairType: 'outline',
+    group: "z/covenant",
+  },
+];

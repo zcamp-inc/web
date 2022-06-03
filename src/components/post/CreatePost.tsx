@@ -20,6 +20,7 @@ import {
   FormLabel,
   Textarea,
 } from "@chakra-ui/react";
+import JoditEditor from "jodit-react";
 import React from "react";
 import { IoImage, IoMic, IoPlay, IoList } from "react-icons/io5";
 
@@ -32,12 +33,11 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
     onOpen: onTextOpen,
     onClose: onTextClose,
   } = useDisclosure();
-  const [value, setValue] = React.useState(
-    "**Hello world!!!** <IFRAME SRC='javascript:javascript:alert(window.origin);'></IFRAME>"
-  );
 
   const initialRef = React.useRef();
   const finalRef = React.useRef();
+
+
   return (
     <>
       <Box
@@ -62,7 +62,7 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
           />
         </Flex>
 
-        <Stack direction="row" spacing={5} pl={3} pt={5}>
+        <Stack direction="row" spacing={5} pl={{base: 20, md: 3}} pt={5}>
           <Flex
             align="center"
             borderRadius="full"
@@ -199,7 +199,9 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
               <FormLabel>Title</FormLabel>
               <Input placeholder="Title" />
             </FormControl>
-           <Textarea placeholder='Text (optional)' mt={5}/> 
+            
+            
+           <Textarea placeholder='Text (optional)' mt={5} mb={5}/> 
           </ModalBody>
 
           <ModalFooter>
