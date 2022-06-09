@@ -21,8 +21,10 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import JoditEditor from "jodit-react";
+import { useRouter } from "next/router";
 import React from "react";
 import { IoImage, IoMic, IoPlay, IoList } from "react-icons/io5";
+
 
 
 interface CreatePostProps {}
@@ -36,7 +38,7 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
 
   const initialRef = React.useRef();
   const finalRef = React.useRef();
-
+  const router = useRouter()
 
   return (
     <>
@@ -46,9 +48,9 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
         bg="white"
         pb={8}
         w={{ base: "full", md: "xl" }}
-        overflow="hidden"
+        
       >
-        <Flex direction="row" px={2} pt={3}>
+        <Flex direction="row" px={2} pt={3} >
           <Avatar size="md" ml={1} mr={5}>
             {" "}
             <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}

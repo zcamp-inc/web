@@ -4,6 +4,7 @@ mutation Register($options: UsernamePasswordInput!) {
       createdAt
       email
       username
+      id
     }
     errors {
       field

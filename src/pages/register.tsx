@@ -11,7 +11,6 @@ import {
   useToast,
   FormErrorMessage,
   FormHelperText,
-  Input,
   Link,
   InputRightElement,
   InputGroup,
@@ -29,7 +28,9 @@ import {
   validatePass,
 } from "../validators/usernamepass";
 import { InputField } from "../components/InputField";
-import { useMutation } from "urql";
+import { useRegisterMutation } from "../generated/graphql";
+import { toErrorMap } from "../utils/toErrorMap";
+import { useRouter } from "next/router";
 
 const activeLabelStyles = {
   transform: "scale(0.85) translateY(-24px)",
@@ -70,24 +71,13 @@ export const theme = extendTheme({
 });
 
 interface RegisterProps {}
-const REGISTER_MUT = `mutation Register($options: UsernamePasswordInput!){
-  register(options: $options) {
-    user{
-      createdAt
-      email
-      username
-    }
-    errors {
-      field
-      message
-    }
-  }
-}`
 
 const Register: React.FC<RegisterProps> = ({}) => {
-  const [, register] = useMutation(REGISTER_MUT);
+  const [,register] = useRegisterMutation();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+
+  const router = useRouter()
 
   return (
     <ChakraProvider theme={theme}>
@@ -109,46 +99,51 @@ const Register: React.FC<RegisterProps> = ({}) => {
           align="center"
           justify="space-between"
           mb={5}
+          px={5}
         >
           {/* <Flex mb={5} alignSelf="center"> */}
-          <Heading as="h5" fontSize="1.5rem">
+          <Heading as="h5" fontSize={{ base: "1.1rem", md: "1.5rem" }}>
             Signup to zcamp
           </Heading>
           <Button
             leftIcon={
               <FcGoogle
                 style={{ backgroundColor: "white", borderRadius: 5 }}
-                size={24}
+                size={21}
               />
             }
             color="white"
             colorScheme="cyan"
             variant="solid"
             width={40}
-            fontSize="0.7rem"
+            fontSize={{ base: "0.5rem", md: "0.7rem"}}
           >
             Signup with Google
           </Button>
           {/* </Flex> */}
         </HStack>
 
-        <Box alignSelf="center">
+        <Box alignSelf="center" px={5}>
           <Formik
             initialValues={{
               username: "",
               email: "",
               password: "",
             }}
-            onSubmit={ async (values, actions) => {
+            onSubmit={ async (values, {setErrors}) => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
-                actions.setSubmitting(false);
               }, 1000);
               console.log(values);
               const response = await register({options: values})
+              if( response.data?.register.errors ){
+                setErrors(toErrorMap(response.data?.register.errors));
+              } else if (response.data?.register.user){
+                router.push("/#")
+              }
             }}
           >
-            {({ values, handleChange }) => (
+            {({ isSubmitting }) => (
               <Form>
                 <InputField
                   name="username"
@@ -172,6 +167,7 @@ const Register: React.FC<RegisterProps> = ({}) => {
                       placeholder="password"
                       label="Password"
                       type={show ? "text" : "password"}
+                      autoComplete={'none'}
                     />
                     <InputRightElement width="4.5rem">
                       <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -190,6 +186,7 @@ const Register: React.FC<RegisterProps> = ({}) => {
                     width={60}
                     _hover={{ bg: "#B94EFF" }}
                     type="submit"
+                    isLoading={isSubmitting}
                   >
                     Continue
                   </Button>
@@ -220,3 +217,5 @@ const Register: React.FC<RegisterProps> = ({}) => {
 };
 
 export default Register;
+
+

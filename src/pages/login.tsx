@@ -23,8 +23,10 @@ import { FcGoogle } from "react-icons/fc";
 import NextLink from "next/link";
 import { Formik, Field, Form } from "formik";
 import { useState } from "react";
-
+import { useLoginMutation } from "../generated/graphql";
 import { InputField } from "../components/InputField";
+import { toErrorMap } from "../utils/toErrorMap";
+import Router, { useRouter } from "next/router";
 
 
 const activeLabelStyles = {
@@ -69,6 +71,8 @@ interface LoginProps {}
 
 
 const Login: React.FC<LoginProps> = ({}) => {
+  const [, login] = useLoginMutation();
+  const router = useRouter();
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
@@ -120,21 +124,26 @@ const Login: React.FC<LoginProps> = ({}) => {
         <Box alignSelf="center">
           <Formik
             initialValues={{
-              username: "",
+              usernameOrEmail: "",
               password: "",
             }}
-            onSubmit={(values, actions) => {
+            onSubmit={ async (values, {setErrors}) => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
-                actions.setSubmitting(false);
               }, 1000);
               console.log(values);
+              const response = await login({ password: values.password, usernameOrEmail: values.usernameOrEmail })
+              if( response.data?.login.errors ){
+                setErrors(toErrorMap(response.data?.login.errors));
+              } else if( response.data?.login.user){
+                router.push("/#")
+              }
             }}
           >
-            {({values, handleChange}) => (
+            {({ isSubmitting }) => (
               <Form>
                 <InputField
-                  name="username"
+                  name="usernameOrEmail"
                   placeholder="username"
                   label="Username"
                 />                
@@ -145,6 +154,7 @@ const Login: React.FC<LoginProps> = ({}) => {
                       placeholder="password"
                       label="Password"
                       type={show ? "text" : "password"}
+                      autoComplete={'none'}
                     />
                     <InputRightElement width="4.5rem">
                       <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -163,6 +173,7 @@ const Login: React.FC<LoginProps> = ({}) => {
                     width={60}
                     _hover={{ bg: "#6bb2ae" }}
                     type="submit"
+                    isLoading={isSubmitting}
                   >
                     Continue
                   </Button>

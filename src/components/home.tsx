@@ -12,9 +12,9 @@ const Home = () => {
     <Layout>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10}>
         <Flex direction="column" ml={{ base: -10, md: -20 }}>
-          <Box mb={5}>
+          <Flex mb={5} justify='center'>
             <CreatePost />
-          </Box>
+          </Flex>
           {data.map((postData, i) => (
             <FakePost postData={postData} key={i} />
           ))}

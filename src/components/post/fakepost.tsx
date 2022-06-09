@@ -55,8 +55,8 @@ const FakePost: React.FC<FakePostProps> = ({ postData }) => {
     group,
   } = postData;
 
-  const postVote = Math.floor(Math.random()*(500) + 1 );
-  const comments = Math.floor(Math.random()* 50 + 1);
+  const postVote = Math.floor(Math.random()*(200) + 1 );
+  const comments = Math.floor(Math.random()* 30 + 1);
   return (
     <VStack spacing={{ base: 5, md: 5 }}>
       
@@ -94,6 +94,8 @@ const FakePost: React.FC<FakePostProps> = ({ postData }) => {
                 icon={<BsThreeDots />}
                 variant="ghost"
                 aria-label="More Options"
+                mr={2}
+                mt={1}
               />
             </Flex>
           </Flex>
@@ -102,7 +104,7 @@ const FakePost: React.FC<FakePostProps> = ({ postData }) => {
             <Heading as="h4" fontSize={24} fontWeight={400}>
               {title}
             </Heading>
-            <Box maxW="lg" maxH="lg" overflow="hidden" borderRadius={30}>
+            <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
               <Image
                 src={imageUrl ? imageUrl : null}
                 alt={imageAlt ? null : imageAlt}

@@ -7,7 +7,7 @@ import {
   DrawerContent,
   useDisclosure,
   Flex,
-  extendTheme,
+  Center,
 } from "@chakra-ui/react";
 import RightBar from "./RightCard";
 import BottomNav from "./BottomNav";
@@ -21,7 +21,8 @@ export const Layout: React.FC<LayoutProps> = ({children}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box minH="100vh" bg={{ base: "gray.200", md: "#E3E3E1" }}>
+    <Center>
+    <Box minH="100vh" maxW="1400px" bg={{ base: "gray.200", md: "gray.200" }}>
       {/* <Flex display={{ base: "none", md: "block" }}>
         <LeftBar onClose={() => onClose} />
       </Flex>
@@ -42,11 +43,12 @@ export const Layout: React.FC<LayoutProps> = ({children}) => {
 
       <Header onOpen={onOpen} />
 
-      <Box ml={{ base: 0, lg: 60 }} p="4">
+      <Flex ml={{ base: 0, lg: 60 }} p="4" justify='center'>
         {children}
-      </Box>
+      </Flex>
       
     </Box>
+    </Center>
   );
 };
 

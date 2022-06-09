@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { background, extendTheme } from "@chakra-ui/react";
 import { BottomNavigationStyleConfig } from "chakra-ui-bottom-navigation";
 // import "@fontsource/karla";
 import "@fontsource/rubik";
@@ -15,14 +15,21 @@ const breakpoints = {
 const theme = extendTheme({
     fonts: {
         heading: 'Nunito',
-        body: 'Nunito',
-       
+        body: 'Nunito',       
     },
     breakpoints,
     components: {
         BottomNavigation: BottomNavigationStyleConfig,
         Button: { baseStyle: {_focus: { boxShadow: 'none'}}}
+    },
+    styles:{
+        global: {
+            'html, body': {
+                bg: 'gray.200'
+            }
+        }
     }
+    
 })
 
 export default theme

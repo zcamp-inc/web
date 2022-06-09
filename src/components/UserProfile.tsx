@@ -286,6 +286,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
               <MenuItem
                 icon={<FiLogOut />}
                 width={40}
+                height={10}
                 // onClick={() => logout({ returnTo: window.location.origin })}
               >
                 Logout

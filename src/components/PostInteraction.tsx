@@ -13,11 +13,13 @@ import { IoChatbubbleOutline } from "react-icons/io5";
 
 export default function PostInteraction({ postVote, comments } : {postVote: number, comments: number }) {
   return (
-    <HStack spacing={{ base: 40, md: 60 }}>
-      <HStack spacing={{ base: 0, md: 20 }}>
+    // <HStack spacing={{ base: 40, md: 60 }}>
+      <Flex direction='row' justify='space-between'>
+      {/* <HStack spacing={{ base: 0, md: 20 }}> */}
+      <Flex direction='row' justify='space-between'>
         <Flex
           align="center"
-          ml={{ base: 2, md: 8 }}
+          ml={{ base: 2, md: 5 }}
           borderRadius="lg"
           role="group"
           color="#000a16"
@@ -39,7 +41,7 @@ export default function PostInteraction({ postVote, comments } : {postVote: numb
             fontSize={{ base: 24, md: 26 }}
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             variant="ghost"
-            // mr={10}
+            mr={{ base: 2, md:10 }}
           />
         </Flex>
 
@@ -65,15 +67,16 @@ export default function PostInteraction({ postVote, comments } : {postVote: numb
             {comments}
           </Text>
         </Flex>
-      </HStack>
+        </Flex>
+      {/* </HStack> */}
 
-      <HStack spacing={0}>
+      <Flex direction='row' justify='space-between'>
         <IconButton
           icon={<FiUpload strokeWidth={1.4} />}
           aria-label="share post"
           variant="ghost"
-          ml={{ base: -10, md: -20 }}
-          mr={{ base: 7, md: 20 }}
+          // ml={{ base: -10, md: -20 }}
+          mr={{ base: 7, md: 10 }}
           fontSize={{ base: 20, md: 26 }}
           color="#000a16"
           _hover={{ color: "#00A023", bg: "#9FFBB3" }}
@@ -82,12 +85,14 @@ export default function PostInteraction({ postVote, comments } : {postVote: numb
         <IconButton
           icon={<FiBookmark strokeWidth={1.4} />}
           aria-label="save post"
+          mr={5}
           variant="ghost"
           fontSize={{ base: 20, md: 26 }}
           color="#000a16"
           _hover={{ bg: "#FFC3D9", color: "#FF377F" }}
         />
-      </HStack>
-    </HStack>
+      </Flex>
+    {/* </HStack> */}
+    </Flex>
   );
 }
