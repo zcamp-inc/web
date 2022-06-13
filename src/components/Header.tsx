@@ -20,12 +20,14 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
       {...rest}
     >
 
-      <Box>
+      <Flex justify='flex-start'>
         <img src="/zlogo/zlogo.png" width="44vh" alt='home logo' />
-      </Box>
+      </Flex>
       
-      
+      <Flex justify='flex-end'>
       <UserProfile onOpen={onOpen}/>
+
+      </Flex>
       
     </Flex>
 

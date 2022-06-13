@@ -22,7 +22,7 @@ export const Layout: React.FC<LayoutProps> = ({children}) => {
 
   return (
     <Center>
-    <Box minH="100vh" maxW="1400px" bg={{ base: "gray.200", md: "gray.200" }}>
+    <Box minH="100vh" bg={{ base: "gray.200", md: "gray.200" }}>
       {/* <Flex display={{ base: "none", md: "block" }}>
         <LeftBar onClose={() => onClose} />
       </Flex>

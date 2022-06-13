@@ -32,15 +32,9 @@ import {
   FiDollarSign,
   FiGitPullRequest,
 } from "react-icons/fi";
-
-import { BiUser } from "react-icons/bi";
-
-import { HiOutlineDotsHorizontal, HiOutlineViewGridAdd } from "react-icons/hi";
-
 import NavLink from "./NavLink";
-import UserProfile from "./UserProfile";
-import { BsListStars } from "react-icons/bs";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useMeQuery } from "../generated/graphql";
+
 
 
 const ProfileLinkItems = [
@@ -64,6 +58,7 @@ const MiscLinkItems = [
 
 export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
   const router = useRouter();
+  const [{data}] = useMeQuery()
 
   useEffect(() => {
     router.events.on("routeChangeComplete", onClose);
@@ -118,7 +113,7 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
                     <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
                   </Avatar>
                   <Text fontWeight={600}>
-                    John Doe
+                    {data?.me?.user?.username}
                   </Text>
                 </Stack>
               </NextLink>

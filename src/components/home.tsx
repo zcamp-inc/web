@@ -8,6 +8,7 @@ import { data } from "../../data";
 import { CreatePost } from "./post/CreatePost";
 
 const Home = () => {
+
   return (
     <Layout>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10}>
@@ -20,7 +21,9 @@ const Home = () => {
           ))}
         </Flex>
         <Box display={{ base: "none", md: "block" }}>
+          
           <RightCard />
+
         </Box>
       </SimpleGrid>
     </Layout>

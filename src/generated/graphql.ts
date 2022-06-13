@@ -120,7 +120,7 @@ export type Post = {
 export type Query = {
   __typename?: 'Query';
   get?: Maybe<Comment>;
-  me?: Maybe<User>;
+  me?: Maybe<UserResponse>;
   trending: PaginatedPosts;
 };
 
@@ -173,6 +173,11 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: { __typename?: 'User', createdAt: string, email: string, username: string, id: number } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, createdAt: string, username: string, email: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } | null };
+
 
 export const LoginDocument = gql`
     mutation Login($password: String!, $usernameOrEmail: String!) {
@@ -213,4 +218,24 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const MeDocument = gql`
+    query Me {
+  me {
+    user {
+      id
+      createdAt
+      username
+      email
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
+
+export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
+  return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
 };
