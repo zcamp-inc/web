@@ -120,7 +120,7 @@ export type Post = {
 export type Query = {
   __typename?: 'Query';
   get?: Maybe<Comment>;
-  me?: Maybe<UserResponse>;
+  me?: Maybe<User>;
   trending: PaginatedPosts;
 };
 
@@ -166,6 +166,11 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', user?: { __typename?: 'User', createdAt: string, email: string, id: number, username: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
+
 export type RegisterMutationVariables = Exact<{
   options: UsernamePasswordInput;
 }>;
@@ -175,8 +180,9 @@ export type RegisterMutation = { __typename?: 'Mutation', register: { __typename
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
-
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, createdAt: string, username: string, email: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } | null };
+// You have to manually add optional tag to the profileImgUrl
+//  and isDisabled to allow cache exchange use both MeQuery and your Mutations
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled?: boolean, profileImgUrl?: string, email: string } | null };
 
 
 export const LoginDocument = gql`
@@ -198,6 +204,15 @@ export const LoginDocument = gql`
 
 export function useLoginMutation() {
   return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+};
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout
+}
+    `;
+
+export function useLogoutMutation() {
+  return Urql.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument);
 };
 export const RegisterDocument = gql`
     mutation Register($options: UsernamePasswordInput!) {
@@ -222,16 +237,12 @@ export function useRegisterMutation() {
 export const MeDocument = gql`
     query Me {
   me {
-    user {
-      id
-      createdAt
-      username
-      email
-    }
-    errors {
-      field
-      message
-    }
+    id
+    createdAt
+    username
+    isDisabled
+    profileImgUrl
+    email
   }
 }
     `;
