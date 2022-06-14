@@ -7,7 +7,7 @@ import theme from "../theme";
 import "@fontsource/rubik";
 import { createClient, dedupExchange, fetchExchange, Provider } from "urql";
 import { cacheExchange, QueryInput, Cache } from "@urql/exchange-graphcache";
-import { LoginMutation, MeDocument, MeQuery, RegisterMutation, UserResponse } from "../generated/graphql";
+import { LoginMutation, RegisterMutation, MeDocument, MeQuery, LogoutMutation } from "../generated/graphql";
 
 function betterUpdateQuery<Result, Query>(
   cache: Cache,
@@ -28,6 +28,15 @@ const client = createClient({
     cacheExchange({
       updates: {
         Mutation: {
+          logout: (_result, args, cache, info) => {
+            betterUpdateQuery<LogoutMutation, MeQuery>(
+              cache, 
+              { query: MeDocument },
+            _result,
+            () => ({ me: null })
+            );
+          },
+
           login: (_result, args, cache, info) => {
             betterUpdateQuery<LoginMutation, MeQuery >(
               cache, 
@@ -39,6 +48,7 @@ const client = createClient({
                 } else {
                   return {
                     me: result.login.user,
+                    callme: result.login.user
                   };
                 }
               }
@@ -56,6 +66,7 @@ const client = createClient({
                 } else {
                   return {
                     me: result.register.user,
+                    callme: result.register.user,
                   };
                 }
               }

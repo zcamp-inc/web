@@ -33,9 +33,7 @@ import {
   FiGitPullRequest,
 } from "react-icons/fi";
 import NavLink from "./NavLink";
-import { useMeQuery } from "../generated/graphql";
-
-
+import { useMeQuery, useLogoutMutation } from "../generated/graphql";
 
 const ProfileLinkItems = [
   { label: "Profile", icon: FiUser, href: "/" },
@@ -53,12 +51,12 @@ const MiscLinkItems = [
   { label: "Zcamp Ads", icon: FiDollarSign, href: "/" },
   { label: "Careers", icon: FiGitPullRequest, href: "/" },
   { label: "Display", icon: FiLayout, href: "/" },
-  { label: "Logout", href: "/login" },
 ];
 
 export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
   const router = useRouter();
-  const [{data}] = useMeQuery()
+  const [{ data }] = useMeQuery();
+  const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
 
   useEffect(() => {
     router.events.on("routeChangeComplete", onClose);
@@ -71,84 +69,76 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
     <DrawerBody>
       {/* {!isAuthenticated && (
         <NextLink href="/api/auth/signin" passHref>
-          <Button
-            onClick={(e: { preventDefault: () => void }) => {
-              e.preventDefault();
-              loginWithRedirect();
-            }}
-          >
-            {" "}
-            Login{" "}
-          </Button>
+         
         </NextLink>
       )} */}
 
-        <Box
-          transition="0.8s ease"
-          bg="white"
+      <Box transition="0.8s ease" bg="white" {...rest}>
+        <Flex h="20" alignItems="center" mx={2} justifyContent="space-between">
+          <Text fontWeight={600} fontSize={20}>
+            Account Info
+          </Text>
+          <CloseButton display="flex" onClick={onClose} />
+        </Flex>
 
-          {...rest}
+        <Box>
+          <VStack spacing="2" align="center" p={2} mb={3}>
+            <NextLink href="/" passHref>
+              <Stack align="center">
+                <Avatar src={data?.me?.profileImgUrl} size="md">
+                  {" "}
+                  <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
+                </Avatar>
+                <Text fontWeight={600}>{data?.me?.username}</Text>
+              </Stack>
+            </NextLink>
+            <HStack spacing={10}>
+              <Text>
+                204
+                <br /> Points
+              </Text>
+              <Text>
+                20k <br /> Upvotes
+              </Text>
+              <Badge colorScheme="green" ml={1} mr={4} variant="outline">
+                Fish
+              </Badge>
+            </HStack>
+          </VStack>
+          <Box></Box>
+        </Box>
+
+        {ProfileLinkItems.map((link, i) => (
+          <NavLink key={i} link={link} />
+        ))}
+        <Divider />
+
+        {ZLinkItems.map((link, i) => (
+          <NavLink key={i} link={link} />
+        ))}
+
+        <Divider />
+
+        {MiscLinkItems.map((link, i) => (
+          <NavLink key={i} link={link} />
+        ))}
+        <Button
+          onClick={() => {
+            logout();
+          }}
+          isLoading={logoutFetching}
+          variant="ghost"
+          mx={5}
+          borderRadius="lg"
+          color="#000a16"
+          fontWeight={500}
+          _hover={{ bg: "#DDB2FF", color: "#5E00AB", fontWeight: 600 }}
         >
-          <Flex
-            h="20"
-            alignItems="center"
-            mx={2}
-            justifyContent="space-between"
-          >
-            <Text fontWeight={600} fontSize={20}>
-              Account Info
-            </Text>
-            <CloseButton
-              display='flex'
-              onClick={onClose}
-            />
-          </Flex>
+          {" "}
+          Logout{" "}
+        </Button>
 
-          <Box>
-            <VStack spacing="2" align="center" p={2} mb={3}>
-              <NextLink href="/" passHref>
-                <Stack align="center">
-                  <Avatar size="md" >
-                    {" "}
-                    <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
-                  </Avatar>
-                  <Text fontWeight={600}>
-                    {data?.me?.user?.username}
-                  </Text>
-                </Stack>
-              </NextLink>
-              <HStack spacing={10}>
-                <Text>
-                  204
-                  <br /> Points
-                </Text>
-                <Text>
-                  20k <br /> Upvotes
-                </Text>
-                <Badge colorScheme="green" ml={1} mr={4} variant="outline">
-                  Fish
-                </Badge>
-              </HStack>
-            </VStack>
-            <Box></Box>
-          </Box>
-
-          {ProfileLinkItems.map((link, i) => (
-            <NavLink key={i} link={link} />
-          ))}
-          <Divider />
-
-          {ZLinkItems.map((link, i) => (
-            <NavLink key={i} link={link} />
-          ))}
-
-          <Divider />
-
-          {MiscLinkItems.map((link, i) => (
-            <NavLink key={i} link={link} />
-          ))}
-
-          {/* <Box
+        {/* <Box
           mt="5px"
           borderRadius="10px"
           p={{ base: 2, md: 0 }}
@@ -182,8 +172,7 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
             </VStack>
           </Box>
         </Box> */}
-        </Box>
-
+      </Box>
     </DrawerBody>
   );
 }

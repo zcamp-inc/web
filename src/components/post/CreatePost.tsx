@@ -39,10 +39,9 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
   const finalRef = React.useRef();
   const router = useRouter();
   const [{ data, fetching }] = useMeQuery();
-
   const [value, setValue] = React.useState('')
   const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => setValue(event.target.value)
-
+  
   let create = null;
   if (fetching) {
     create;
@@ -96,7 +95,7 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
           w={{ base: "full", md: "xl" }}
         >
           <Flex direction="row" px={2} pt={3}>
-            <Avatar size="md" ml={1} mr={5}>
+            <Avatar src={data?.me?.profileImgUrl} size="md" ml={1} mr={5}>
               {" "}
               <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
             </Avatar>

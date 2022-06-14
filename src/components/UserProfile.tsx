@@ -39,10 +39,11 @@ import { FiHome, FiSettings, FiBookmark, FiLogOut } from "react-icons/fi";
 import { RiHome7Fill, RiHome7Line } from "react-icons/ri";
 import React from "react";
 import { useRouter } from "next/router";
-import { useMeQuery } from "../generated/graphql";
+import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 
 export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
   const router = useRouter();
+  const [,logout] = useLogoutMutation();
   const [{ data, fetching }] = useMeQuery()
   
 
@@ -90,7 +91,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           //   bg: "#000a16",
           //   color: "white",
           // }}
-          mr={{ base: 0, md: 2 }}
+          
           bg={router.pathname === "/trending" ? "#8225CE" : "none"}
         >
           <IconButton
@@ -123,7 +124,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           cursor="pointer"
           color={router.pathname === "/explore" ? "white" : "#000a16"}
           
-          mr={{ base: 0, md: 2 }}
+         
           bg={router.pathname === "/explore" ? "#8225CE" : "none"}
         >
           <IconButton
@@ -243,7 +244,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
             p={2}
             display={{ base: "none", md: "flex" }}
           >
-            <Avatar size="sm" ml={1} mr={1}>
+            <Avatar src={data.me?.profileImgUrl} size="sm" ml={1} mr={1}>
               {" "}
               <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
             </Avatar>
@@ -256,7 +257,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
               spacing="1px"
             >
               <Text fontWeight={600} fontSize="0.9em">
-               {data.me.user?.username}
+               {data.me?.username}
               </Text>
               <Text fontSize="0.7rem">204 Points</Text>
             </VStack>
@@ -287,15 +288,16 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
             <MenuItem>FAQ</MenuItem>
           </MenuGroup>
           <MenuDivider />
-          <NextLink href="/login" passHref>
+          
             <MenuItem
-              icon={<FiLogOut />}
-              
-              // onClick={() => logout({ returnTo: window.location.origin })}
+              icon={<FiLogOut />}              
+              onClick={() => {
+                logout()
+              }}
             >
               Logout
             </MenuItem>
-          </NextLink>
+         
         </MenuList>
       </Menu>
     </Flex>
@@ -312,7 +314,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
       p={2}
       display={{ base: "flex", md: "none" }}
     >
-      <Avatar size="sm" ml={1} mr={1}>
+      <Avatar src={data.me?.profileImgUrl} size="sm" ml={1} mr={1}>
         {" "}
         <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
       </Avatar>
