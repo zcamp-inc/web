@@ -128,9 +128,6 @@ const Login: React.FC<LoginProps> = ({}) => {
               password: "",
             }}
             onSubmit={ async (values, {setErrors}) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-              }, 1000);
               console.log(values);
               const response = await login({ password: values.password, usernameOrEmail: values.usernameOrEmail })
               if( response.data?.login.errors ){

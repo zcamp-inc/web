@@ -7,36 +7,54 @@ import {
   Link,
   Stack,
   Text,
-  SimpleGrid
+  SimpleGrid,
+  Tabs, TabList, TabPanels, Tab, TabPanel 
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useState } from "react";
+import { data } from "../../data";
 import {Layout} from "../components/Layout";
+import FakePost from "../components/post/fakepost";
 import RightCard from "../components/RightCard";
 
 const Trending = () => {
   return (
     <Layout>
-      {/* <Box p={5} ml={{ base: 0, md: "50px" }}>
-        <Heading>This Trending text gg</Heading>
-        <Flex
-          display={{ base: "none", md: "flex" }}
-          justifyContent={{ base: "none", md: "flex-end" }}
-          mt={-10}
-        >
-          <RightBar />
+    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10}>
+      <Flex direction="column" ml={{ base: -10, md: -20 }}>
+        <Flex mb={5} justify='center'>
+          <Heading>Trends: Just for you</Heading>
+         
         </Flex>
-      </Box> */}
-       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={{ base: 0, md: -60 }}>
-        <Flex direction="column" justify='flex-start' ml={{ base: -10, md: -20 }}>
-         <Heading>Welcome to Trends</Heading>
-         Trends for you
-        </Flex>
-        <Box display={{ base: "none", md: "block" }}>
-          <RightCard />
-        </Box>
-      </SimpleGrid>
-    </Layout>
+        <Tabs align='center' isFitted>
+            <TabList>
+              <Tab>For You</Tab>
+              <Tab>Important</Tab>
+              <Tab>Events</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+              {data.map((postData, i) => (
+          <FakePost postData={postData} key={i} />
+        ))}
+        </TabPanel>
+        <TabPanel>
+          <Heading>No Important Posts for now</Heading>
+        </TabPanel>
+        <TabPanel>
+          <Heading>No Events for now</Heading>
+        </TabPanel>
+
+            </TabPanels>
+          </Tabs>
+      </Flex>
+      <Box display={{ base: "none", md: "block" }}>
+        
+        <RightCard />
+
+      </Box>
+    </SimpleGrid>
+  </Layout>
   );
 };
 

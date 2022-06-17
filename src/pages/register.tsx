@@ -131,9 +131,6 @@ const Register: React.FC<RegisterProps> = ({}) => {
               password: "",
             }}
             onSubmit={ async (values, {setErrors}) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-              }, 1000);
               console.log(values);
               const response = await register({options: values})
               if( response.data?.register.errors ){
