@@ -120,7 +120,7 @@ export type Post = {
 export type Query = {
   __typename?: 'Query';
   get?: Maybe<Comment>;
-  me?: Maybe<User>;
+  me?: Maybe<UserResponse>;
   trending: PaginatedPosts;
 };
 
@@ -158,13 +158,15 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
+export type RegUserFragment = { __typename?: 'User', id: number, username: string, email: string, createdAt: string };
+
 export type LoginMutationVariables = Exact<{
   password: Scalars['String'];
   usernameOrEmail: Scalars['String'];
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', user?: { __typename?: 'User', createdAt: string, email: string, id: number, username: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -176,23 +178,26 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: { __typename?: 'User', createdAt: string, email: string, username: string, id: number } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
-// You have to manually add optional tag to the profileImgUrl
-//  and isDisabled to allow cache exchange use both MeQuery and your Mutations
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled?: boolean, profileImgUrl?: string, email: string } | null };
 
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'UserResponse', user?: { __typename?: 'User', profileImgUrl: string, isDisabled: boolean, id: number, username: string, email: string, createdAt: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } | null };
 
+export const RegUserFragmentDoc = gql`
+    fragment RegUser on User {
+  id
+  username
+  email
+  createdAt
+}
+    `;
 export const LoginDocument = gql`
     mutation Login($password: String!, $usernameOrEmail: String!) {
   login(password: $password, usernameOrEmail: $usernameOrEmail) {
     user {
-      createdAt
-      email
-      id
-      username
+      ...RegUser
     }
     errors {
       field
@@ -200,7 +205,7 @@ export const LoginDocument = gql`
     }
   }
 }
-    `;
+    ${RegUserFragmentDoc}`;
 
 export function useLoginMutation() {
   return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
@@ -218,10 +223,7 @@ export const RegisterDocument = gql`
     mutation Register($options: UsernamePasswordInput!) {
   register(options: $options) {
     user {
-      createdAt
-      email
-      username
-      id
+      ...RegUser
     }
     errors {
       field
@@ -229,7 +231,7 @@ export const RegisterDocument = gql`
     }
   }
 }
-    `;
+    ${RegUserFragmentDoc}`;
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
@@ -237,15 +239,18 @@ export function useRegisterMutation() {
 export const MeDocument = gql`
     query Me {
   me {
-    id
-    createdAt
-    username
-    isDisabled
-    profileImgUrl
-    email
+    user {
+      ...RegUser
+      profileImgUrl
+      isDisabled
+    }
+    errors {
+      field
+      message
+    }
   }
 }
-    `;
+    ${RegUserFragmentDoc}`;
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });

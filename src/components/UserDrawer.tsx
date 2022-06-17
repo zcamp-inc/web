@@ -85,11 +85,11 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
           <VStack spacing="2" align="center" p={2} mb={3}>
             <NextLink href="/" passHref>
               <Stack align="center">
-                <Avatar src={data?.me?.profileImgUrl} size="md">
+                <Avatar src={data?.me?.user?.profileImgUrl} size="md">
                   {" "}
                   <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
                 </Avatar>
-                <Text fontWeight={600}>{data?.me?.username}</Text>
+                <Text fontWeight={600}>{data?.me?.user?.username}</Text>
               </Stack>
             </NextLink>
             <HStack spacing={10}>

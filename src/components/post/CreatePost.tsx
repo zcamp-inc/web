@@ -95,7 +95,7 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
           w={{ base: "full", md: "xl" }}
         >
           <Flex direction="row" px={2} pt={3}>
-            <Avatar src={data?.me?.profileImgUrl} size="md" ml={1} mr={5}>
+            <Avatar src={data?.me?.user?.profileImgUrl} size="md" ml={1} mr={5}>
               {" "}
               <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
             </Avatar>
@@ -169,11 +169,11 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
             <ModalCloseButton />
             <ModalBody pb={6}>
               <Flex align='center'>
-                <Avatar size="md" ml={1} mr={2}>
+                <Avatar src={data.me.user?.profileImgUrl} size="md" ml={1} mr={2}>
                   {" "}
                   <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
                 </Avatar>
-                <Text fontWeight={600} fontSize={20}>{data.me.username}</Text>
+                <Text fontWeight={600} fontSize={20}>{data.me.user?.username}</Text>
               </Flex>
               <Box mt={2} w={40}>
                 <Select placeholder="Everybody">

@@ -244,7 +244,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
             p={2}
             display={{ base: "none", md: "flex" }}
           >
-            <Avatar src={data.me?.profileImgUrl} size="sm" ml={1} mr={1}>
+            <Avatar src={data.me?.user?.profileImgUrl} size="sm" ml={1} mr={1}>
               {" "}
               <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
             </Avatar>
@@ -257,7 +257,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
               spacing="1px"
             >
               <Text fontWeight={600} fontSize="0.9em">
-               {data.me?.username}
+               {data.me?.user?.username}
               </Text>
               <Text fontSize="0.7rem">204 Points</Text>
             </VStack>
@@ -314,7 +314,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
       p={2}
       display={{ base: "flex", md: "none" }}
     >
-      <Avatar src={data.me?.profileImgUrl} size="sm" ml={1} mr={1}>
+      <Avatar src={data.me?.user?.profileImgUrl} size="sm" ml={1} mr={1}>
         {" "}
         <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
       </Avatar>
