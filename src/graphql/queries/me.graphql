@@ -1,0 +1,14 @@
+query Me {
+  me {
+    user{
+      ...RegUser
+      profileImgUrl
+      isDisabled  
+      
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
