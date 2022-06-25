@@ -13,35 +13,12 @@ import {
 } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import PostInteraction from "../PostInteraction";
-import { CreatePost } from "./CreatePost";
 
 interface FakePostProps {
   postData: any;
-  // title: string;
-  // img?: string;
-  // user: string;
-  // avatar: string;
-  // createdAt: string;
-  // flair: string;
-  // group: string;
 }
 
 const FakePost: React.FC<FakePostProps> = ({ postData }) => {
-  // const postprops = {
-  //   imageUrl:
-  //     "https://media.istockphoto.com/photos/multi_ethnic-teenagers-taking-a-self-portrait-stock-photo-picture-id1184216653?k=20&m=1184216653&s=612x612&w=0&h=T6xt_a6r-fmG0l3dzX-EHbVPQkJQeY-VX4zb7skIbPQ=",
-  //   image2Url:
-  //     "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-  //   imageAlt: "A completely random image posted by user",
-  //   upvotes: 400,
-  //   comments: 20,
-  //   title: "After class today, soo tired",
-  //   title2: "Me and my gang 😎",
-  //   fakeImage: "/fakeimages/fakeland.jpg",
-  //   fakeTitle: "I spent 23hrs drawing this, hope y'all like it",
-  //   fake2Image: "/fakeimages/trentvpep.jpg",
-  //   fake2Title: "My two favorite people in soccer🥰🤩",
-  // };
   const {
     title,
     imageUrl,

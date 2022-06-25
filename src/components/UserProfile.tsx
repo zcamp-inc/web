@@ -52,7 +52,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
   let iconbutton = null;
   if (fetching){
     head
-  } else if(!data?.me){
+  } else if(!data?.me?.user){
     head = (
       <>
       <NextLink href='/login'>
@@ -242,6 +242,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
             align="center"
             cursor="pointer"
             p={2}
+            pr={2}
             display={{ base: "none", md: "flex" }}
           >
             <Avatar src={data.me?.user?.profileImgUrl} size="sm" ml={1} mr={1}>
@@ -250,8 +251,6 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
             </Avatar>
             <VStack
               flexDir="column"
-              // ml={2}
-              // mr={1}
               display={{ base: "none", md: "flex" }}
               alignItems="flex-start"
               spacing="1px"
@@ -262,9 +261,6 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
               <Text fontSize="0.7rem">204 Points</Text>
             </VStack>
             <Box display={{ base: "none", md: "flex" }}>
-              {/* <Badge colorScheme="green" ml={1} mr={4} variant="outline">
-                  Fish
-                </Badge> */}
               <IoCaretDown />
             </Box>
           </HStack>
@@ -396,7 +392,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         variant="ghost"
         display={{ base: "none", md: "flex" }}
         onClick={onOpen}
-        isDisabled ={ !data?.me ? true: false }
+        isDisabled ={ !data?.me?.user ? true: false }
       />
 
       {/* Mobile View Avatar */}

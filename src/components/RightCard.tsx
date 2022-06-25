@@ -10,45 +10,20 @@ import {
   Stack,
   Link,
   DrawerBody,
+  Avatar,
+  AvatarBadge,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { Key } from "react";
+import { useMeQuery } from "../generated/graphql";
+import { TopGroups } from "../hooks/topGroups";
 
 export default function RightCard() {
-  return (
+  const [{ data }] = useMeQuery();
 
-    <>
-      <Box borderRadius="10px" px={1} pt={1} mb={2}>
-        <Box bg="#000a16" borderRadius="10px" pb={3} w={80}>
-          <Flex borderRadius="10px 10px 0 0">
-            <img src="/rewavy.png" width="100%" />
-          </Flex>
-          <Flex ml={5} mt={2}>
-            <Text color="white" fontWeight={400} fontSize={14} w={56}>
-              Discover new camps, join and interact with campers.
-              <br /> Define your homefeed with your favorite camps
-            </Text>
-          </Flex>
-          <VStack mt={2}>
-            <Button
-              w={40}
-              color="#000a16"
-              bg="#57FFF5"
-              _hover={{ bg: "#57FFF5", color: "#000a16" }}
-            >
-              Create Post
-            </Button>
-            <Button
-              w={40}
-              variant="outline"
-              color="#57FFF5"
-              outlineColor="#57FFF5"
-              _hover={{ bg: "#57FFF5", color: "#000a16" }}
-            >
-              Create Subcamp
-            </Button>
-          </VStack>
-        </Box>
-      </Box>
+  return (
+    <Stack spacing={4} direction="column">
+      <TopGroups />
 
       <Box borderRadius="10px" px={1} pt={1} mb={3}>
         <Box bg="#000a16" borderRadius="10px" pb={3} w={80}>
@@ -103,7 +78,6 @@ export default function RightCard() {
           </NextLink>
         </Box>
       </Flex>
-    </>
-
+    </Stack>
   );
 }

@@ -1,0 +1,11 @@
+query GetGroups {
+  getGroups {
+    id
+    name
+    createdAt
+    description
+    isDisabled
+    logoImgUrl
+    bannerImgUrl
+  }
+}

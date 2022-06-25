@@ -3,4 +3,6 @@ fragment RegUser on User{
     username
     email
     createdAt
+    profileImgUrl
+    isDisabled
 }

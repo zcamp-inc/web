@@ -34,9 +34,7 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
     onOpen: onTextOpen,
     onClose: onTextClose,
   } = useDisclosure();
-  
-  const initialRef = React.useRef();
-  const finalRef = React.useRef();
+
   const router = useRouter();
   const [{ data, fetching }] = useMeQuery();
   const [value, setValue] = React.useState('')
@@ -45,7 +43,7 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
   let create = null;
   if (fetching) {
     create;
-  } else if (!data?.me) {
+  } else if (!data?.me?.user) {
     create = (
       <>
         <Box
@@ -169,11 +167,11 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
             <ModalCloseButton />
             <ModalBody pb={6}>
               <Flex align='center'>
-                <Avatar src={data.me.user?.profileImgUrl} size="md" ml={1} mr={2}>
+                <Avatar src={data?.me.user?.profileImgUrl} size="md" ml={1} mr={2}>
                   {" "}
                   <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
                 </Avatar>
-                <Text fontWeight={600} fontSize={20}>{data.me.user?.username}</Text>
+                <Text fontWeight={600} fontSize={20}>{data?.me.user?.username}</Text>
               </Flex>
               <Box mt={2} w={40}>
                 <Select placeholder="Everybody">

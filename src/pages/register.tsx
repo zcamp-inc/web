@@ -20,13 +20,8 @@ import {
 } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import NextLink from "next/link";
-import { Formik, Field, Form, FormikHelpers } from "formik";
+import { Formik, Form } from "formik";
 import { useState } from "react";
-import {
-  validateName,
-  validateEmail,
-  validatePass,
-} from "../validators/usernamepass";
 import { InputField } from "../components/InputField";
 import { useRegisterMutation } from "../generated/graphql";
 import { toErrorMap } from "../utils/toErrorMap";
@@ -133,9 +128,9 @@ const Register: React.FC<RegisterProps> = ({}) => {
             onSubmit={ async (values, {setErrors}) => {
               console.log(values);
               const response = await register({options: values})
-              if( response.data?.register.errors ){
-                setErrors(toErrorMap(response.data?.register.errors));
-              } else if (response.data?.register.user){
+              if( response.data?.registerUser.errors ){
+                setErrors(toErrorMap(response.data?.registerUser.errors));
+              } else if (response.data?.registerUser.user){
                 router.push("/")
               }
             }}

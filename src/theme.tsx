@@ -1,4 +1,4 @@
-import { background, extendTheme } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 import { BottomNavigationStyleConfig } from "chakra-ui-bottom-navigation";
 // import "@fontsource/karla";
 import "@fontsource/rubik";
@@ -20,7 +20,7 @@ const theme = extendTheme({
     breakpoints,
     components: {
         BottomNavigation: BottomNavigationStyleConfig,
-        Button: { baseStyle: {_focus: { boxShadow: 'none'}}}
+        Button: { baseStyle: {_focus: { boxShadow: 'none'}}}       
     },
     styles:{
         global: {

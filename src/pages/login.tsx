@@ -26,7 +26,7 @@ import { useState } from "react";
 import { useLoginMutation } from "../generated/graphql";
 import { InputField } from "../components/InputField";
 import { toErrorMap } from "../utils/toErrorMap";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 
 const activeLabelStyles = {
@@ -130,9 +130,9 @@ const Login: React.FC<LoginProps> = ({}) => {
             onSubmit={ async (values, {setErrors}) => {
               console.log(values);
               const response = await login({ password: values.password, usernameOrEmail: values.usernameOrEmail })
-              if( response.data?.login.errors ){
-                setErrors(toErrorMap(response.data?.login.errors));
-              } else if( response.data?.login.user){
+              if( response.data?.loginUser.errors ){
+                setErrors(toErrorMap(response.data?.loginUser.errors));
+              } else if( response.data?.loginUser.user){
                 router.push("/")
               }
             }}

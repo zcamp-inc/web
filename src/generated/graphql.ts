@@ -43,55 +43,95 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+export type Group = {
+  __typename?: 'Group';
+  bannerImgUrl: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['Float'];
+  isDisabled: Scalars['Boolean'];
+  logoImgUrl: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  create: CommentResponse;
-  delete: Scalars['Boolean'];
-  login: UserResponse;
-  logout: Scalars['Boolean'];
-  register: UserResponse;
-  save: Scalars['Boolean'];
-  seed: Scalars['String'];
-  update: CommentResponse;
-  vote: Scalars['Boolean'];
+  createComment: CommentResponse;
+  createPost: PostResponse;
+  deleteComment: Scalars['Boolean'];
+  deletePost: Scalars['Boolean'];
+  loginUser: UserResponse;
+  logoutUser: Scalars['Boolean'];
+  registerUser: UserResponse;
+  savePost: Scalars['Boolean'];
+  seedUniversities: Scalars['String'];
+  updateComment: CommentResponse;
+  updatePost: PostResponse;
+  voteComment: Scalars['Boolean'];
+  votePost: Scalars['Boolean'];
 };
 
 
-export type MutationCreateArgs = {
+export type MutationCreateCommentArgs = {
   body?: InputMaybe<Scalars['String']>;
   parentCommentId?: InputMaybe<Scalars['Int']>;
   postId: Scalars['Int'];
 };
 
 
-export type MutationDeleteArgs = {
+export type MutationCreatePostArgs = {
+  body?: InputMaybe<Scalars['String']>;
+  groupId: Scalars['Float'];
+  title: Scalars['String'];
+};
+
+
+export type MutationDeleteCommentArgs = {
   id: Scalars['Float'];
 };
 
 
-export type MutationLoginArgs = {
+export type MutationDeletePostArgs = {
+  id: Scalars['Float'];
+};
+
+
+export type MutationLoginUserArgs = {
   password: Scalars['String'];
   usernameOrEmail: Scalars['String'];
 };
 
 
-export type MutationRegisterArgs = {
+export type MutationRegisterUserArgs = {
   options: UsernamePasswordInput;
 };
 
 
-export type MutationSaveArgs = {
+export type MutationSavePostArgs = {
   id: Scalars['Int'];
 };
 
 
-export type MutationUpdateArgs = {
+export type MutationUpdateCommentArgs = {
   body: Scalars['String'];
   id: Scalars['Int'];
 };
 
 
-export type MutationVoteArgs = {
+export type MutationUpdatePostArgs = {
+  body?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationVoteCommentArgs = {
+  id: Scalars['Int'];
+  value: Scalars['Float'];
+};
+
+
+export type MutationVotePostArgs = {
   id: Scalars['Int'];
   value: Scalars['Float'];
 };
@@ -117,23 +157,49 @@ export type Post = {
   wasEdited: Scalars['Boolean'];
 };
 
+export type PostResponse = {
+  __typename?: 'PostResponse';
+  errors?: Maybe<Array<FieldError>>;
+  post?: Maybe<Post>;
+};
+
 export type Query = {
   __typename?: 'Query';
-  get?: Maybe<Comment>;
+  getComment?: Maybe<Comment>;
+  getGroups: Array<Group>;
+  getPost?: Maybe<Post>;
+  getUniversities: Array<University>;
   me?: Maybe<UserResponse>;
-  trending: PaginatedPosts;
+  topGroups: Array<Group>;
+  trendingPosts: PaginatedPosts;
 };
 
 
-export type QueryGetArgs = {
+export type QueryGetCommentArgs = {
   id: Scalars['Float'];
 };
 
 
-export type QueryTrendingArgs = {
+export type QueryGetPostArgs = {
+  id: Scalars['Float'];
+};
+
+
+export type QueryTrendingPostsArgs = {
   cursor: Scalars['Int'];
   limit: Scalars['Int'];
   sortBy?: InputMaybe<Scalars['String']>;
+};
+
+export type University = {
+  __typename?: 'University';
+  bannerImgUrl: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['Float'];
+  isDisabled: Scalars['Boolean'];
+  logoImgUrl: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type User = {
@@ -158,7 +224,7 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
-export type RegUserFragment = { __typename?: 'User', id: number, username: string, email: string, createdAt: string };
+export type RegUserFragment = { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean };
 
 export type LoginMutationVariables = Exact<{
   password: Scalars['String'];
@@ -166,24 +232,39 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type LoginMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
+export type LogoutMutation = { __typename?: 'Mutation', logoutUser: boolean };
 
 export type RegisterMutationVariables = Exact<{
   options: UsernamePasswordInput;
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type RegisterMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+
+export type GetGroupsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetGroupsQuery = { __typename?: 'Query', getGroups: Array<{ __typename?: 'Group', id: number, name: string, createdAt: any, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
+
+export type GetUniversitiesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUniversitiesQuery = { __typename?: 'Query', getUniversities: Array<{ __typename?: 'University', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'UserResponse', user?: { __typename?: 'User', profileImgUrl: string, isDisabled: boolean, id: number, username: string, email: string, createdAt: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } | null };
+
+export type TopGroupsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TopGroupsQuery = { __typename?: 'Query', topGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
 
 export const RegUserFragmentDoc = gql`
     fragment RegUser on User {
@@ -191,11 +272,13 @@ export const RegUserFragmentDoc = gql`
   username
   email
   createdAt
+  profileImgUrl
+  isDisabled
 }
     `;
 export const LoginDocument = gql`
     mutation Login($password: String!, $usernameOrEmail: String!) {
-  login(password: $password, usernameOrEmail: $usernameOrEmail) {
+  loginUser(password: $password, usernameOrEmail: $usernameOrEmail) {
     user {
       ...RegUser
     }
@@ -212,7 +295,7 @@ export function useLoginMutation() {
 };
 export const LogoutDocument = gql`
     mutation Logout {
-  logout
+  logoutUser
 }
     `;
 
@@ -221,7 +304,7 @@ export function useLogoutMutation() {
 };
 export const RegisterDocument = gql`
     mutation Register($options: UsernamePasswordInput!) {
-  register(options: $options) {
+  registerUser(options: $options) {
     user {
       ...RegUser
     }
@@ -236,13 +319,45 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
+export const GetGroupsDocument = gql`
+    query GetGroups {
+  getGroups {
+    id
+    name
+    createdAt
+    description
+    isDisabled
+    logoImgUrl
+    bannerImgUrl
+  }
+}
+    `;
+
+export function useGetGroupsQuery(options?: Omit<Urql.UseQueryArgs<GetGroupsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetGroupsQuery>({ query: GetGroupsDocument, ...options });
+};
+export const GetUniversitiesDocument = gql`
+    query GetUniversities {
+  getUniversities {
+    id
+    createdAt
+    name
+    description
+    isDisabled
+    logoImgUrl
+    bannerImgUrl
+  }
+}
+    `;
+
+export function useGetUniversitiesQuery(options?: Omit<Urql.UseQueryArgs<GetUniversitiesQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetUniversitiesQuery>({ query: GetUniversitiesDocument, ...options });
+};
 export const MeDocument = gql`
     query Me {
   me {
     user {
       ...RegUser
-      profileImgUrl
-      isDisabled
     }
     errors {
       field
@@ -254,4 +369,21 @@ export const MeDocument = gql`
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const TopGroupsDocument = gql`
+    query TopGroups {
+  topGroups {
+    id
+    createdAt
+    name
+    description
+    isDisabled
+    logoImgUrl
+    bannerImgUrl
+  }
+}
+    `;
+
+export function useTopGroupsQuery(options?: Omit<Urql.UseQueryArgs<TopGroupsQueryVariables>, 'query'>) {
+  return Urql.useQuery<TopGroupsQuery>({ query: TopGroupsDocument, ...options });
 };

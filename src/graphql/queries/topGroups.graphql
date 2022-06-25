@@ -1,0 +1,11 @@
+query TopGroups {
+    topGroups {
+      id
+      createdAt
+      name
+      description
+      isDisabled
+      logoImgUrl
+      bannerImgUrl
+    }
+  }

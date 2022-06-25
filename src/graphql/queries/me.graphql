@@ -1,10 +1,7 @@
 query Me {
   me {
     user{
-      ...RegUser
-      profileImgUrl
-      isDisabled  
-      
+      ...RegUser  
     }
     errors {
       field
