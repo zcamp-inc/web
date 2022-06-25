@@ -32,6 +32,13 @@ const activeLabelStyles = {
 };
 
 export const theme = extendTheme({
+  styles:{
+    global: {
+        'html, body': {
+            bg: 'gray.200'
+        }
+    }
+},
   components: {
     Form: {
       variants: {
@@ -51,7 +58,7 @@ export const theme = extendTheme({
               left: 0,
               zIndex: 2,
               position: "absolute",
-              backgroundColor: "white",
+              backgroundColor: "gray.200",
               pointerEvents: "none",
               mx: 3,
               px: 1,
@@ -75,7 +82,7 @@ const Register: React.FC<RegisterProps> = ({}) => {
   const router = useRouter()
 
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme} >
       <Flex justifyContent="center" mt={5} p={5}>
         <NextLink href="/">
           <img src="/signuppic.png" width="500vh" alt="signup_banner" />
@@ -88,6 +95,7 @@ const Register: React.FC<RegisterProps> = ({}) => {
         border={["none"]}
         borderRadius={10}
         alignSelf="center"
+        
       >
         <HStack
           spacing={1}

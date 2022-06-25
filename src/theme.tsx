@@ -13,7 +13,7 @@ const breakpoints = {
   }
 
 const theme = extendTheme({
-    fonts: {
+        fonts: {
         heading: 'Nunito',
         body: 'Nunito',       
     },

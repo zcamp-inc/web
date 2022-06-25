@@ -34,6 +34,13 @@ const activeLabelStyles = {
 };
 
 export const theme = extendTheme({
+  styles:{
+    global: {
+        'html, body': {
+            bg: 'gray.200'
+        }
+    }
+},
   components: {
     Form: {
       variants: {
@@ -53,7 +60,7 @@ export const theme = extendTheme({
               left: 0,
               zIndex: 2,
               position: "absolute",
-              backgroundColor: "white",
+              backgroundColor: "gray.200",
               pointerEvents: "none",
               mx: 3,
               px: 1,
