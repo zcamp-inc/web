@@ -26,9 +26,9 @@ const Trending = () => {
     <Layout>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10}>
         <Flex direction="column" ml={{ base: -10, md: -20 }}>
-          <Flex mb={5} justify="center">
+          {/* <Flex mb={5} justify="center">
             <Heading>Trends: Just for you</Heading>
-          </Flex>
+          </Flex> */}
           <Tabs isFitted >
             <TabList>
               <Tab>For You</Tab>
