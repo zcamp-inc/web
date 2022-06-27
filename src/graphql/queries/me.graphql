@@ -4,8 +4,7 @@ query Me {
       ...RegUser  
     }
     errors {
-      field
-      message
+      ...RegError
     }
   }
 }
