@@ -37,7 +37,7 @@ export const theme = extendTheme({
   styles:{
     global: {
         'html, body': {
-            bg: 'gray.200'
+            bg: 'white'
         }
     }
 },
@@ -60,7 +60,7 @@ export const theme = extendTheme({
               left: 0,
               zIndex: 2,
               position: "absolute",
-              backgroundColor: "gray.200",
+              backgroundColor: "white",
               pointerEvents: "none",
               mx: 3,
               px: 1,
@@ -166,7 +166,14 @@ const Login: React.FC<LoginProps> = ({}) => {
                       </Button>
                     </InputRightElement>
                   </InputGroup>
-                </Box>         
+                </Box>   
+
+                <Flex mt={2} justify='end'>
+                <NextLink href="/forgot-password">
+                  <Link color="#000a16" _hover={{ color: "#6bb2ae" }}> Forgot Password? </Link>
+                </NextLink> 
+                </Flex>    
+
 
                 <Flex alignSelf="center">
                   <Button
@@ -191,7 +198,7 @@ const Login: React.FC<LoginProps> = ({}) => {
                   >
                     Not yet a member? {" "}
                     <NextLink href="/register" passHref>
-                      <Link color="#9afff9" _hover={{ color: "#6bb2ae" }}>
+                      <Link color="#000a16" _hover={{ color: "#6bb2ae" }}>
                         {" "}
                         Register
                       </Link>
