@@ -1,0 +1,14 @@
+mutation CreatePost($title: String!, $body: String, $postFlair: String) {
+  createPost(title: $title, body: $body, postFlair: $postFlair) {
+    errors {
+      message
+      field
+    }
+    post {
+      ...RegPost
+      creator {
+       ...RegUser
+      }
+    }
+  }
+}

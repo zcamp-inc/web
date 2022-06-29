@@ -1,0 +1,8 @@
+query GetPost($getPostId: Float!) {
+  getPost(id: $getPostId) {
+    ...RegPost
+    creator {
+      ...RegUser
+    }
+  }
+}

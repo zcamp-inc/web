@@ -1,0 +1,11 @@
+fragment RegPost on Post{
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      voteCount
+      wasEdited
+      bodySnippet
+}
