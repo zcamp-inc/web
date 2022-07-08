@@ -364,8 +364,7 @@ const Explore: React.FC<ExploreProps> = () => {
                   <Heading
                     fontSize={30}
                     alignContent="center"
-                    bgGradient="linear(to-l, #7928CA, #FF0080)"
-                    bgClip="text"
+                    
                   >
                     No Posts for now
                   </Heading>
@@ -379,8 +378,7 @@ const Explore: React.FC<ExploreProps> = () => {
                   <Heading
                     fontSize={30}
                     alignContent="center"
-                    bgGradient="linear(to-l, #7928CA, #FF0080)"
-                    bgClip="text"
+                   
                   >
                     No Hot Trends for now
                   </Heading>
@@ -394,8 +392,7 @@ const Explore: React.FC<ExploreProps> = () => {
                   <Heading
                     fontSize={30}
                     alignContent="center"
-                    bgGradient="linear(to-l, #7928CA, #FF0080)"
-                    bgClip="text"
+                   
                   >
                     No Events for now
                   </Heading>

@@ -18,7 +18,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 export const InputField: React.FC<InputFieldProps> = ({ label, textarea, size:_, ...props}) => {
   let InputOrTextArea = Input;
   if (textarea){
-    InputOrTextArea = Textarea;
+    InputOrTextArea = Textarea as any;
   }
 
   const [field, { error }] = useField(props);
