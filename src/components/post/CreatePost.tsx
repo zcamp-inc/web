@@ -24,10 +24,9 @@ import {
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
-import { IoImage, IoImageOutline, IoLinkOutline, IoList } from "react-icons/io5";
+import { IoImageOutline, IoLinkOutline } from "react-icons/io5";
 import {
   useCreatePostMutation,
-  useGetUserGroupsMutation,
   useMeQuery,
   useTopGroupsQuery,
 } from "../../generated/graphql";
@@ -50,7 +49,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
     setValue(event.target.value);
 
   const [, createpost] = useCreatePostMutation();
-  const UserGroup = getUserGroup();
+  const UserGroup = GetUserGroup();
 
   let create = null;
   if (fetching) {
@@ -253,7 +252,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 
 export default CreatePost;
 
-export const getUserGroup = () => {
+export const GetUserGroup = () => {
   const [{ data }] = useTopGroupsQuery();
   return data;
 };

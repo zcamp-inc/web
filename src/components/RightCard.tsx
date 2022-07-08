@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { Key } from "react";
-import { TopGroups } from "./topGroups";
+import { TopGroups } from "./TopGroups";
 
 export default function RightCard() {
   return (

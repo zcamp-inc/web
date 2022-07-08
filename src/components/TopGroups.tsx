@@ -11,11 +11,8 @@ import {
   Button,
   Image,
   Avatar,
-  Skeleton,
-  SkeletonCircle,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { UseQueryArgs } from "urql";
 
 interface TopGroupProps {
 }
@@ -23,7 +20,7 @@ interface TopGroupProps {
 export const TopGroups: React.FC<TopGroupProps> = () => {
   const [{ data }] = useTopGroupsQuery();
   const [, join] = useJoinGroupMutation();
-  const userGroup = usergroup()
+  const userGroup = UserGroup()
   const range=[ 0, 1, 2, 3];
 
   const [buttonText, setButtonText] = useState("Join")
@@ -120,7 +117,7 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
   );
 };
 
-const usergroup = () => {
+const UserGroup = () => {
   const [{data}] = useGetUserGroupsMutation();
   return data;
 }

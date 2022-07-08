@@ -40,7 +40,7 @@ const Index: React.FC<IndexProps> = () => {
     },
   });
 
-  const me = meQuery()
+  const me = MeQuery()
   let reme = null;
   if(!me?.me?.user){
     reme = (
@@ -204,7 +204,7 @@ const Index: React.FC<IndexProps> = () => {
 
 export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
 
-export const meQuery = () => {
+export const MeQuery = () => {
   const [{ data, fetching }] = useMeQuery();
   return data;
 }
