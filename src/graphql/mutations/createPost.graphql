@@ -1,13 +1,13 @@
-mutation CreatePost($title: String!, $body: String, $postFlair: String) {
-  createPost(title: $title, body: $body, postFlair: $postFlair) {
+mutation CreatePost($groupId: Float!, $title: String!, $body: String) {
+  createPost(groupId: $groupId, title: $title, body: $body) {
     errors {
-      message
       field
+      message
     }
     post {
-      ...RegPost
+     ...RegPost
       creator {
-       ...RegUser
+        ...RegUser
       }
     }
   }

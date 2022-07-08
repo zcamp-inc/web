@@ -86,9 +86,9 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           borderRadius="md"
           role="group"
           cursor="pointer"
-          color={router.pathname === "/trending" ? "white" : "#000a16"}
+          color={router.pathname === "/trending" ? "white" : "gray.700"}
           // _hover={{
-          //   bg: "#000a16",
+          //   bg: "gray.700",
           //   color: "white",
           // }}
           
@@ -122,7 +122,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           borderRadius="md"
           role="group"
           cursor="pointer"
-          color={router.pathname === "/explore" ? "white" : "#000a16"}
+          color={router.pathname === "/explore" ? "white" : "gray.700"}
           
          
           bg={router.pathname === "/explore" ? "#8225CE" : "none"}
@@ -155,7 +155,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           borderRadius="md"
           role="group"
           cursor="pointer"
-          color={router.pathname === "/messages" ? "white" : "#000a16"}
+          color={router.pathname === "/messages" ? "white" : "gray.700"}
           
           mr={{ base: 0, md: 2 }}
           bg={router.pathname === "/messages" ? "#8225CE" : "none"}
@@ -188,7 +188,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           borderRadius="md"
           role="group"
           cursor="pointer"
-          color={router.pathname === "/notifications" ? "white" : "#000a16"}
+          color={router.pathname === "/notifications" ? "white" : "gray.700"}
           
           mr={{ base: 0, md: 2 }}
           bg={router.pathname === "/notifications" ? "#8225CE" : "none"}
@@ -268,7 +268,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         <MenuList
           // fontSize="md"
           bg="white"
-          color="#000a16"
+          color="gray.700"
           borderColor="gray.200"
           display={{ base: "none", md: "block" }}
           mt={-2}
@@ -341,13 +341,12 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
 
   return (
     <HStack spacing={{ base: "0", md: "3" }} ml={1}>
-      <NextLink href="/" passHref>
         <Flex
           align="center"
           borderRadius="md"
           role="group"
           cursor="pointer"
-          color={router.pathname === "/" ? "white" : "#000a16"}
+          color={router.pathname === "/" ? "white" : "gray.700"}
           // _hover={{
           //   // bg: "#DDB2FF",
           //   color: "white",
@@ -355,6 +354,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           // }}
           mr={{ base: 0, md: 2 }}
           bg={router.pathname === "/" ? "#8225CE" : "none"}
+          onClick={() => router.push('/')}
         >
           <IconButton
             icon={router.pathname === "/" ? <RiHome7Fill /> : <RiHome7Line />}
@@ -376,7 +376,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
             Home
           </Text>
         </Flex>
-      </NextLink>
+
       <Flex>
         { iconbutton }
       </Flex>

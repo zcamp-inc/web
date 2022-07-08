@@ -13,15 +13,21 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  IconButton,
+  useTab,
 } from "@chakra-ui/react";
+import React from "react";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { data } from "../../data";
 import { Layout } from "../components/Layout";
 import FakePost from "../components/post/fakepost";
 import RightCard from "../components/RightCard";
+import { IoHeartCircleOutline, IoInformationCircleOutline, IoNotificationsCircleOutline } from "react-icons/io5";
 
 const Trending = () => {
+  const router = useRouter();
   return (
     <Layout>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10}>
@@ -29,11 +35,95 @@ const Trending = () => {
           {/* <Flex mb={5} justify="center">
             <Heading>Trends: Just for you</Heading>
           </Flex> */}
-          <Tabs isFitted >
-            <TabList>
-              <Tab>For You</Tab>
-              <Tab>Important</Tab>
-              <Tab>Events</Tab>
+          <Tabs isFitted variant="unstyled">
+            <TabList
+              bg="white"
+              mb={3}
+              borderRadius="md"
+              fontWeight={600}
+              color="gray.500"
+            >
+              <Tab _selected={{ color: "#ff3333" }}>
+                <Flex
+                  align="center"
+                  borderRadius="md"
+                  role="group"
+                  cursor="pointer"
+                  _hover={{
+                    bg: "gray.200",
+                  }}
+                  mr={{ base: 0, md: 2 }}                  
+                >
+                  <IconButton
+                    icon={<IoHeartCircleOutline />}
+                    borderRadius="md"
+                    fontSize={{ base: 24, md: 26 }}
+                    // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
+                    _hover={{ color: "none", bg: "none" }}
+                    aria-label="Home"
+                    variant="ghost"
+                  />
+                  <Text ml="1" pr={2}>
+                    For You
+                  </Text>
+                </Flex>
+              </Tab>
+
+              <Tab _selected={{ color: "#8225CE"}}>
+              <Flex
+                  align="center"
+                  borderRadius="md"
+                  role="group"
+                  cursor="pointer"
+                  _hover={{
+                    bg: "gray.200",
+                  }}
+                  mr={{ base: 0, md: 2 }}
+                  bg={router.pathname === "/" ? "#8225CE" : "none"}
+                  
+                >
+                  <IconButton
+                    icon={<IoInformationCircleOutline />}
+                    borderRadius="md"
+                    fontSize={{ base: 24, md: 26 }}
+                    // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
+                    _hover={{ color: "none", bg: "none" }}
+                    aria-label="Home"
+                    variant="ghost"
+                  />
+                  <Text ml="1" pr={2}>
+                   Important
+                  </Text>
+                </Flex>
+              </Tab>
+
+              <Tab _selected={{ color: 'blue'}}>
+              <Flex
+                  align="center"
+                  borderRadius="md"
+                  role="group"
+                  cursor="pointer"
+                  _hover={{
+                    bg: "gray.200",
+                  }}
+                  mr={{ base: 0, md: 2 }}
+
+                 
+                >
+                  <IconButton
+                    icon={<IoNotificationsCircleOutline />}
+                    borderRadius="md"
+                    fontSize={{ base: 24, md: 26 }}
+                    // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
+                    _hover={{ color: "none", bg: "none" }}
+                    aria-label="Home"
+                    variant="ghost"
+                  />
+                  <Text ml="1" pr={2}>
+                    Events
+                  </Text>
+                </Flex>
+              </Tab>
             </TabList>
             <TabPanels>
               <TabPanel>

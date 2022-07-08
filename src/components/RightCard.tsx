@@ -15,15 +15,12 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { Key } from "react";
-import { useMeQuery } from "../generated/graphql";
-import { TopGroups } from "../hooks/topGroups";
+import { TopGroups } from "./topGroups";
 
 export default function RightCard() {
-  const [{ data }] = useMeQuery();
-
   return (
     <Stack spacing={4} direction="column">
-      <TopGroups />
+            <TopGroups />
 
       <Box borderRadius="10px" px={1} pt={1} mb={3}>
         <Box bg="#000a16" borderRadius="10px" pb={3} w={80}>
@@ -49,7 +46,7 @@ export default function RightCard() {
               w={40}
               variant="outline"
               color="#57FFF5"
-              outlineColor="#57FFF5"
+              borderColor="#57FFF5"
               _hover={{ bg: "#57FFF5", color: "#000a16" }}
             >
               Create Subcamp
@@ -58,7 +55,7 @@ export default function RightCard() {
         </Box>
       </Box>
 
-      <Flex borderRadius="10px" px={1} position="static">
+      <Flex borderRadius="10px" px={1} >
         <Box bg="white" borderRadius="10px" pb={3} w={80}>
           <Flex borderRadius="10px 10px 0 0">
             <img src="/WAVYHOME.png" width="100%" />

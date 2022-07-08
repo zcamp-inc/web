@@ -9,14 +9,13 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
       zIndex='1'
       px={{ base: 4, md: 20}}
       top="0"
-      bg = "gray.200"
+      bg = "white"
       position="sticky"      
       h={14}
       alignItems="center"      
       // borderBottomWidth="1px"
       // borderBottomColor='gray.200'
       justifyContent={{ base: "space-between" }}
-      
       {...rest}
     >
 

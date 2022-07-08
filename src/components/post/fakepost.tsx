@@ -12,6 +12,8 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
+import { UseQueryArgs } from "urql";
+import { Exact, useGetPostQuery, useHomePostsQuery } from "../../generated/graphql";
 import PostInteraction from "../PostInteraction";
 
 interface FakePostProps {
@@ -19,18 +21,8 @@ interface FakePostProps {
 }
 
 const FakePost: React.FC<FakePostProps> = ({ postData }) => {
-  const {
-    title,
-    imageUrl,
-    imageAlt,
-    user,
-    avatar,
-    createdAt,
-    postFlair,
-    flairColor,
-    flairType,
-    group,
-  } = postData;
+  const [{data}] = useGetPostQuery(postData)
+  
 
   const postVote = Math.floor(Math.random()*(200) + 1 );
   const comments = Math.floor(Math.random()* 30 + 1);
@@ -42,27 +34,27 @@ const FakePost: React.FC<FakePostProps> = ({ postData }) => {
         borderRadius="lg"
         bg="white"
         pb={8}
-        w={{ base: "full", md: "xl" }}
+        w={{ base: "full", md: 'xl' }}
         mb={5}
       >
         <Stack spacing={10}>
           <Flex direction="row" justify="space-between" px={3}>
             <Flex px={2} pt={3}>
-              <Avatar size="md" src={avatar} />
+              <Avatar size="md" />
               <Stack ml={3}>
                 <Text fontSize={{ base: 14, md: 18 }} fontWeight={600} mb={-2}>
-                  {group}
+                  {data?.getPost?.creator.username}
                 </Text>
                 <Flex>
                   <Text fontSize="0.6rem" mr={2}>
-                    Posted by {user}
+                    Posted by {data?.getPost?.creator.username}
                   </Text>
-                  <Text fontSize="0.6rem">{createdAt}</Text>
+                  <Text fontSize="0.6rem">{data?.getPost?.createdAt}</Text>
                 </Flex>
               </Stack>
               <Box>
-                <Badge colorScheme={flairColor} variant={flairType} ml={2}>
-                  {postFlair}
+                <Badge colorScheme='blue' variant='outline' ml={2}>
+                  POST
                 </Badge>
               </Box>
             </Flex>
@@ -78,16 +70,20 @@ const FakePost: React.FC<FakePostProps> = ({ postData }) => {
           </Flex>
 
           <Stack px={6}>
-            <Heading as="h4" fontSize={24} fontWeight={400}>
-              {title}
+            <Heading as="h4" fontSize={24} fontWeight={500}>
+              {data?.getPost?.title}
             </Heading>
-            <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
-              <Image
-                src={imageUrl ? imageUrl : null}
-                alt={imageAlt ? null : imageAlt}
-                style={{ borderRadius: "30px" }}
-              />
+            <Box mt={4} >
+              <Text fontSize={16} fontWeight={300}>
+                {data?.getPost?.body}
+              </Text>
             </Box>
+            {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
+              <Image
+                src={data?.getPost?.body ? data?.getPost?.body : null}
+                alt={data?.getPost?.title ? null : data?.getPost?.title}
+              />
+            </Box> */}
           </Stack>
           <Box maxW="full" maxH="lg" alignItems="center">
             <PostInteraction postVote={postVote} comments={comments}/>

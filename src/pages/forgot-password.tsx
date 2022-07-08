@@ -1,7 +1,7 @@
 import {
   ChakraProvider,
   Box,
-  HStack,
+  Center,
   Heading,
   Button,
   Alert,
@@ -9,7 +9,8 @@ import {
   AlertTitle,
   AlertDescription,
   Flex,
-  Text
+  Text,
+  Image
 } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
@@ -26,10 +27,32 @@ const ForgotPassword: React.FC<{}> = () => {
   const [complete, setComplete] = useState(false);
 
   return (
+      <Center>
     <ChakraProvider theme={theme}>
+    <Flex
+      display='flex'
+      zIndex='1'
+      px={{ base: 4, md: 20}}
+      top="1"
+      bg = "white"
+      position="fixed"     
+      w="full" 
+      h={14}
+      alignItems="center"      
+      // borderBottomWidth="1px"
+      // borderBottomColor='gray.200'
+      justifyContent={{ base: "space-between" }}
+    >
+
+      <Flex justify='flex-start'>
+        <Image src="/zlogo/zlogo.png" width={14} alt='home logo' onClick={() => router.push('/')}/>
+      </Flex>
+      
+    </Flex>
+
       <Box
         w={["full", "lg"]}
-        p={10}
+        mt={40}
         mx="auto"
         border={["none"]}
         borderRadius={10}
@@ -40,16 +63,18 @@ const ForgotPassword: React.FC<{}> = () => {
           justify="space-between"
           w="full"
           mb={5}
+          alignItems='center'
         >
-          {/* <Flex mb={5} alignSelf="center"> */}
+         
           <Heading as="h5" fontSize="1.5rem" mb={2}>
-            Forgot Password
+            You forgot your password, didn't you😂
           </Heading>
 
-          <Text>
+          <Text align='center'>
             {" "}
-            Enter the email address you used when you joined and we'll send you
-            instructions to reset your password.
+            Let's get you back into your account. 
+            Enter the email address you signed up with, 
+            and we'll send you an email to reset your password.
           </Text>
         </Flex>
 
@@ -97,7 +122,7 @@ const ForgotPassword: React.FC<{}> = () => {
                       color="#000a16"
                       backgroundColor="#9afff9"
                       variant="solid"
-                      width={60}
+                      width='full'
                       _hover={{ bg: "#6bb2ae" }}
                       type="submit"
                       isLoading={isSubmitting}
@@ -112,6 +137,7 @@ const ForgotPassword: React.FC<{}> = () => {
         </Box>
       </Box>
     </ChakraProvider>
+      </Center>
   );
 };
 

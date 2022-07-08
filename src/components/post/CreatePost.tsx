@@ -16,19 +16,27 @@ import {
   ModalCloseButton,
   useDisclosure,
   Button,
-  FormControl,
   Heading,
   Textarea,
   Select,
+  ChakraProvider,
 } from "@chakra-ui/react";
-import { route } from "next/dist/server/router";
+import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
-import { IoImage, IoMic, IoPlay, IoList } from "react-icons/io5";
-import { useMeQuery } from "../../generated/graphql";
+import { IoImage, IoImageOutline, IoLinkOutline, IoList } from "react-icons/io5";
+import {
+  useCreatePostMutation,
+  useGetUserGroupsMutation,
+  useMeQuery,
+  useTopGroupsQuery,
+} from "../../generated/graphql";
+import { InputField } from "../InputField";
+import { theme } from "../../pages/login";
+import { toErrorMap } from "../../utils/toErrorMap";
 interface CreatePostProps {}
 
-export const CreatePost: React.FC<CreatePostProps> = () => {
+const CreatePost: React.FC<CreatePostProps> = () => {
   const {
     isOpen: isTextOpen,
     onOpen: onTextOpen,
@@ -37,9 +45,13 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
 
   const router = useRouter();
   const [{ data, fetching }] = useMeQuery();
-  const [value, setValue] = React.useState('')
-  const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => setValue(event.target.value)
-  
+  const [value, setValue] = React.useState("");
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setValue(event.target.value);
+
+  const [, createpost] = useCreatePostMutation();
+  const UserGroup = getUserGroup();
+
   let create = null;
   if (fetching) {
     create;
@@ -49,14 +61,17 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
         <Box
           borderWidth="1px"
           borderRadius="lg"
-          bgImage={'/newuser.png'}
+          bgImage={"/newuser.png"}
           pb={8}
           w={{ base: "full", md: "xl" }}
-          
         >
           <Flex direction="column" px={2} pt={3}>
-            <Heading fontWeight={600} fontSize={28}>New to ZCAMP?</Heading>
-            <Text fontWeight={500} color='gray.500'>Sign up now to enjoy a new experience and discovery</Text>
+            <Heading fontWeight={600} fontSize={28}>
+              New to ZCAMP?
+            </Heading>
+            <Text fontWeight={500} color="gray.500">
+              Sign up now to enjoy a new experience and discovery
+            </Text>
           </Flex>
           <Stack
             direction="row"
@@ -66,18 +81,28 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
             justify="space-between"
           >
             <Flex direction="row">
-
-              <Button colorScheme={"blue"} size="md" borderRadius="lg" onClick={() => router.push('/login')}>
+              <Button
+                colorScheme={"blue"}
+                size="md"
+                borderRadius="lg"
+                onClick={() => router.push("/login")}
+              >
                 Login
               </Button>
-            <Button color='#2b6cb0' borderColor={'2b6cb0'} variant={'outline'} size="md" borderRadius="lg" ml={5} onClick={() => router.push('/register')}>
+              <Button
+                color="#2b6cb0"
+                borderColor={"2b6cb0"}
+                variant={"outline"}
+                size="md"
+                borderRadius="lg"
+                ml={5}
+                onClick={() => router.push("/register")}
+              >
                 Register
               </Button>
             </Flex>
 
-            <Flex align="center" justify="flex-end" px={2}>
-              
-            </Flex>
+            <Flex align="center" justify="flex-end" px={2}></Flex>
           </Stack>
         </Box>
       </>
@@ -89,61 +114,41 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
           borderWidth="1px"
           borderRadius="lg"
           bg="white"
-          pb={8}
+          pb={4}
           w={{ base: "full", md: "xl" }}
+
         >
           <Flex direction="row" px={2} pt={3}>
             <Avatar src={data?.me?.user?.profileImgUrl} size="md" ml={1} mr={5}>
               {" "}
               <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
             </Avatar>
-            {/* <Input
-            name="Post Text"
-            placeholder="How do you feel today?"
-            _placeholder={{ color: "gray.500" }}
-            bg="gray.200"
-            onClick={onTextOpen}
-          /> */}
             <Box
               bg="gray.200"
               w="full"
-              borderRadius="lg"
-              cursor="pointer"
+              borderRadius="md"
+              cursor="text"
+              _hover={{ borderColor: "#5B6ECB", borderWidth: "1px" }}
               onClick={onTextOpen}
             >
               <Text pt={3} pl={2} fontWeight={500} color="gray.500">
                 Share how you feel today
               </Text>
             </Box>
-          </Flex>
-          <Stack
-            direction="row"
-            spacing={5}
-            pl={{ base: 20, md: 20 }}
-            pt={5}
-            justify="space-between"
-          >
-            <Flex direction="row">
-              <Flex align="center" cursor="pointer" role="group">
+            <Flex direction="row" align='center' ml={2}>
                 <IconButton
-                  icon={<IoImage />}
+                  icon={<IoImageOutline />}
                   borderRadius="full"
                   fontSize={{ base: 24, md: 26 }}
-                  color="#7E9B2D"
+                  color="#5B6ECB"
                   aria-label="Image"
                   variant="ghost"
-                  _groupHover={{ color: "7E9B2D", bg: "#E9FFA9" }}
+                  _groupHover={{ color: "#5B6ECB", bg: "#D6DDFF" }}
                   mr={1}
                 />
-                <Text display={{ base: "none", md: "flex" }} mr={5}>
-                  {" "}
-                  Image{" "}
-                </Text>
-              </Flex>
 
-              <Flex align="center" cursor="pointer" role="group">
                 <IconButton
-                  icon={<IoPlay />}
+                  icon={<IoLinkOutline />}
                   color="#5B6ECB"
                   borderRadius="full"
                   fontSize={{ base: 24, md: 26 }}
@@ -151,13 +156,9 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
                   aria-label="Image"
                   variant="ghost"
                 />
-                <Text display={{ base: "none", md: "flex" }} mr={5}>
-                  {" "}
-                  Video{" "}
-                </Text>
-              </Flex>
             </Flex>
-          </Stack>
+          </Flex>          
+            
         </Box>
 
         <Modal isOpen={isTextOpen} onClose={onTextClose}>
@@ -166,38 +167,93 @@ export const CreatePost: React.FC<CreatePostProps> = () => {
             <ModalHeader>Create a post</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <Flex align='center'>
-                <Avatar src={data?.me.user?.profileImgUrl} size="md" ml={1} mr={2}>
+              <Flex align="center">
+                <Avatar
+                  src={data?.me.user?.profileImgUrl}
+                  size="md"
+                  ml={1}
+                  mr={2}
+                >
                   {" "}
                   <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
                 </Avatar>
-                <Text fontWeight={600} fontSize={20}>{data?.me.user?.username}</Text>
+                <Text fontWeight={600} fontSize={20}>
+                  {data?.me.user?.username}
+                </Text>
               </Flex>
-              <Box mt={2} w={40}>
+              <Flex mt={2} direction='row'>
+                <Flex  w={40} mr={2}>
                 <Select placeholder="Everybody">
                   <option value="campers only">Campers only</option>
                   <option value="explorers only">Explorers only</option>
+                  {/* {UserGroup?.getUserGroups.map((groups, i) => (
+                    <option value="camps" key={i}>{groups.name}</option>
+                  ))} */}
                 </Select>
-              </Box>
-              <Input placeholder="Title" mt={5} mb={2} value={value} onChange={handleChange}/>
-              <Textarea
-                placeholder="What do you want to share?"
-                
-                mb={5}
-              />
-              <Input placeholder="Post Flair" mb={5} w={28} />
-            </ModalBody>
+                </Flex>
 
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} isDisabled={value === '' ? true : false}>
-                Post
-              </Button>
-              <Button onClick={onTextClose}>Cancel</Button>
-            </ModalFooter>
+                <Flex  w={40}>
+                <Select placeholder="Select Group">
+                  {UserGroup?.topGroups.map((groups) => (
+                    <option value={groups.name} key={groups.id}>{groups.name}</option>
+                  ))}
+                </Select>
+                </Flex>
+              </Flex>
+
+              <Formik
+                initialValues={{ title: "", body: "", groupId: 3 }}
+                onSubmit={async (values) => {
+                  console.log(values);
+                  const response = await createpost({
+                    title: values.title,
+                    body: values.body,
+                    groupId: values.groupId,
+                  });
+                  if( response?.data?.createPost?.post){
+                    router.push("/")
+                  }
+                }}
+              >
+                {({ isSubmitting }) => (
+                  <Form>
+                    <Box mb={3} mt={3}>
+                      <InputField name="title" placeholder="Title" />
+                    </Box>
+                    <InputField
+                      textarea
+                      name="body"
+                      placeholder="What do you want to share?"
+                    />
+                    {/* <Box mt={3} mb={3} w={40}>
+                      <InputField name="postFlair" placeholder="Post Flair" />
+                    </Box> */}
+                    <Flex justify="end">
+                      <Button
+                        colorScheme="blue"
+                        mr={3}
+                        type="submit"
+                        isLoading={isSubmitting}
+                      >
+                        Post
+                      </Button>
+                      <Button onClick={onTextClose}>Cancel</Button>
+                    </Flex>
+                  </Form>
+                )}
+              </Formik>
+            </ModalBody>
           </ModalContent>
         </Modal>
       </>
     );
   }
   return create;
+};
+
+export default CreatePost;
+
+export const getUserGroup = () => {
+  const [{ data }] = useTopGroupsQuery();
+  return data;
 };
