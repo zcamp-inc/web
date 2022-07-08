@@ -1,8 +1,6 @@
 import {
   useTopGroupsQuery,
-  MeQuery,
   useJoinGroupMutation,
-  Exact,
   useGetUserGroupsMutation,
 } from "../generated/graphql";
 import {
