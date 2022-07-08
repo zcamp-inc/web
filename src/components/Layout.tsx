@@ -1,5 +1,4 @@
 import Header from "./Header";
-import LeftBar from "./LeftCard";
 import React from "react";
 import {
   Box,
@@ -9,8 +8,6 @@ import {
   Flex,
   Center,
 } from "@chakra-ui/react";
-import RightBar from "./RightCard";
-import BottomNav from "./BottomNav";
 import UserDrawer from "./UserDrawer";
 
 interface LayoutProps {

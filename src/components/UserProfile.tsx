@@ -35,7 +35,7 @@ import {
   IoFlash
 } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
-import { FiHome, FiSettings, FiBookmark, FiLogOut } from "react-icons/fi";
+import { FiSettings, FiBookmark, FiLogOut } from "react-icons/fi";
 import { RiHome7Fill, RiHome7Line } from "react-icons/ri";
 import React from "react";
 import { useRouter } from "next/router";
