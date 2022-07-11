@@ -1,10 +1,7 @@
 query HomePosts($cursor: Float!, $sortBy: String, $limit: Float!) {
   homePosts(limit: $limit, sortBy: $sortBy, cursor: $cursor){
     posts {
-     ...RegPost
-      creator {
-        ...RegUser
-      }
+     ...RegPost      
     }
     hasMore
     cursor

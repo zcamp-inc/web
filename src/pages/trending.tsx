@@ -20,22 +20,26 @@ import React from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { data } from "../../data";
+import { fakedata } from "../../data";
 import { Layout } from "../components/Layout";
 import FakePost from "../components/post/fakepost";
 import RightCard from "../components/RightCard";
 import { IoHeartCircleOutline, IoInformationCircleOutline, IoNotificationsCircleOutline } from "react-icons/io5";
+import { useTrendingPostsQuery } from "../generated/graphql";
 
 const Trending = () => {
+  const [{data}] = useTrendingPostsQuery({
+    variables: {
+      limit: 15,
+      cursor: 0,
+    },
+  })
   const router = useRouter();
   return (
     <Layout>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10}>
         <Flex direction="column" ml={{ base: -10, md: -20 }}>
-          {/* <Flex mb={5} justify="center">
-            <Heading>Trends: Just for you</Heading>
-          </Flex> */}
-          <Tabs isFitted variant="unstyled">
+         <Tabs isFitted variant="unstyled" alignSelf='center' w={{ base: "full", md: "xl" }}>
             <TabList
               bg="white"
               mb={3}
@@ -52,7 +56,8 @@ const Trending = () => {
                   _hover={{
                     bg: "gray.200",
                   }}
-                  mr={{ base: 0, md: 2 }}                  
+                  mr={{ base: -2, md: 2 }} 
+                  ml={{ base: -5 }}                 
                 >
                   <IconButton
                     icon={<IoHeartCircleOutline />}
@@ -63,7 +68,7 @@ const Trending = () => {
                     aria-label="Home"
                     variant="ghost"
                   />
-                  <Text ml="1" pr={2}>
+                  <Text ml="1" pr={{ base: 0, md: 1}} fontSize={{ base: 16, md: 18}}>
                     For You
                   </Text>
                 </Flex>
@@ -78,9 +83,7 @@ const Trending = () => {
                   _hover={{
                     bg: "gray.200",
                   }}
-                  mr={{ base: 0, md: 2 }}
-                  bg={router.pathname === "/" ? "#8225CE" : "none"}
-                  
+                  mr={{ base: -2, md: 2 }}                  
                 >
                   <IconButton
                     icon={<IoInformationCircleOutline />}
@@ -91,7 +94,7 @@ const Trending = () => {
                     aria-label="Home"
                     variant="ghost"
                   />
-                  <Text ml="1" pr={2}>
+                  <Text ml="1" pr={1} fontSize={{ base: 16, md: 18}}>
                    Important
                   </Text>
                 </Flex>
@@ -106,7 +109,7 @@ const Trending = () => {
                   _hover={{
                     bg: "gray.200",
                   }}
-                  mr={{ base: 0, md: 2 }}
+                  mr={{ base: -2, md: 2 }}
 
                  
                 >
@@ -119,7 +122,7 @@ const Trending = () => {
                     aria-label="Home"
                     variant="ghost"
                   />
-                  <Text ml="1" pr={2}>
+                  <Text ml="1"pr={1} fontSize={{ base: 16, md: 18}}>
                     Events
                   </Text>
                 </Flex>
@@ -127,9 +130,17 @@ const Trending = () => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                {data.map((postData, i) => (
-                  <FakePost postData={postData} key={i} />
-                ))}
+              {!data ? (
+                    <Box borderRadius="md" bg="tan" px={3}>
+                      Nothing to see here                       
+                    </Box>
+                  ) : (
+                    data?.trendingPosts?.posts?.map((p) => (
+                      <Box key={p.id} bg="tan">
+                        {p.title}
+                      </Box>
+                    ))
+                  )}
               </TabPanel>
               <TabPanel>
                 <Heading>No Important Posts for now</Heading>

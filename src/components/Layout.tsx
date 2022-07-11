@@ -8,7 +8,7 @@ import {
   Flex,
   Center,
 } from "@chakra-ui/react";
-import UserDrawer from "./UserDrawer";
+import UserDrawer from "./user/UserDrawer";
 
 interface LayoutProps {
   children?: React.ReactNode;

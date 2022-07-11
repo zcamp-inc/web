@@ -208,12 +208,12 @@ export type QueryGetCommentArgs = {
 
 
 export type QueryGetPostArgs = {
-  id: Scalars['Float'];
+  id?: InputMaybe<Scalars['Float']>;
 };
 
 
 export type QueryHomePostsArgs = {
-  cursor: Scalars['Float'];
+  cursor?: InputMaybe<Scalars['Float']>;
   limit: Scalars['Float'];
   sortBy?: InputMaybe<Scalars['String']>;
 };
@@ -260,7 +260,7 @@ export type UsernamePasswordInput = {
 
 export type RegErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type RegPostFragment = { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string };
+export type RegPostFragment = { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } };
 
 export type RegUserFragment = { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean };
 
@@ -365,6 +365,15 @@ export type TopGroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type TopGroupsQuery = { __typename?: 'Query', topGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
 
+export type TrendingPostsQueryVariables = Exact<{
+  cursor: Scalars['Int'];
+  limit: Scalars['Int'];
+  sortBy?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type TrendingPostsQuery = { __typename?: 'Query', trendingPosts: { __typename?: 'PaginatedPosts', hasMore: boolean, cursor: number, posts?: Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } }> | null } };
+
 export const RegPostFragmentDoc = gql`
     fragment RegPost on Post {
   id
@@ -376,6 +385,14 @@ export const RegPostFragmentDoc = gql`
   voteCount
   wasEdited
   bodySnippet
+  creator {
+    id
+    username
+    email
+    createdAt
+    profileImgUrl
+    isDisabled
+  }
 }
     `;
 export const RegErrorFragmentDoc = gql`
@@ -568,16 +585,12 @@ export const HomePostsDocument = gql`
   homePosts(limit: $limit, sortBy: $sortBy, cursor: $cursor) {
     posts {
       ...RegPost
-      creator {
-        ...RegUser
-      }
     }
     hasMore
     cursor
   }
 }
-    ${RegPostFragmentDoc}
-${RegUserFragmentDoc}`;
+    ${RegPostFragmentDoc}`;
 
 export function useHomePostsQuery(options: Omit<Urql.UseQueryArgs<HomePostsQueryVariables>, 'query'>) {
   return Urql.useQuery<HomePostsQuery>({ query: HomePostsDocument, ...options });
@@ -615,4 +628,19 @@ export const TopGroupsDocument = gql`
 
 export function useTopGroupsQuery(options?: Omit<Urql.UseQueryArgs<TopGroupsQueryVariables>, 'query'>) {
   return Urql.useQuery<TopGroupsQuery>({ query: TopGroupsDocument, ...options });
+};
+export const TrendingPostsDocument = gql`
+    query TrendingPosts($cursor: Int!, $limit: Int!, $sortBy: String) {
+  trendingPosts(cursor: $cursor, limit: $limit, sortBy: $sortBy) {
+    posts {
+      ...RegPost
+    }
+    hasMore
+    cursor
+  }
+}
+    ${RegPostFragmentDoc}`;
+
+export function useTrendingPostsQuery(options: Omit<Urql.UseQueryArgs<TrendingPostsQueryVariables>, 'query'>) {
+  return Urql.useQuery<TrendingPostsQuery>({ query: TrendingPostsDocument, ...options });
 };

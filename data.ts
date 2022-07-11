@@ -1,4 +1,4 @@
-export const data = [
+export const fakedata = [
   {
     title:
       "Hey look! This post has only texts in it. I wonder how it would look if I wrote a lot of words in it. Bye for now!",

@@ -32,11 +32,11 @@ import {
   FiDollarSign,
   FiGitPullRequest,
 } from "react-icons/fi";
-import NavLink from "./NavLink";
-import { useMeQuery, useLogoutMutation } from "../generated/graphql";
+import NavLink from "../NavLink";
+import { useMeQuery, useLogoutMutation } from "../../generated/graphql";
 
 const ProfileLinkItems = [
-  { label: "Profile", icon: FiUser, href: "/" },
+  { label: "Profile", icon: FiUser, href: "/u/[username]" },
   { label: "Favorites", icon: FiStar, href: "/Trending" },
   { label: "Saved Posts", icon: FiBookmark, href: "/Explore" },
   { label: "Z-Flash", icon: FiZap, href: "#" },

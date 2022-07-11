@@ -24,11 +24,11 @@ import {
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
-import { IoImageOutline, IoLinkOutline } from "react-icons/io5";
+import {  IoImageOutline, IoLinkOutline } from "react-icons/io5";
 import {
   useCreatePostMutation,
   useMeQuery,
-  useTopGroupsQuery,
+  useGetUserGroupsMutation,
 } from "../../generated/graphql";
 import { InputField } from "../InputField";
 import { theme } from "../../pages/login";
@@ -193,7 +193,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 
                 <Flex  w={40}>
                 <Select placeholder="Select Group">
-                  {UserGroup?.topGroups.map((groups) => (
+                  {UserGroup?.getUserGroups.map((groups) => (
                     <option value={groups.name} key={groups.id}>{groups.name}</option>
                   ))}
                 </Select>
@@ -201,13 +201,13 @@ const CreatePost: React.FC<CreatePostProps> = () => {
               </Flex>
 
               <Formik
-                initialValues={{ title: "", body: "", groupId: 3 }}
+                initialValues={{ title: "", body: "", groupId: 1 }}
                 onSubmit={async (values) => {
                   console.log(values);
                   const response = await createpost({
                     title: values.title,
                     body: values.body,
-                    groupId: values.groupId,
+                    groupId: values.groupId
                   });
                   if( response?.data?.createPost?.post){
                     router.push("/")
@@ -253,6 +253,6 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 export default CreatePost;
 
 export const GetUserGroup = () => {
-  const [{ data }] = useTopGroupsQuery();
+  const [{ data }] = useGetUserGroupsMutation();
   return data;
 };

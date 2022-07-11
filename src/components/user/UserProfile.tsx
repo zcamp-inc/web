@@ -15,7 +15,6 @@ import {
   Badge,
   VStack,
   AvatarBadge,
-  Link,
   Button,
   useDisclosure,
   useColorModeValue,
@@ -39,7 +38,7 @@ import { FiSettings, FiBookmark, FiLogOut } from "react-icons/fi";
 import { RiHome7Fill, RiHome7Line } from "react-icons/ri";
 import React from "react";
 import { useRouter } from "next/router";
-import { useLogoutMutation, useMeQuery } from "../generated/graphql";
+import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 
 export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
   const router = useRouter();
@@ -274,7 +273,11 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           mt={-2}
         >
           <MenuGroup title="My Stuff" >
-            <MenuItem icon={<CgProfile />}>Profile</MenuItem>
+            <NextLink href={{ pathname: '/u/[username]', query: { username: data?.me?.user.username} }} passHref>
+            <MenuItem icon={<CgProfile />}>
+              Profile
+             </MenuItem>
+            </NextLink>
             <MenuItem icon={<FiBookmark />}>Saved Posts </MenuItem>
             <MenuItem icon={<FiSettings />}>Settings</MenuItem>
           </MenuGroup>

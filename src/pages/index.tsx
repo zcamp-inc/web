@@ -35,7 +35,7 @@ interface IndexProps {}
 const Index: React.FC<IndexProps> = () => {
   const [{ data }] = useHomePostsQuery({
     variables: {
-      limit: 15,
+      limit: 2,
       cursor: 0,
     },
   });
@@ -44,21 +44,19 @@ const Index: React.FC<IndexProps> = () => {
   let reme = null;
   if(!me?.me?.user){
     reme = (
+      <>
       <Explore />
+      </>
     )
   } else {
     reme = (
-      <>
       <Layout>
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10}>
           <Flex direction="column" ml={{ base: -10, md: -20 }}>
-            {/* <Flex mb={5} justify="center">
-          <Heading>Trends: Just for you</Heading>
-        </Flex> */}
             <Box mb={5} alignSelf="center" w={{ base: "full", md: "xl" }}>
               <CreatePost />
             </Box>
-            <Tabs isFitted variant="unstyled">
+            <Tabs isFitted variant="unstyled" alignSelf='center' w={{ base: "full", md: "xl" }}>
               <TabList
                 bg="white"
                 mb={3}
@@ -146,16 +144,12 @@ const Index: React.FC<IndexProps> = () => {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  {!data ? (
-                    <Box borderRadius="md" bg="tan" px={3}>
-                      Nothing to see here                       
-                    </Box>
-                  ) : (
-                    data?.homePosts?.posts?.map((p) => (
-                      <Box key={p.id} bg="tan">
-                        {p.title}
+                  {data?.homePosts.posts?.map((p) =>
+                    !p ? null : (
+                      <Box key={p.id} bg='tan'>
+                        <Text>{p.title} </Text>
                       </Box>
-                    ))
+                    )
                   )}
                 </TabPanel>
                 <TabPanel>
@@ -172,7 +166,7 @@ const Index: React.FC<IndexProps> = () => {
           </Box>
         </SimpleGrid>
       </Layout>
-    </>
+
     )
   }
   return (

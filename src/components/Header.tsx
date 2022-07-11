@@ -1,5 +1,5 @@
 import { IconButton, Flex, Image, Box  } from "@chakra-ui/react";
-import UserProfile from "./UserProfile";
+import UserProfile from "./user/UserProfile";
 
 export default function Header({ onOpen, ...rest }: {onOpen: any}) {
   return (

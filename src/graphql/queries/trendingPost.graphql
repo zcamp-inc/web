@@ -1,0 +1,10 @@
+query TrendingPosts($cursor: Int!, $limit: Int!, $sortBy: String) {
+  trendingPosts(cursor: $cursor, limit: $limit, sortBy: $sortBy) {
+    posts {
+     ...RegPost
+      
+    }
+    hasMore
+    cursor
+  }
+}

@@ -16,12 +16,14 @@ import { UseQueryArgs } from "urql";
 import { Exact, useGetPostQuery, useHomePostsQuery } from "../../generated/graphql";
 import PostInteraction from "../PostInteraction";
 
-interface FakePostProps {
-  postData: any;
-}
+interface FakePostProps {}
 
-const FakePost: React.FC<FakePostProps> = ({ postData }) => {
-  const [{data}] = useGetPostQuery(postData)
+const FakePost: React.FC<FakePostProps> = () => {
+  const [{data}] = useGetPostQuery({
+    variables: {
+      getPostId: 1
+    }
+  })
   
 
   const postVote = Math.floor(Math.random()*(200) + 1 );

@@ -1,11 +1,19 @@
-fragment RegPost on Post{
-      id
-      createdAt
-      updatedAt
-      title
-      body
-      isDisabled
-      voteCount
-      wasEdited
-      bodySnippet
+fragment RegPost on Post {
+  id
+  createdAt
+  updatedAt
+  title
+  body
+  isDisabled
+  voteCount
+  wasEdited
+  bodySnippet
+  creator {
+    id
+    username
+    email
+    createdAt
+    profileImgUrl
+    isDisabled
+  }
 }
