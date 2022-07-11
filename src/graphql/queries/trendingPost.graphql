@@ -1,8 +1,29 @@
 query TrendingPosts($cursor: Int!, $limit: Int!, $sortBy: String) {
   trendingPosts(cursor: $cursor, limit: $limit, sortBy: $sortBy) {
     posts {
-     ...RegPost
-      
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      voteCount
+      wasEdited
+      bodySnippet
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
     }
     hasMore
     cursor

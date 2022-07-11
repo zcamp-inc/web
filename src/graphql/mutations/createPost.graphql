@@ -5,9 +5,28 @@ mutation CreatePost($groupId: Float!, $title: String!, $body: String) {
       message
     }
     post {
-     ...RegPost
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      voteCount
+      wasEdited
+      bodySnippet
       creator {
-        ...RegUser
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
       }
     }
   }

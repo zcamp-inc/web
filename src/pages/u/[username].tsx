@@ -28,7 +28,7 @@ const UserProfile = () => {
     <Layout>
       <Flex direction='column' align='center'>
       <Flex direction='row' justify='space-between' align='center' ml={-80} mr={-10}>
-        <Avatar src={data?.me?.user?.profileImgUrl} size="2xl" mr={24}  background={'linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #5E00AB, #57FFF5) border-box'} border="2px solid transparent" />
+        <Avatar src={data?.me?.user?.profileImgUrl} size="2xl" mr={24}  background={'linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #5E00AB, #57FFF5) border-box'} border="3px solid transparent" />
         <Flex direction="column" justify="space-between">
           <Flex direction="row" justify="space-between" align='center' mt={6}>
             <Heading fontSize={{ base: 14, md: 28 }} fontWeight={400} mr={2}>
@@ -188,7 +188,7 @@ const UserProfile = () => {
             <TabPanels>
               <TabPanel>
                 {fakedata.map((postData, i) => (
-                  <FakePost postData={postData} key={i} />
+                  <FakePost key={i} />
                 ))}
               </TabPanel>
               <TabPanel>

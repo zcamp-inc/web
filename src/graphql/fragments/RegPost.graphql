@@ -9,11 +9,6 @@ fragment RegPost on Post {
   wasEdited
   bodySnippet
   creator {
-    id
-    username
-    email
-    createdAt
-    profileImgUrl
-    isDisabled
+      ...RegUserResponse
   }
 }

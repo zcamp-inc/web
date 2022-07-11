@@ -1,7 +1,29 @@
-query HomePosts($cursor: Float!, $sortBy: String, $limit: Float!) {
-  homePosts(limit: $limit, sortBy: $sortBy, cursor: $cursor){
+query HomePosts($limit: Float!, $sortBy: String, $cursor: Float) {
+  homePosts(limit: $limit, sortBy: $sortBy, cursor: $cursor) {
     posts {
-     ...RegPost      
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      voteCount
+      wasEdited
+      bodySnippet
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
     }
     hasMore
     cursor

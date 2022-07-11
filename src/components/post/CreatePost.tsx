@@ -201,7 +201,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
               </Flex>
 
               <Formik
-                initialValues={{ title: "", body: "", groupId: 1 }}
+                initialValues={{ title: "", body: "", groupId: 2 }}
                 onSubmit={async (values) => {
                   console.log(values);
                   const response = await createpost({

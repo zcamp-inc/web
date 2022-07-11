@@ -12,8 +12,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
-import { UseQueryArgs } from "urql";
-import { Exact, useGetPostQuery, useHomePostsQuery } from "../../generated/graphql";
+import { useGetPostQuery, useHomePostsQuery } from "../../generated/graphql";
 import PostInteraction from "../PostInteraction";
 
 interface FakePostProps {}
@@ -45,13 +44,13 @@ const FakePost: React.FC<FakePostProps> = () => {
               <Avatar size="md" />
               <Stack ml={3}>
                 <Text fontSize={{ base: 14, md: 18 }} fontWeight={600} mb={-2}>
-                  {data?.getPost?.creator.username}
+                {data?.getPost?.post?.creator?.user?.username}
                 </Text>
                 <Flex>
                   <Text fontSize="0.6rem" mr={2}>
-                    Posted by {data?.getPost?.creator.username}
+                    Posted by {data?.getPost?.post?.creator?.user?.username}
                   </Text>
-                  <Text fontSize="0.6rem">{data?.getPost?.createdAt}</Text>
+                  <Text fontSize="0.6rem">10mins</Text>
                 </Flex>
               </Stack>
               <Box>
@@ -73,11 +72,11 @@ const FakePost: React.FC<FakePostProps> = () => {
 
           <Stack px={6}>
             <Heading as="h4" fontSize={24} fontWeight={500}>
-              {data?.getPost?.title}
+              {data?.getPost?.post?.title}
             </Heading>
             <Box mt={4} >
               <Text fontSize={16} fontWeight={300}>
-                {data?.getPost?.body}
+                {data?.getPost?.post?.body}
               </Text>
             </Box>
             {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>

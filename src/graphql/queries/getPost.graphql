@@ -1,8 +1,33 @@
 query GetPost($getPostId: Float!) {
   getPost(id: $getPostId) {
-    ...RegPost
-    creator {
-      ...RegUser
+    errors {
+      field
+      message
+    }
+    post {
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      voteCount
+      wasEdited
+      bodySnippet
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
     }
   }
 }

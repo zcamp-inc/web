@@ -35,8 +35,9 @@ interface IndexProps {}
 const Index: React.FC<IndexProps> = () => {
   const [{ data }] = useHomePostsQuery({
     variables: {
-      limit: 2,
+      limit: 15,
       cursor: 0,
+      sortBy: "recent"
     },
   });
 
@@ -144,13 +145,18 @@ const Index: React.FC<IndexProps> = () => {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  {data?.homePosts.posts?.map((p) =>
-                    !p ? null : (
-                      <Box key={p.id} bg='tan'>
-                        <Text>{p.title} </Text>
+                {!data ? (
+                    <Box borderRadius="md" bg="tan" px={3}>
+                      Nothing to see here                       
+                    </Box>
+                  ) : (
+                    data?.homePosts?.posts?.map((p) => (
+                      <Box key={p.id} bg="tan">
+                        {p.title}
                       </Box>
-                    )
+                    ))
                   )}
+
                 </TabPanel>
                 <TabPanel>
                   <Heading>No Important Posts for now</Heading>
