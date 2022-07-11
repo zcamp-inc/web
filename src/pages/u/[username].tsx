@@ -21,6 +21,7 @@ import UserCard from "../../components/user/UserCard";
 import FakePost from "../../components/post/fakepost";
 import { useMeQuery } from "../../generated/graphql";
 import { fakedata } from "../../../data";
+
 const UserProfile = () => {
 
   const [{ data }] = useMeQuery();

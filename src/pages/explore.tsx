@@ -285,7 +285,7 @@ const Explore: React.FC<ExploreProps> = () => {
             </Flex>
 
             <Box mb={10} mt={40} alignSelf="center" w={{ base: "full", md: "xl" }}>
-          <CreatePost />
+          <CreatePost pageProps={undefined} />
         </Box>
 
             <Tabs isFitted variant="unstyled" alignSelf='center' w={{ base: "full", md: "xl" }}>

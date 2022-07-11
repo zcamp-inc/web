@@ -12,7 +12,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
-import { useGetPostQuery, useHomePostsQuery } from "../../generated/graphql";
+import { useGetPostQuery, useHomePostsQuery, useTrendingPostsQuery } from "../../generated/graphql";
 import PostInteraction from "../PostInteraction";
 
 interface FakePostProps {}
@@ -23,6 +23,7 @@ const FakePost: React.FC<FakePostProps> = () => {
       getPostId: 1
     }
   })
+  const trends = FetchTrends();
   
 
   const postVote = Math.floor(Math.random()*(200) + 1 );
@@ -96,3 +97,13 @@ const FakePost: React.FC<FakePostProps> = () => {
 };
 
 export default FakePost;
+
+const FetchTrends = () => {
+ const [{data}] = useTrendingPostsQuery({
+    variables: {
+      limit: 15,
+      cursor: 0,
+    },
+  });
+  return data;
+}

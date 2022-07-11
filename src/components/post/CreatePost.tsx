@@ -31,8 +31,8 @@ import {
   useGetUserGroupsMutation,
 } from "../../generated/graphql";
 import { InputField } from "../InputField";
-import { theme } from "../../pages/login";
-import { toErrorMap } from "../../utils/toErrorMap";
+import { createUrqlClient } from "../../utils/createUrqlClient";
+import { withUrqlClient } from "next-urql";
 interface CreatePostProps {}
 
 const CreatePost: React.FC<CreatePostProps> = () => {
@@ -250,7 +250,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
   return create;
 };
 
-export default CreatePost;
+export default withUrqlClient(createUrqlClient, { ssr: true })(CreatePost);
 
 export const GetUserGroup = () => {
   const [{ data }] = useGetUserGroupsMutation();
