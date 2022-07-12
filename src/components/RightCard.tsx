@@ -9,15 +9,30 @@ import {
   VStack,
   Stack,
   Link,
-  DrawerBody,
+  useDisclosure,
   Avatar,
   AvatarBadge,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Select,
 } from "@chakra-ui/react";
+import { Formik, Form } from "formik";
 import NextLink from "next/link";
+import router from "next/router";
 import { Key } from "react";
+import { InputField } from "./InputField";
 import { TopGroups } from "./TopGroups";
 
 export default function RightCard() {
+  const {
+    isOpen: isTextOpen,
+    onOpen: onTextOpen,
+    onClose: onTextClose,
+  } = useDisclosure();
   return (
     <Stack spacing={4} direction="column">
             <TopGroups />
@@ -48,6 +63,7 @@ export default function RightCard() {
               color="#57FFF5"
               borderColor="#57FFF5"
               _hover={{ bg: "#57FFF5", color: "#000a16" }}
+              onClick={onTextOpen}
             >
               Create Subcamp
             </Button>
@@ -75,6 +91,90 @@ export default function RightCard() {
           </NextLink>
         </Box>
       </Flex>
+
+      <Modal isOpen={isTextOpen} onClose={onTextClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Create a SubCamp</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              {/* <Flex align="center">
+                <Avatar
+                  src={data?.me.user?.profileImgUrl}
+                  size="md"
+                  ml={1}
+                  mr={2}
+                >
+                  {" "}
+                  <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
+                </Avatar>
+                <Text fontWeight={600} fontSize={20}>
+                  {data?.me.user?.username}
+                </Text>
+              </Flex>
+              <Flex mt={2} direction='row'>
+                <Flex  w={40} mr={2}>
+                <Select placeholder="Everybody">
+                  <option value="campers only">Campers only</option>
+                  <option value="explorers only">Explorers only</option>
+                 
+                </Select>
+                </Flex>
+                <Flex  w={40}>
+                <Select placeholder="Select Group">
+                  {UserGroup?.topGroups.map((groups) => (
+                    <option value={groups.name} key={groups.id}>
+                      <Flex  onClick={() => setGId(groups.id)}>
+                      {groups.name}
+                      </Flex>
+                      </option>
+                  ))}
+                </Select>
+                </Flex>
+
+                
+              </Flex> */}
+
+              <Formik
+                initialValues={{ title: "", desc: ""  }}
+                onSubmit={async (values) => {
+                  console.log(values);
+                 
+                }}
+              >
+                
+                {({ isSubmitting }) => (
+                  
+                  <Form>
+                    <Box mb={3} mt={3}>
+                      <InputField name="title" placeholder="Title" />
+                    </Box>
+                    <InputField
+                      textarea
+                      name="desc"
+                      placeholder="Group Description"
+                    />
+                    {/* <Box mt={3} mb={3} w={40}>
+                      <InputField name="postFlair" placeholder="Post Flair" />
+                    </Box> */}
+                    <Flex justify="end">
+                      <Button
+                        colorScheme="blue"
+                        mr={3}
+                        type="submit"
+                        isLoading={isSubmitting}
+                        onClick={() => router.push('/')}
+                      >
+                        Create
+                      </Button>
+                      <Button onClick={onTextClose}>Cancel</Button>
+                    </Flex>
+                  </Form>
+                )}
+              </Formik>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
     </Stack>
   );
 }
