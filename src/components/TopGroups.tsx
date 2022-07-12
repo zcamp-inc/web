@@ -13,6 +13,7 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useGetUserGroupsQuery } from "../generated/graphql";
 
 interface TopGroupProps {
 }
@@ -118,7 +119,7 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
 };
 
 const UserGroup = () => {
-  const [{data}] = useGetUserGroupsMutation();
+  const [{data}] = useGetUserGroupsQuery();
   return data;
 }
 

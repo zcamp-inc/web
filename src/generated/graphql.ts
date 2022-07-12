@@ -68,8 +68,6 @@ export type Mutation = {
   deleteComment: Scalars['Boolean'];
   deletePost: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
-  getGroupUsers: Array<User>;
-  getUserGroups: Array<Group>;
   joinGroup: Scalars['Boolean'];
   loginUser: UserResponse;
   logoutUser: Scalars['Boolean'];
@@ -122,11 +120,6 @@ export type MutationDeletePostArgs = {
 
 export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
-};
-
-
-export type MutationGetGroupUsersArgs = {
-  groupId: Scalars['Float'];
 };
 
 
@@ -214,9 +207,11 @@ export type PostResponse = {
 export type Query = {
   __typename?: 'Query';
   getComment?: Maybe<Comment>;
+  getGroupUserCount: Scalars['Float'];
   getGroups: Array<Group>;
   getPost: PostResponse;
   getUniversities: Array<University>;
+  getUserGroups: Array<Group>;
   homePosts: PaginatedPosts;
   me?: Maybe<UserResponse>;
   topGroups: Array<Group>;
@@ -226,6 +221,11 @@ export type Query = {
 
 export type QueryGetCommentArgs = {
   id: Scalars['Float'];
+};
+
+
+export type QueryGetGroupUserCountArgs = {
+  groupId: Scalars['Float'];
 };
 
 
@@ -320,18 +320,6 @@ export type ForgotPasswordMutationVariables = Exact<{
 
 export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: boolean };
 
-export type GetGroupUsersMutationVariables = Exact<{
-  groupId: Scalars['Float'];
-}>;
-
-
-export type GetGroupUsersMutation = { __typename?: 'Mutation', getGroupUsers: Array<{ __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean }> };
-
-export type GetUserGroupsMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetUserGroupsMutation = { __typename?: 'Mutation', getUserGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
-
 export type JoinGroupMutationVariables = Exact<{
   groupId: Scalars['Float'];
 }>;
@@ -370,6 +358,13 @@ export type UpdateGroupDetailsMutationVariables = Exact<{
 
 export type UpdateGroupDetailsMutation = { __typename?: 'Mutation', updateGroupDetails: boolean };
 
+export type GetGroupUserCountQueryVariables = Exact<{
+  groupId: Scalars['Float'];
+}>;
+
+
+export type GetGroupUserCountQuery = { __typename?: 'Query', getGroupUserCount: number };
+
 export type GetGroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -386,6 +381,11 @@ export type GetUniversitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUniversitiesQuery = { __typename?: 'Query', getUniversities: Array<{ __typename?: 'University', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
+
+export type GetUserGroupsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserGroupsQuery = { __typename?: 'Query', getUserGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
 
 export type HomePostsQueryVariables = Exact<{
   limit: Scalars['Float'];
@@ -540,34 +540,6 @@ export const ForgotPasswordDocument = gql`
 export function useForgotPasswordMutation() {
   return Urql.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument);
 };
-export const GetGroupUsersDocument = gql`
-    mutation GetGroupUsers($groupId: Float!) {
-  getGroupUsers(groupId: $groupId) {
-    ...RegUser
-  }
-}
-    ${RegUserFragmentDoc}`;
-
-export function useGetGroupUsersMutation() {
-  return Urql.useMutation<GetGroupUsersMutation, GetGroupUsersMutationVariables>(GetGroupUsersDocument);
-};
-export const GetUserGroupsDocument = gql`
-    mutation GetUserGroups {
-  getUserGroups {
-    id
-    createdAt
-    name
-    description
-    isDisabled
-    logoImgUrl
-    bannerImgUrl
-  }
-}
-    `;
-
-export function useGetUserGroupsMutation() {
-  return Urql.useMutation<GetUserGroupsMutation, GetUserGroupsMutationVariables>(GetUserGroupsDocument);
-};
 export const JoinGroupDocument = gql`
     mutation JoinGroup($groupId: Float!) {
   joinGroup(groupId: $groupId)
@@ -622,6 +594,15 @@ export const UpdateGroupDetailsDocument = gql`
 
 export function useUpdateGroupDetailsMutation() {
   return Urql.useMutation<UpdateGroupDetailsMutation, UpdateGroupDetailsMutationVariables>(UpdateGroupDetailsDocument);
+};
+export const GetGroupUserCountDocument = gql`
+    query GetGroupUserCount($groupId: Float!) {
+  getGroupUserCount(groupId: $groupId)
+}
+    `;
+
+export function useGetGroupUserCountQuery(options: Omit<Urql.UseQueryArgs<GetGroupUserCountQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetGroupUserCountQuery>({ query: GetGroupUserCountDocument, ...options });
 };
 export const GetGroupsDocument = gql`
     query GetGroups {
@@ -695,6 +676,23 @@ export const GetUniversitiesDocument = gql`
 
 export function useGetUniversitiesQuery(options?: Omit<Urql.UseQueryArgs<GetUniversitiesQueryVariables>, 'query'>) {
   return Urql.useQuery<GetUniversitiesQuery>({ query: GetUniversitiesDocument, ...options });
+};
+export const GetUserGroupsDocument = gql`
+    query GetUserGroups {
+  getUserGroups {
+    id
+    createdAt
+    name
+    description
+    isDisabled
+    logoImgUrl
+    bannerImgUrl
+  }
+}
+    `;
+
+export function useGetUserGroupsQuery(options?: Omit<Urql.UseQueryArgs<GetUserGroupsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetUserGroupsQuery>({ query: GetUserGroupsDocument, ...options });
 };
 export const HomePostsDocument = gql`
     query HomePosts($limit: Float!, $sortBy: String, $cursor: Float) {

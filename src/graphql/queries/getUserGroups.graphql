@@ -1,4 +1,4 @@
-mutation GetUserGroups {
+query GetUserGroups{
   getUserGroups {
     id
     createdAt
