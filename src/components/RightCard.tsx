@@ -26,6 +26,7 @@ import router from "next/router";
 import { Key } from "react";
 import { InputField } from "./InputField";
 import { TopGroups } from "./TopGroups";
+import {useCreateGroupMutation} from "../generated/graphql"
 
 export default function RightCard() {
   const {
@@ -33,6 +34,7 @@ export default function RightCard() {
     onOpen: onTextOpen,
     onClose: onTextClose,
   } = useDisclosure();
+  const [, creategroup] = useCreateGroupMutation();
   return (
     <Stack spacing={4} direction="column">
             <TopGroups />
@@ -136,9 +138,17 @@ export default function RightCard() {
               </Flex> */}
 
               <Formik
-                initialValues={{ title: "", desc: ""  }}
+                initialValues={{ name: "", description: ""}}
                 onSubmit={async (values) => {
                   console.log(values);
+                  const response = await creategroup({
+                    name: values.name,
+                    description: values.description,
+                  });
+                  console.log(response?.data)
+                  if( response?.data?.createGroup?.group){
+                    router.push("/")
+                  }
                  
                 }}
               >
@@ -147,11 +157,11 @@ export default function RightCard() {
                   
                   <Form>
                     <Box mb={3} mt={3}>
-                      <InputField name="title" placeholder="Title" />
+                      <InputField name="name" placeholder="Name" />
                     </Box>
                     <InputField
                       textarea
-                      name="desc"
+                      name="description"
                       placeholder="Group Description"
                     />
                     {/* <Box mt={3} mb={3} w={40}>

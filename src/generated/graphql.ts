@@ -13,7 +13,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
 };
 
@@ -54,10 +53,17 @@ export type Group = {
   name: Scalars['String'];
 };
 
+export type GroupResponse = {
+  __typename?: 'GroupResponse';
+  errors?: Maybe<Array<FieldError>>;
+  group?: Maybe<Group>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   changePassword: UserResponse;
   createComment: CommentResponse;
+  createGroup: GroupResponse;
   createPost: PostResponse;
   deleteComment: Scalars['Boolean'];
   deletePost: Scalars['Boolean'];
@@ -71,6 +77,7 @@ export type Mutation = {
   savePost: Scalars['Boolean'];
   seedUniversities: Scalars['String'];
   updateComment: CommentResponse;
+  updateGroupDetails: Scalars['Boolean'];
   updatePost: PostResponse;
   voteComment: Scalars['Boolean'];
   votePost: Scalars['Boolean'];
@@ -87,6 +94,12 @@ export type MutationCreateCommentArgs = {
   body?: InputMaybe<Scalars['String']>;
   parentCommentId?: InputMaybe<Scalars['Int']>;
   postId: Scalars['Int'];
+};
+
+
+export type MutationCreateGroupArgs = {
+  description: Scalars['String'];
+  name: Scalars['String'];
 };
 
 
@@ -141,6 +154,15 @@ export type MutationSavePostArgs = {
 export type MutationUpdateCommentArgs = {
   body: Scalars['String'];
   id: Scalars['Int'];
+};
+
+
+export type MutationUpdateGroupDetailsArgs = {
+  bannerImgUrl?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  groupId: Scalars['Float'];
+  logoImgUrl?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -274,6 +296,14 @@ export type ChangePasswordMutationVariables = Exact<{
 
 export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null } };
 
+export type CreateGroupMutationVariables = Exact<{
+  description: Scalars['String'];
+  name: Scalars['String'];
+}>;
+
+
+export type CreateGroupMutation = { __typename?: 'Mutation', createGroup: { __typename?: 'GroupResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, group?: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string } | null } };
+
 export type CreatePostMutationVariables = Exact<{
   groupId: Scalars['Float'];
   title: Scalars['String'];
@@ -328,6 +358,17 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null } };
+
+export type UpdateGroupDetailsMutationVariables = Exact<{
+  groupId: Scalars['Float'];
+  bannerImgUrl?: InputMaybe<Scalars['String']>;
+  logoImgUrl?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UpdateGroupDetailsMutation = { __typename?: 'Mutation', updateGroupDetails: boolean };
 
 export type GetGroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -427,6 +468,29 @@ export const ChangePasswordDocument = gql`
 
 export function useChangePasswordMutation() {
   return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
+};
+export const CreateGroupDocument = gql`
+    mutation CreateGroup($description: String!, $name: String!) {
+  createGroup(description: $description, name: $name) {
+    errors {
+      field
+      message
+    }
+    group {
+      id
+      createdAt
+      name
+      description
+      isDisabled
+      logoImgUrl
+      bannerImgUrl
+    }
+  }
+}
+    `;
+
+export function useCreateGroupMutation() {
+  return Urql.useMutation<CreateGroupMutation, CreateGroupMutationVariables>(CreateGroupDocument);
 };
 export const CreatePostDocument = gql`
     mutation CreatePost($groupId: Float!, $title: String!, $body: String) {
@@ -543,6 +607,21 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const UpdateGroupDetailsDocument = gql`
+    mutation UpdateGroupDetails($groupId: Float!, $bannerImgUrl: String, $logoImgUrl: String, $description: String, $name: String) {
+  updateGroupDetails(
+    groupId: $groupId
+    bannerImgUrl: $bannerImgUrl
+    logoImgUrl: $logoImgUrl
+    description: $description
+    name: $name
+  )
+}
+    `;
+
+export function useUpdateGroupDetailsMutation() {
+  return Urql.useMutation<UpdateGroupDetailsMutation, UpdateGroupDetailsMutationVariables>(UpdateGroupDetailsDocument);
 };
 export const GetGroupsDocument = gql`
     query GetGroups {
