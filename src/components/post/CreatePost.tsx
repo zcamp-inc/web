@@ -29,6 +29,7 @@ import {
   useCreatePostMutation,
   useMeQuery,
   useGetUserGroupsMutation,
+  useTopGroupsQuery
 } from "../../generated/graphql";
 import { InputField } from "../InputField";
 import { createUrqlClient } from "../../utils/createUrqlClient";
@@ -45,6 +46,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
   const router = useRouter();
   const [{ data, fetching }] = useMeQuery();
   const [value, setValue] = React.useState("");
+  const [gId, setGId ] = React.useState(1);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setValue(event.target.value);
 
@@ -190,18 +192,23 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                   ))} */}
                 </Select>
                 </Flex>
-
                 <Flex  w={40}>
                 <Select placeholder="Select Group">
-                  {UserGroup?.getUserGroups.map((groups) => (
-                    <option value={groups.name} key={groups.id}>{groups.name}</option>
+                  {UserGroup?.topGroups.map((groups) => (
+                    <option value={groups.name} key={groups.id}>
+                      <Flex  onClick={() => setGId(groups.id)}>
+                      {groups.name}
+                      </Flex>
+                      </option>
                   ))}
                 </Select>
                 </Flex>
+
+                
               </Flex>
 
               <Formik
-                initialValues={{ title: "", body: "", groupId: 2 }}
+                initialValues={{ title: "", body: "", groupId: gId  }}
                 onSubmit={async (values) => {
                   console.log(values);
                   const response = await createpost({
@@ -214,7 +221,9 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                   }
                 }}
               >
+                
                 {({ isSubmitting }) => (
+                  
                   <Form>
                     <Box mb={3} mt={3}>
                       <InputField name="title" placeholder="Title" />
@@ -233,6 +242,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                         mr={3}
                         type="submit"
                         isLoading={isSubmitting}
+                        onClick={() => router.push('/')}
                       >
                         Post
                       </Button>
@@ -253,6 +263,6 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 export default withUrqlClient(createUrqlClient, { ssr: true })(CreatePost);
 
 export const GetUserGroup = () => {
-  const [{ data }] = useGetUserGroupsMutation();
+  const [{ data }] = useTopGroupsQuery();
   return data;
 };

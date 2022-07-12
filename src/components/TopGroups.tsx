@@ -18,7 +18,7 @@ interface TopGroupProps {
 }
 
 export const TopGroups: React.FC<TopGroupProps> = () => {
-  const [{ data }] = useGetUserGroupsMutation();
+  const [{ data }] = useTopGroupsQuery();
   const [, join] = useJoinGroupMutation();
   const userGroup = UserGroup()
   const range=[ 0, 1, 2, 3];
@@ -36,11 +36,11 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
 
         >
           <Image
-            src={data?.getUserGroups[0] ? data?.getUserGroups[0]?.bannerImgUrl : "/fakeimages/fakecolors.jpg"}
-            key={data?.getUserGroups[0]?.id}
+            src={data?.topGroups[0] ? data?.topGroups[0]?.bannerImgUrl : "/fakeimages/fakecolors.jpg"}
+            key={data?.topGroups[0]?.id}
             alt="logo_img"
             borderRadius="10px 10px 0 0"
-            mt={data?.getUserGroups[0] ? -20 : 0}
+            mt={data?.topGroups[0] ? -20 : 0}
             opacity={0.2}
           />
         </Box>
@@ -59,7 +59,7 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
 
         <Flex align="center" justify="space-between" mt={2} px={5} pb={2}>
           <Flex justify="center" direction="column">
-            {data?.getUserGroups.map((groupInfo, i ) => (
+            {data?.topGroups.map((groupInfo, i ) => (
               <>
               <Flex w={60} key={i} mt={2} mb={2} justify='space-between'>
                 <Flex w={60}> 

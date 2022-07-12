@@ -748,34 +748,19 @@ const Explore: React.FC<ExploreProps> = () => {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  <Flex justify="center">
-                    <Heading fontSize={30} alignContent="center">
-                      No Posts for now
-                    </Heading>
-                  </Flex>
-                  {fakedata.map((postData, i) => (
-                    <FakePost key={i} />
-                  ))}
+                
+                    <FakePost />
+                
                 </TabPanel>
                 <TabPanel>
-                  <Flex justify="center">
-                    <Heading fontSize={30} alignContent="center">
-                      No Hot Trends for now
-                    </Heading>
-                  </Flex>
-                  {fakedata.map((postData, i) => (
-                    <FakePost key={i} />
-                  ))}
+
+                    <FakePost />
+  
                 </TabPanel>
                 <TabPanel>
-                  <Flex justify="center">
-                    <Heading fontSize={30} alignContent="center">
-                      No Events for now
-                    </Heading>
-                  </Flex>
-                  {fakedata.map((postData, i) => (
-                    <FakePost key={i} />
-                  ))}
+   
+                    <FakePost />
+ 
                 </TabPanel>
               </TabPanels>
             </Tabs>
