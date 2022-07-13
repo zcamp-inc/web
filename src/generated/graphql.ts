@@ -190,6 +190,7 @@ export type Post = {
   bodySnippet: Scalars['String'];
   createdAt: Scalars['DateTime'];
   creator: UserResponse;
+  group: Group;
   id: Scalars['Float'];
   isDisabled: Scalars['Boolean'];
   title: Scalars['String'];
@@ -212,6 +213,7 @@ export type Query = {
   getPost: PostResponse;
   getUniversities: Array<University>;
   getUserGroups: Array<Group>;
+  groupPosts: PaginatedPosts;
   homePosts: PaginatedPosts;
   me?: Maybe<UserResponse>;
   topGroups: Array<Group>;
@@ -231,6 +233,14 @@ export type QueryGetGroupUserCountArgs = {
 
 export type QueryGetPostArgs = {
   id: Scalars['Float'];
+};
+
+
+export type QueryGroupPostsArgs = {
+  cursor?: InputMaybe<Scalars['Float']>;
+  groupId: Scalars['Float'];
+  limit: Scalars['Float'];
+  sortBy?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -375,7 +385,7 @@ export type GetPostQueryVariables = Exact<{
 }>;
 
 
-export type GetPostQuery = { __typename?: 'Query', getPost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+export type GetPostQuery = { __typename?: 'Query', getPost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
 
 export type GetUniversitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -638,6 +648,15 @@ export const GetPostDocument = gql`
       voteCount
       wasEdited
       bodySnippet
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
       creator {
         errors {
           field
