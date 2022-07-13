@@ -1,7 +1,7 @@
 import {
     useTopGroupsQuery,
     useJoinGroupMutation,
-    useGetUserGroupsMutation,
+    useGetUserGroupsQuery
   } from "../../generated/graphql";
   import {
     Box,
@@ -15,12 +15,13 @@ import {
   import React, { useState } from "react";
   import NextLink from 'next/link';
 import { useRouter } from "next/router";
+
   
   interface UserGroupsProps {
   }
   
   export const UserGroups: React.FC<UserGroupsProps> = () => {
-    const [{ data }] = useGetUserGroupsMutation();
+    const [{ data }] = useGetUserGroupsQuery();
     const [, join] = useJoinGroupMutation();
     const router = useRouter();
     const range=[ 0, 1, 2, 3];

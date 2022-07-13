@@ -28,7 +28,6 @@ import {  IoImageOutline, IoLinkOutline } from "react-icons/io5";
 import {
   useCreatePostMutation,
   useMeQuery,
-  useGetUserGroupsMutation,
   useTopGroupsQuery
 } from "../../generated/graphql";
 import { InputField } from "../InputField";

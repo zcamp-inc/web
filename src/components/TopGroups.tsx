@@ -1,7 +1,6 @@
 import {
   useTopGroupsQuery,
   useJoinGroupMutation,
-  useGetUserGroupsMutation,
 } from "../generated/graphql";
 import {
   Box,
