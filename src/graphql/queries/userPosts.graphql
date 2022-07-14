@@ -1,0 +1,16 @@
+query UserPosts($limit: Float!, $uid: Float!, $sortBy: String, $cursor: Float) {
+  userPosts(limit: $limit, uid: $uid, sortBy: $sortBy, cursor: $cursor) {
+    posts {
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      wasEdited
+      bodySnippet
+    }
+    hasMore
+    cursor
+  }
+}
