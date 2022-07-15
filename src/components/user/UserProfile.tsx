@@ -55,10 +55,10 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
     head = (
       <>
       <NextLink href='/login'>
-      <Button ml={3} mr={3} colorScheme='blue' color='white' borderRadius='md' size='sm'>Login</Button>
+      <Button ml={3} mr={3} colorScheme='blue' color='white' borderRadius='lg' size='sm'>Login</Button>
       </NextLink>
       <NextLink href='/register'>
-      <Button mr={3} colorScheme='blue' variant='ghost' borderRadius='md' size='sm'>Register</Button>
+      <Button mr={3} colorScheme='blue' variant='ghost' borderRadius='lg' size='sm'>Register</Button>
       </NextLink>
       </>
     )
@@ -66,23 +66,23 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
     mobilehead = (
       <>
       <NextLink href='/login'>
-      <Button ml={3} mr={3} bg='#8225CE' color='white' borderRadius='md' size='sm'>Login</Button>
+      <Button ml={3} mr={3} bg='#8225CE' color='white' borderRadius='lg' size='sm'>Login</Button>
       </NextLink>
       <NextLink href='/register'>
-      <Button mr={3} color='#8225CE' variant='ghost' borderRadius='md' size='sm'>Register</Button>
+      <Button mr={3} color='#8225CE' variant='ghost' borderRadius='lg' size='sm'>Register</Button>
 
       </NextLink>
       </>
     )
   } else{
     iconbutton = (
-      <HStack spacing={{ base: 1, md: 2 }}>
+      <HStack spacing={{ base: 1, lg: 2 }}>
       
 
       <NextLink href="/trending" passHref>
         <Flex
           align="center"
-          borderRadius="md"
+          borderRadius="lg"
           role="group"
           cursor="pointer"
           color={router.pathname === "/trending" ? "white" : "gray.700"}
@@ -95,8 +95,8 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         >
           <IconButton
             icon={router.pathname === "/trending" ? <IoFlash /> : <IoFlashOutline />}
-            borderRadius="md"
-            fontSize={{ base: 24, md: 26 }}
+            borderRadius="lg"
+            fontSize={{ base: 24, lg: 26 }}
             // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             _hover={{ color: "none", bg: "none" }}
             aria-label="Trending"
@@ -118,7 +118,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
       <NextLink href="/explore" passHref>
         <Flex
           align="center"
-          borderRadius="md"
+          borderRadius="lg"
           role="group"
           cursor="pointer"
           color={router.pathname === "/explore" ? "white" : "gray.700"}
@@ -128,8 +128,8 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         >
           <IconButton
             icon={router.pathname === "/explore" ? <IoCompass /> : <IoCompassOutline />}
-            borderRadius="md"
-            fontSize={{ base: 24, md: 26 }}
+            borderRadius="lg"
+            fontSize={{ base: 24, lg: 26 }}
             // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             _hover={{ color: "none", bg: "none" }}
             aria-label="Explore"
@@ -151,18 +151,19 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
       <NextLink href="/messages" passHref>
         <Flex
           align="center"
-          borderRadius="md"
+          borderRadius="lg"
           role="group"
           cursor="pointer"
           color={router.pathname === "/messages" ? "white" : "gray.700"}
           
-          mr={{ base: 0, md: 2 }}
-          bg={router.pathname === "/messages" ? "#8225CE" : "none"}
+          mr={{ base: 0, lg: 2 }}
+          bg={router.pathname === "/messages" ? "#8225CE" : "none"} 
+          display={{ base: 'none', md: 'contents' }}
         >
           <IconButton
             icon={router.pathname === "/messages" ? <IoMail /> : <IoMailOutline />}
-            borderRadius="md"
-            fontSize={{ base: 24, md: 26 }}
+            borderRadius="lg"
+            fontSize={{ base: 24, lg: 26 }}
             // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             _hover={{ color: "none", bg: "none" }}
             aria-label="Messages"
@@ -184,18 +185,19 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
       <NextLink href="/notifications" passHref>
         <Flex
           align="center"
-          borderRadius="md"
+          borderRadius="lg"
           role="group"
           cursor="pointer"
           color={router.pathname === "/notifications" ? "white" : "gray.700"}
           
-          mr={{ base: 0, md: 2 }}
+          mr={{ base: 0, lg: 2 }}
           bg={router.pathname === "/notifications" ? "#8225CE" : "none"}
+          display={{ base: 'none', md: 'contents' }}
         >
           <IconButton
             icon={router.pathname === "/notifications" ? <IoNotifications /> : <IoNotificationsOutline />}
-            borderRadius="md"
-            fontSize={{ base: 24, md: 26 }}
+            borderRadius="lg"
+            fontSize={{ base: 24, lg: 26 }}
             // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             _hover={{ color: "none", bg: "none" }}
             aria-label="Notification"
@@ -224,11 +226,11 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
       <Flex
       alignItems="center"
       _hover={{ bg: "gray.500", color: "white" }}
-      borderRadius="md"
+      borderRadius="lg"
       bg={{ base: "none", md: "gray.300" }}
-      minW={{ base: 0, md: 40 }}
-      h={{ base: 0, md: 12 }}
-      display={{ base: 'none', md: 'flex' }}
+      minW={{ base: 0, lg: 40 }}
+      h={{ base: 0, lg: 12 }}
+      display={{ base: 'none', lg: 'flex' }}
     >
       <Menu>
         <MenuButton
@@ -242,7 +244,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
             cursor="pointer"
             p={2}
             pr={2}
-            display={{ base: "none", md: "flex" }}
+            display={{ base: "none", lg: "flex" }}
           >
             <Avatar src={data.me?.user?.profileImgUrl} size="sm" ml={1} mr={1}>
               {" "}
@@ -250,7 +252,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
             </Avatar>
             <VStack
               flexDir="column"
-              display={{ base: "none", md: "flex" }}
+              display={{ base: "none", lg: "flex" }}
               alignItems="flex-start"
               spacing="1px"
             >
@@ -259,17 +261,17 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
               </Text>
               <Text fontSize="0.7rem">204 Points</Text>
             </VStack>
-            <Box display={{ base: "none", md: "flex" }}>
+            <Box display={{ base: "none", lg: "flex" }}>
               <IoCaretDown />
             </Box>
           </HStack>
         </MenuButton>
         <MenuList
-          // fontSize="md"
+          // fontSize="lg"
           bg="white"
           color="gray.700"
           borderColor="gray.200"
-          display={{ base: "none", md: "block" }}
+          display={{ base: "none", lg: "block" }}
           mt={-2}
         >
           <MenuGroup title="My Stuff" >
@@ -303,7 +305,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
 </>
     ),
     mobilehead = (
-      <>
+      <Flex mr={3}>
         
       <HStack
       spacing="2"
@@ -311,7 +313,12 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
       onClick={onOpen}
       cursor="pointer"
       p={2}
-      display={{ base: "flex", md: "none" }}
+      display={{ base: "flex", lg: "none" }}
+      _hover={{ bg: "gray.500", color: "white" }}
+      borderRadius="lg"
+      bg={{ base: "none", md: "gray.300" }}
+      minW={{ base: 'full' }}
+      h={{ base: 10  }}
     >
       <Avatar src={data.me?.user?.profileImgUrl} size="sm" ml={1} mr={1}>
         {" "}
@@ -326,27 +333,21 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         spacing="1px"
       >
         <Text fontWeight={600} fontSize="0.9em">
-          John Doe
+          {data?.me.user.username}
         </Text>
         <Text fontSize="0.7rem">204 Points</Text>
       </VStack>
-      <Box display={{ base: "none", md: "flex" }}>
-        {/* <Badge colorScheme="green" ml={1} mr={4} variant="outline">
-                  Fish
-                </Badge> */}
-        <IoCaretDown />
-      </Box>
     </HStack>
-    </>
+    </Flex>
     )
 
   }
 
   return (
-    <HStack spacing={{ base: "0", md: "3" }} ml={1}>
+    <HStack spacing={{ base: "0", lg: "3" }} ml={1} >
         <Flex
           align="center"
-          borderRadius="md"
+          borderRadius="lg"
           role="group"
           cursor="pointer"
           color={router.pathname === "/" ? "white" : "gray.700"}
@@ -355,14 +356,14 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           //   color: "white",
           //   variant: 'outline'
           // }}
-          mr={{ base: 0, md: 2 }}
+          mr={{ base: 0, lg: 2 }}
           bg={router.pathname === "/" ? "#8225CE" : "none"}
           onClick={() => router.push('/')}
         >
           <IconButton
             icon={router.pathname === "/" ? <RiHome7Fill /> : <RiHome7Line />}
-            borderRadius="md"
-            fontSize={{ base: 24, md: 26 }}
+            borderRadius="lg"
+            fontSize={{ base: 24, lg: 26 }}
             // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             _hover={{ color: "none", bg: "none" }}
             aria-label="Home"
@@ -384,7 +385,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         { iconbutton }
       </Flex>
 
-      <Flex display={{ base: 'none', md: 'flex'}}>
+      <Flex display={{ base: 'none', lg: 'flex'}}>
         { head }
       </Flex>
 
@@ -393,13 +394,13 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
         icon={<IoApps fontSize={24} />}
         aria-label="More Options"
         variant="ghost"
-        display={{ base: "none", md: "flex" }}
+        display={{ base: "none", lg: "flex" }}
         onClick={onOpen}
         isDisabled ={ !data?.me?.user ? true: false }
       />
 
       {/* Mobile View Avatar */}
-      <Flex ml={'auto'} display={{ base: 'flex', md: 'none' }}> {mobilehead} </Flex>
+      <Flex ml={'auto'} display={{ base: 'flex', lg: 'none' }}> {mobilehead} </Flex>
     </HStack>
   );
 }

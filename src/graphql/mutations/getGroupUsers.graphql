@@ -1,5 +1,0 @@
-mutation GetGroupUsers($groupId: Float!) {
-  getGroupUsers(groupId: $groupId) {
-    ...RegUser
-  }
-}

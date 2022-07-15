@@ -1,7 +1,7 @@
 import {
     useTopGroupsQuery,
     useJoinGroupMutation,
-    useGetUserGroupsMutation,
+    useGetUserGroupsQuery,
   } from "../../generated/graphql";
   import {
     Box,
@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
   }
   
   export const UserGroups: React.FC<UserGroupsProps> = () => {
-    const [{ data }] = useGetUserGroupsMutation();
+    const [{ data }] = useGetUserGroupsQuery();
     const [, join] = useJoinGroupMutation();
     const router = useRouter();
     const range=[ 0, 1, 2, 3];
@@ -69,7 +69,7 @@ import { useRouter } from "next/router";
                   <Text w={40}> {groupInfo.name}</Text>
                   </Flex>
                   <Flex justify="flex-end" key={i}>
-                    <NextLink href={{ pathname: '/z/[groupname]', query: groupInfo.name}} passHref>
+                    <NextLink href={{ pathname: '/z/[group]', query: {group: groupInfo.name}}} passHref>
                     <Button
                       colorScheme="blue"
                       borderRadius="md"

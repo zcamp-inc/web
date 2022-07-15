@@ -19,21 +19,25 @@ import {
   Heading,
   Textarea,
   Select,
-  ChakraProvider,
+  useControllableState,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
-import {  IoImageOutline, IoLinkOutline } from "react-icons/io5";
+import { IoImageOutline, IoLinkOutline, IoCaretDown } from "react-icons/io5";
 import {
   useCreatePostMutation,
   useMeQuery,
-  useGetUserGroupsMutation,
-  useTopGroupsQuery
+  useGetUserGroupsQuery,
 } from "../../generated/graphql";
 import { InputField } from "../InputField";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
+import { setgroups } from "process";
 interface CreatePostProps {}
 
 const CreatePost: React.FC<CreatePostProps> = () => {
@@ -43,12 +47,18 @@ const CreatePost: React.FC<CreatePostProps> = () => {
     onClose: onTextClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isMenuOpen,
+    onOpen: onMenuOpen,
+    onClose: onMenuClose,
+  } = useDisclosure();
+
+  const [group, setGroup] = useControllableState({ defaultValue: 0 });
+  const [name, setName] = useControllableState({ defaultValue: "Select Group" });
+
+
   const router = useRouter();
   const [{ data, fetching }] = useMeQuery();
-  const [value, setValue] = React.useState("");
-  const [gId, setGId ] = React.useState(1);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setValue(event.target.value);
 
   const [, createpost] = useCreatePostMutation();
   const UserGroup = GetUserGroup();
@@ -64,7 +74,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
           borderRadius="lg"
           bgImage={"/newuser.png"}
           pb={8}
-          w={{ base: "full", md: "xl" }}
+          w={{ base: "370px", md: "768px", lg: "600px" }}
         >
           <Flex direction="column" px={2} pt={3}>
             <Heading fontWeight={600} fontSize={28}>
@@ -111,14 +121,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
   } else {
     create = (
       <>
-        <Box
-          borderWidth="1px"
-          borderRadius="lg"
-          bg="white"
-          pb={4}
-          w={{ base: "full", md: "xl" }}
-
-        >
+        <Box borderWidth="1px" borderRadius="lg" bg="white" pb={4} w="full">
           <Flex direction="row" px={2} pt={3}>
             <Avatar src={data?.me?.user?.profileImgUrl} size="md" ml={1} mr={5}>
               {" "}
@@ -136,30 +139,29 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                 Share how you feel today
               </Text>
             </Box>
-            <Flex direction="row" align='center' ml={2}>
-                <IconButton
-                  icon={<IoImageOutline />}
-                  borderRadius="full"
-                  fontSize={{ base: 24, md: 26 }}
-                  color="#5B6ECB"
-                  aria-label="Image"
-                  variant="ghost"
-                  _groupHover={{ color: "#5B6ECB", bg: "#D6DDFF" }}
-                  mr={1}
-                />
+            <Flex direction="row" align="center" ml={2}>
+              <IconButton
+                icon={<IoImageOutline />}
+                borderRadius="full"
+                fontSize={{ base: 24, md: 26 }}
+                color="#5B6ECB"
+                aria-label="Image"
+                variant="ghost"
+                _groupHover={{ color: "#5B6ECB", bg: "#D6DDFF" }}
+                mr={1}
+              />
 
-                <IconButton
-                  icon={<IoLinkOutline />}
-                  color="#5B6ECB"
-                  borderRadius="full"
-                  fontSize={{ base: 24, md: 26 }}
-                  _groupHover={{ color: "#5B6ECB", bg: "#D6DDFF" }}
-                  aria-label="Image"
-                  variant="ghost"
-                />
+              <IconButton
+                icon={<IoLinkOutline />}
+                color="#5B6ECB"
+                borderRadius="full"
+                fontSize={{ base: 24, md: 26 }}
+                _groupHover={{ color: "#5B6ECB", bg: "#D6DDFF" }}
+                aria-label="Image"
+                variant="ghost"
+              />
             </Flex>
-          </Flex>          
-            
+          </Flex>
         </Box>
 
         <Modal isOpen={isTextOpen} onClose={onTextClose}>
@@ -182,49 +184,66 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                   {data?.me.user?.username}
                 </Text>
               </Flex>
-              <Flex mt={2} direction='row'>
-                <Flex  w={40} mr={2}>
-                <Select placeholder="Everybody">
-                  <option value="campers only">Campers only</option>
-                  <option value="explorers only">Explorers only</option>
-                  {/* {UserGroup?.getUserGroups.map((groups, i) => (
+              <Flex mt={2} direction="row">
+                <Flex w={40} mr={2}>
+                  <Select placeholder="Everybody">
+                    <option value="campers only">Campers only</option>
+                    <option value="explorers only">Explorers only</option>
+                    {/* {UserGroup?.getUserGroups.map((groups, i) => (
                     <option value="camps" key={i}>{groups.name}</option>
                   ))} */}
-                </Select>
+                  </Select>
                 </Flex>
-                <Flex  w={40}>
-                <Select placeholder="Select Group">
-                  {UserGroup?.topGroups.map((groups) => (
-                    <option value={groups.name} key={groups.id}>
-                      <Flex  onClick={() => setGId(groups.id)}>
+                <Flex w={40}>
+                  {/* <Select placeholder="Select Group">
+                  {UserGroup?.getUserGroups.map((groups) => (
+                    <option value={groups.name} key={groups.id} onSelect={() => setGroup(9)}>
                       {groups.name}
-                      </Flex>
                       </option>
                   ))}
-                </Select>
+                </Select> */}
+                 
                 </Flex>
-
-                
               </Flex>
 
               <Formik
-                initialValues={{ title: "", body: "", groupId: gId  }}
+                initialValues={{ title: "", body: "", groupId: group }}
                 onSubmit={async (values) => {
                   console.log(values);
                   const response = await createpost({
                     title: values.title,
                     body: values.body,
-                    groupId: values.groupId
+                    groupId: values.groupId,
                   });
-                  if( response?.data?.createPost?.post){
-                    router.push("/")
+                  if (response?.data?.createPost?.post) {
+                    router.reload();
                   }
                 }}
               >
-                
                 {({ isSubmitting }) => (
                   
                   <Form>
+                     <Menu>
+                    {({ isOpen={isMenuOpen} }) => (
+                      <>
+                        <MenuButton
+                          isActive={isMenuOpen}
+                          as={Button}
+                          rightIcon={<IoCaretDown />}
+                        >
+                          {name}
+                        </MenuButton>
+                        <MenuList>
+                          {UserGroup?.getUserGroups.map((groups) =>(
+                            <MenuItem onClick={() => {setGroup(groups.id); setName(groups.name)} } >{groups.name}</MenuItem>
+                          ))}
+                          <MenuItem onClick={() => alert("Kagebunshin")}>
+                            Create a Copy
+                          </MenuItem>
+                        </MenuList>
+                      </>
+                    )}
+                  </Menu>
                     <Box mb={3} mt={3}>
                       <InputField name="title" placeholder="Title" />
                     </Box>
@@ -242,7 +261,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                         mr={3}
                         type="submit"
                         isLoading={isSubmitting}
-                        onClick={() => router.push('/')}
+                        onClick={onTextClose}
                       >
                         Post
                       </Button>
@@ -263,6 +282,6 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 export default withUrqlClient(createUrqlClient, { ssr: true })(CreatePost);
 
 export const GetUserGroup = () => {
-  const [{ data }] = useTopGroupsQuery();
+  const [{ data }] = useGetUserGroupsQuery();
   return data;
 };
