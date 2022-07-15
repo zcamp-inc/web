@@ -1,0 +1,17 @@
+mutation CreateGroup($description: String!, $name: String!) {
+  createGroup(description: $description, name: $name) {
+    errors {
+      field
+      message
+    }
+    group {
+      id
+      createdAt
+      name
+      description
+      isDisabled
+      logoImgUrl
+      bannerImgUrl
+    }
+  }
+}
