@@ -32,7 +32,11 @@ import { IoImageOutline, IoLinkOutline, IoCaretDown } from "react-icons/io5";
 import {
   useCreatePostMutation,
   useMeQuery,
+<<<<<<< HEAD
   useGetUserGroupsQuery,
+=======
+  useTopGroupsQuery
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 } from "../../generated/graphql";
 import { InputField } from "../InputField";
 import { createUrqlClient } from "../../utils/createUrqlClient";

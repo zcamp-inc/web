@@ -1,7 +1,11 @@
 import {
     useTopGroupsQuery,
     useJoinGroupMutation,
+<<<<<<< HEAD
     useGetUserGroupsQuery,
+=======
+    useGetUserGroupsQuery
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
   } from "../../generated/graphql";
   import {
     Box,
@@ -15,6 +19,7 @@ import {
   import React, { useState } from "react";
   import NextLink from 'next/link';
 import { useRouter } from "next/router";
+
   
   interface UserGroupsProps {
   }

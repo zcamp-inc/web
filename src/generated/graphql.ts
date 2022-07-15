@@ -213,7 +213,10 @@ export type Query = {
   getPost: PostResponse;
   getUniversities: Array<University>;
   getUserGroups: Array<Group>;
+<<<<<<< HEAD
   group?: Maybe<GroupResponse>;
+=======
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
   groupPosts: PaginatedPosts;
   homePosts: PaginatedPosts;
   me?: Maybe<UserResponse>;
@@ -238,11 +241,14 @@ export type QueryGetPostArgs = {
 };
 
 
+<<<<<<< HEAD
 export type QueryGroupArgs = {
   name: Scalars['String'];
 };
 
 
+=======
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 export type QueryGroupPostsArgs = {
   cursor?: InputMaybe<Scalars['Float']>;
   groupId: Scalars['Float'];
@@ -369,6 +375,20 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null } };
 
+<<<<<<< HEAD
+=======
+export type UpdateGroupDetailsMutationVariables = Exact<{
+  groupId: Scalars['Float'];
+  bannerImgUrl?: InputMaybe<Scalars['String']>;
+  logoImgUrl?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UpdateGroupDetailsMutation = { __typename?: 'Mutation', updateGroupDetails: boolean };
+
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 export type GetGroupUserCountQueryVariables = Exact<{
   groupId: Scalars['Float'];
 }>;
@@ -386,7 +406,7 @@ export type GetPostQueryVariables = Exact<{
 }>;
 
 
-export type GetPostQuery = { __typename?: 'Query', getPost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+export type GetPostQuery = { __typename?: 'Query', getPost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
 
 export type GetUniversitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -398,6 +418,7 @@ export type GetUserGroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetUserGroupsQuery = { __typename?: 'Query', getUserGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
 
+<<<<<<< HEAD
 export type GroupQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -405,6 +426,8 @@ export type GroupQueryVariables = Exact<{
 
 export type GroupQuery = { __typename?: 'Query', group?: { __typename?: 'GroupResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, group?: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string } | null } | null };
 
+=======
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 export type HomePostsQueryVariables = Exact<{
   limit: Scalars['Float'];
   sortBy?: InputMaybe<Scalars['String']>;
@@ -605,6 +628,24 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
+<<<<<<< HEAD
+=======
+export const UpdateGroupDetailsDocument = gql`
+    mutation UpdateGroupDetails($groupId: Float!, $bannerImgUrl: String, $logoImgUrl: String, $description: String, $name: String) {
+  updateGroupDetails(
+    groupId: $groupId
+    bannerImgUrl: $bannerImgUrl
+    logoImgUrl: $logoImgUrl
+    description: $description
+    name: $name
+  )
+}
+    `;
+
+export function useUpdateGroupDetailsMutation() {
+  return Urql.useMutation<UpdateGroupDetailsMutation, UpdateGroupDetailsMutationVariables>(UpdateGroupDetailsDocument);
+};
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 export const GetGroupUserCountDocument = gql`
     query GetGroupUserCount($groupId: Float!) {
   getGroupUserCount(groupId: $groupId)
@@ -648,6 +689,15 @@ export const GetPostDocument = gql`
       voteCount
       wasEdited
       bodySnippet
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
       creator {
         errors {
           field
@@ -704,6 +754,7 @@ export const GetUserGroupsDocument = gql`
 export function useGetUserGroupsQuery(options?: Omit<Urql.UseQueryArgs<GetUserGroupsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetUserGroupsQuery>({ query: GetUserGroupsDocument, ...options });
 };
+<<<<<<< HEAD
 export const GroupDocument = gql`
     query Group($name: String!) {
   group(name: $name) {
@@ -727,6 +778,8 @@ export const GroupDocument = gql`
 export function useGroupQuery(options: Omit<Urql.UseQueryArgs<GroupQueryVariables>, 'query'>) {
   return Urql.useQuery<GroupQuery>({ query: GroupDocument, ...options });
 };
+=======
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 export const HomePostsDocument = gql`
     query HomePosts($limit: Float!, $sortBy: String, $cursor: Float) {
   homePosts(limit: $limit, sortBy: $sortBy, cursor: $cursor) {

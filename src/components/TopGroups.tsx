@@ -1,7 +1,10 @@
 import {
   useTopGroupsQuery,
   useJoinGroupMutation,
+<<<<<<< HEAD
   useGetUserGroupsQuery,
+=======
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 } from "../generated/graphql";
 import {
   Box,
@@ -13,6 +16,7 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useGetUserGroupsQuery } from "../generated/graphql";
 
 interface TopGroupProps {}
 
@@ -122,6 +126,10 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
 };
 
 const UserGroup = () => {
+<<<<<<< HEAD
   const [{ data }] = useGetUserGroupsQuery();
+=======
+  const [{data}] = useGetUserGroupsQuery();
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
   return data;
 };

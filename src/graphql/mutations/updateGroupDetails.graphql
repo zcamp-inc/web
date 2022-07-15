@@ -1,0 +1,3 @@
+mutation UpdateGroupDetails($groupId: Float!, $bannerImgUrl: String, $logoImgUrl: String, $description: String, $name: String) {
+  updateGroupDetails(groupId: $groupId, bannerImgUrl: $bannerImgUrl, logoImgUrl: $logoImgUrl, description: $description, name: $name)
+}
