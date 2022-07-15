@@ -1,5 +1,5 @@
-query UserPosts($limit: Float!, $uid: Float!, $sortBy: String, $cursor: Float) {
-  userPosts(limit: $limit, uid: $uid, sortBy: $sortBy, cursor: $cursor) {
+query UserPosts($limit: Float!, $sortBy: String, $cursor: Float) {
+  userPosts(limit: $limit, sortBy: $sortBy, cursor: $cursor) {
     posts {
       id
       createdAt
@@ -7,8 +7,32 @@ query UserPosts($limit: Float!, $uid: Float!, $sortBy: String, $cursor: Float) {
       title
       body
       isDisabled
+      voteCount
       wasEdited
       bodySnippet
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
     }
     hasMore
     cursor

@@ -24,6 +24,15 @@ query HomePosts($limit: Float!, $sortBy: String, $cursor: Float) {
           email
         }
       }
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
     }
     hasMore
     cursor

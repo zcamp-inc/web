@@ -121,5 +121,3 @@ const UserGroup = () => {
   const [{data}] = useGetUserGroupsQuery();
   return data;
 }
-
-

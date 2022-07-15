@@ -10,6 +10,15 @@ query TrendingPosts($cursor: Int!, $limit: Int!, $sortBy: String) {
       voteCount
       wasEdited
       bodySnippet
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
       creator {
         errors {
           field

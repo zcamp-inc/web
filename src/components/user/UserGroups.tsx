@@ -70,7 +70,7 @@ import { useRouter } from "next/router";
                   <Text w={40}> {groupInfo.name}</Text>
                   </Flex>
                   <Flex justify="flex-end" key={i}>
-                    <NextLink href={{ pathname: '/z/[groupname]', query: groupInfo.name}} passHref>
+                    <NextLink href={{ pathname: '/z/[university]/[name]', query: { university:"CU", name: groupInfo.name }}} passHref>
                     <Button
                       colorScheme="blue"
                       borderRadius="md"
