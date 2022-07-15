@@ -1,0 +1,11 @@
+query GetUniversities {
+  getUniversities {
+    id
+    createdAt
+    name
+    description
+    isDisabled
+    logoImgUrl
+    bannerImgUrl
+  }
+}

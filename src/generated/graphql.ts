@@ -213,11 +213,16 @@ export type Query = {
   getPost: PostResponse;
   getUniversities: Array<University>;
   getUserGroups: Array<Group>;
+<<<<<<< HEAD
+  group?: Maybe<GroupResponse>;
+=======
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
   groupPosts: PaginatedPosts;
   homePosts: PaginatedPosts;
   me?: Maybe<UserResponse>;
   topGroups: Array<Group>;
   trendingPosts: PaginatedPosts;
+  user?: Maybe<UserResponse>;
 };
 
 
@@ -236,6 +241,14 @@ export type QueryGetPostArgs = {
 };
 
 
+<<<<<<< HEAD
+export type QueryGroupArgs = {
+  name: Scalars['String'];
+};
+
+
+=======
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 export type QueryGroupPostsArgs = {
   cursor?: InputMaybe<Scalars['Float']>;
   groupId: Scalars['Float'];
@@ -255,6 +268,11 @@ export type QueryTrendingPostsArgs = {
   cursor: Scalars['Int'];
   limit: Scalars['Int'];
   sortBy?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryUserArgs = {
+  username: Scalars['String'];
 };
 
 export type University = {
@@ -357,6 +375,8 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null } };
 
+<<<<<<< HEAD
+=======
 export type UpdateGroupDetailsMutationVariables = Exact<{
   groupId: Scalars['Float'];
   bannerImgUrl?: InputMaybe<Scalars['String']>;
@@ -368,6 +388,7 @@ export type UpdateGroupDetailsMutationVariables = Exact<{
 
 export type UpdateGroupDetailsMutation = { __typename?: 'Mutation', updateGroupDetails: boolean };
 
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 export type GetGroupUserCountQueryVariables = Exact<{
   groupId: Scalars['Float'];
 }>;
@@ -397,6 +418,16 @@ export type GetUserGroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetUserGroupsQuery = { __typename?: 'Query', getUserGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
 
+<<<<<<< HEAD
+export type GroupQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type GroupQuery = { __typename?: 'Query', group?: { __typename?: 'GroupResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, group?: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string } | null } | null };
+
+=======
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 export type HomePostsQueryVariables = Exact<{
   limit: Scalars['Float'];
   sortBy?: InputMaybe<Scalars['String']>;
@@ -404,7 +435,7 @@ export type HomePostsQueryVariables = Exact<{
 }>;
 
 
-export type HomePostsQuery = { __typename?: 'Query', homePosts: { __typename?: 'PaginatedPosts', hasMore: boolean, cursor: number, posts?: Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } }> | null } };
+export type HomePostsQuery = { __typename?: 'Query', homePosts: { __typename?: 'PaginatedPosts', hasMore: boolean, cursor: number, posts?: Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null }, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string } }> | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -423,7 +454,14 @@ export type TrendingPostsQueryVariables = Exact<{
 }>;
 
 
-export type TrendingPostsQuery = { __typename?: 'Query', trendingPosts: { __typename?: 'PaginatedPosts', hasMore: boolean, cursor: number, posts?: Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } }> | null } };
+export type TrendingPostsQuery = { __typename?: 'Query', trendingPosts: { __typename?: 'PaginatedPosts', hasMore: boolean, cursor: number, posts?: Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } }> | null } };
+
+export type UserQueryVariables = Exact<{
+  username: Scalars['String'];
+}>;
+
+
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } | null };
 
 export const RegErrorFragmentDoc = gql`
     fragment RegError on FieldError {
@@ -590,6 +628,8 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
+<<<<<<< HEAD
+=======
 export const UpdateGroupDetailsDocument = gql`
     mutation UpdateGroupDetails($groupId: Float!, $bannerImgUrl: String, $logoImgUrl: String, $description: String, $name: String) {
   updateGroupDetails(
@@ -605,6 +645,7 @@ export const UpdateGroupDetailsDocument = gql`
 export function useUpdateGroupDetailsMutation() {
   return Urql.useMutation<UpdateGroupDetailsMutation, UpdateGroupDetailsMutationVariables>(UpdateGroupDetailsDocument);
 };
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 export const GetGroupUserCountDocument = gql`
     query GetGroupUserCount($groupId: Float!) {
   getGroupUserCount(groupId: $groupId)
@@ -713,6 +754,32 @@ export const GetUserGroupsDocument = gql`
 export function useGetUserGroupsQuery(options?: Omit<Urql.UseQueryArgs<GetUserGroupsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetUserGroupsQuery>({ query: GetUserGroupsDocument, ...options });
 };
+<<<<<<< HEAD
+export const GroupDocument = gql`
+    query Group($name: String!) {
+  group(name: $name) {
+    errors {
+      field
+      message
+    }
+    group {
+      id
+      createdAt
+      name
+      description
+      isDisabled
+      logoImgUrl
+      bannerImgUrl
+    }
+  }
+}
+    `;
+
+export function useGroupQuery(options: Omit<Urql.UseQueryArgs<GroupQueryVariables>, 'query'>) {
+  return Urql.useQuery<GroupQuery>({ query: GroupDocument, ...options });
+};
+=======
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
 export const HomePostsDocument = gql`
     query HomePosts($limit: Float!, $sortBy: String, $cursor: Float) {
   homePosts(limit: $limit, sortBy: $sortBy, cursor: $cursor) {
@@ -739,6 +806,15 @@ export const HomePostsDocument = gql`
           profileImgUrl
           email
         }
+      }
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
       }
     }
     hasMore
@@ -797,6 +873,15 @@ export const TrendingPostsDocument = gql`
       voteCount
       wasEdited
       bodySnippet
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
       creator {
         errors {
           field
@@ -820,4 +905,26 @@ export const TrendingPostsDocument = gql`
 
 export function useTrendingPostsQuery(options: Omit<Urql.UseQueryArgs<TrendingPostsQueryVariables>, 'query'>) {
   return Urql.useQuery<TrendingPostsQuery>({ query: TrendingPostsDocument, ...options });
+};
+export const UserDocument = gql`
+    query User($username: String!) {
+  user(username: $username) {
+    errors {
+      field
+      message
+    }
+    user {
+      id
+      createdAt
+      username
+      isDisabled
+      profileImgUrl
+      email
+    }
+  }
+}
+    `;
+
+export function useUserQuery(options: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
 };

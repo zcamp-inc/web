@@ -1,0 +1,17 @@
+query Group($name: String!) {
+  group(name: $name) {
+    errors {
+      field
+      message
+    }
+    group {
+      id
+      createdAt
+      name
+      description
+      isDisabled
+      logoImgUrl
+      bannerImgUrl
+    }
+  }
+}

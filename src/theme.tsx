@@ -5,8 +5,8 @@ import "@fontsource/nunito";
 
 const breakpoints = {
     sm: '320px',
-    md: '1000px',
-    lg: '960px',
+    md: '768px',
+    lg: '1024px',
     xl: '1200px',
     '2xl': '1536px',
   }

@@ -14,4 +14,8 @@ mutation CreateGroup($description: String!, $name: String!) {
       bannerImgUrl
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f

@@ -1,7 +1,11 @@
 import {
     useTopGroupsQuery,
     useJoinGroupMutation,
+<<<<<<< HEAD
+    useGetUserGroupsQuery,
+=======
     useGetUserGroupsQuery
+>>>>>>> 7dd5f4d5e06d22df0060516bbc66cca878500a2f
   } from "../../generated/graphql";
   import {
     Box,
@@ -70,7 +74,7 @@ import { useRouter } from "next/router";
                   <Text w={40}> {groupInfo.name}</Text>
                   </Flex>
                   <Flex justify="flex-end" key={i}>
-                    <NextLink href={{ pathname: '/z/[groupname]', query: groupInfo.name}} passHref>
+                    <NextLink href={{ pathname: '/z/[group]', query: {group: groupInfo.name}}} passHref>
                     <Button
                       colorScheme="blue"
                       borderRadius="md"

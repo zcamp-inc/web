@@ -19,21 +19,21 @@ import { IoGridOutline, IoChatbubbleEllipsesOutline, IoBookmarksOutline, IoCaret
 import { Layout } from "../../components/Layout";
 import UserCard from "../../components/user/UserCard";
 import FakePost from "../../components/post/fakepost";
-import { useMeQuery } from "../../generated/graphql";
+import { useGetUserFromUrl } from "../../utils/getUserFromUrl";
 import { fakedata } from "../../../data";
 
 const UserProfile = () => {
+  const [{ data, error }] = useGetUserFromUrl()
 
-  const [{ data }] = useMeQuery();
   return (
     <Layout>
       <Flex direction='column' align='center'>
-      <Flex direction='row' justify='space-between' align='center' ml={-80} mr={-10}>
-        <Avatar src={data?.me?.user?.profileImgUrl} size="2xl" mr={24}  background={'linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #5E00AB, #57FFF5) border-box'} border="3px solid transparent" />
+      <Flex direction='row' justify='space-between' align='center' ml={-80} mr={-10} >
+        <Avatar src={data?.user?.user?.profileImgUrl} w='170px' h='170px' mr={24}  background={'linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #5E00AB, #57FFF5) border-box'} border="3px solid transparent" />
         <Flex direction="column" justify="space-between">
           <Flex direction="row" justify="space-between" align='center' mt={6}>
             <Heading fontSize={{ base: 14, md: 28 }} fontWeight={400} mr={2}>
-              {data?.me?.user?.username}
+              {data?.user?.user?.username}
             </Heading>
             <Flex direction="row" justify="end">
               <Button size="sm" colorScheme="blue" fontWeight={400}>
@@ -58,7 +58,7 @@ const UserProfile = () => {
             </Box>            
           </Stack>
           <Box mt={5}>
-          <Text>{data?.me?.user?.email}</Text>
+          <Text>{data?.user?.user?.email}</Text>
           <Text fontWeight='light'>Steady thinking about deez noughts</Text>
 
           </Box>
@@ -66,9 +66,11 @@ const UserProfile = () => {
         </Flex>
         </Flex>
 
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10} mt={40}>
+        <Flex justify="center">
+
         <Flex direction="column" ml={{ base: -10, md: -20 }}>
-         <Tabs isFitted variant="unstyled" alignSelf='center' w={{ base: "full", md: "xl" }}>
+         <Tabs isFitted variant="unstyled" alignSelf='center'w={{ base: "370px", md: "768px", lg: "600px" }}
+>
             <TabList
               bg="white"
               mb={3}
@@ -201,10 +203,10 @@ const UserProfile = () => {
             </TabPanels>
           </Tabs>
         </Flex>
-        <Box display={{ base: "none", md: "block" }}>
+        <Box display={{ base: "none", md: "block" }} ml={5}>
           <UserCard />
         </Box>
-      </SimpleGrid>
+      </Flex>
         </Flex>
       
     </Layout>
