@@ -36,14 +36,15 @@ const FakePost: React.FC<FakePostProps> = () => {
       </Box>
     ) : (
       data?.trendingPosts?.posts?.map((p) => (
-        <VStack spacing={{ base: 5, md: 5 }}>
+        <VStack spacing={{ base: 0, md: 5 }}>
           <Box
             borderWidth="1px"
             borderRadius="lg"
             bg="white"
-            pb={8}
-            w={{ base: "full", md: "xl" }}
-            mb={5}
+            pb={2}
+            w={{ base: "370px", md: "768px", lg: "600px" }}
+            minH={40}
+            mb={{ base: 2 }}
           >
             <Stack spacing={10}>
               <Flex
@@ -51,7 +52,7 @@ const FakePost: React.FC<FakePostProps> = () => {
                 justify="space-between"
                 px={3}
               >
-                <Flex px={2} pt={3}>
+                <Flex px={2} pt={2}>
                   <Avatar
                     size="md"
                     src={p.creator.user?.profileImgUrl}
@@ -93,11 +94,11 @@ const FakePost: React.FC<FakePostProps> = () => {
               </Flex>
 
               <Stack px={6}>
-                <Heading as="h4" fontSize={24} fontWeight={500}>
+                <Heading as="h4" fontSize={24} fontWeight={500} mt={-5} noOfLines={2}>
                   {p.title}
                 </Heading>
                 <Box mt={4}>
-                  <Text fontSize={16} fontWeight={300}>
+                  <Text fontSize={16} fontWeight={300} mb={-5}>
                     {p.body}
                   </Text>
                 </Box>

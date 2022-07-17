@@ -19,23 +19,23 @@ import { IoGridOutline, IoChatbubbleEllipsesOutline, IoBookmarksOutline, IoCaret
 import { Layout } from "../../components/Layout";
 import UserCard from "../../components/user/UserCard";
 import FakePost from "../../components/post/fakepost";
-import { useMeQuery } from "../../generated/graphql";
+import { useGetUserFromUrl } from "../../utils/getUserFromUrl";
 import { fakedata } from "../../../data";
 
 const UserProfile = () => {
+  const [{ data, error }] = useGetUserFromUrl()
 
-  const [{ data }] = useMeQuery();
   return (
     <Layout>
       <Flex direction='column' align='center'>
-      <Flex direction='row' justify='space-between' align='center' ml={-80} mr={-10}>
-        <Avatar src={data?.me?.user?.profileImgUrl} size="2xl" mr={24}  background={'linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #5E00AB, #57FFF5) border-box'} border="3px solid transparent" />
-        <Flex direction="column" justify="space-between">
-          <Flex direction="row" justify="space-between" align='center' mt={6}>
-            <Heading fontSize={{ base: 14, md: 28 }} fontWeight={400} mr={2}>
-              {data?.me?.user?.username}
+      <Flex direction={{ base: 'column', md: 'row' }} justify='space-between' align='center' mt={{ base: 2}}>
+        <Avatar src={data?.user?.user?.profileImgUrl}  w={{base: '120px', md: '170px'}} h={{ base: '120px', md: '170px'}} mr={{ base: 0, md: 24}}  background={'linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #5E00AB, #57FFF5) border-box'} border="3px solid transparent" />
+        <Flex direction="column" justify="space-between" align='center'>
+          <Flex direction={{ base: 'column', md: "row" }} justify="space-between" align='center' mt={6}>
+            <Heading fontSize={{ base: 18, md: 28 }} fontWeight={400} mr={{ base: 0, md: 2}} ml={{ base: 0, md: -10}}>
+              {data?.user?.user?.username}
             </Heading>
-            <Flex direction="row" justify="end">
+            <Flex direction="row" justify="end" align='center'>
               <Button size="sm" colorScheme="blue" fontWeight={400}>
                 Edit Profile
               </Button>
@@ -58,7 +58,7 @@ const UserProfile = () => {
             </Box>            
           </Stack>
           <Box mt={5}>
-          <Text>{data?.me?.user?.email}</Text>
+          <Text>{data?.user?.user?.email}</Text>
           <Text fontWeight='light'>Steady thinking about deez noughts</Text>
 
           </Box>
@@ -66,9 +66,11 @@ const UserProfile = () => {
         </Flex>
         </Flex>
 
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10} mt={40}>
-        <Flex direction="column" ml={{ base: -10, md: -20 }}>
-         <Tabs isFitted variant="unstyled" alignSelf='center' w={{ base: "full", md: "xl" }}>
+        <Flex justify="center" mt={{ base: 2, md: 10 }}>
+
+        <Flex direction="column">
+         <Tabs isFitted variant="unstyled" alignSelf='center'w={{ base: "370px", md: "768px", lg: "600px" }}
+>
             <TabList
               bg="white"
               mb={3}
@@ -85,20 +87,20 @@ const UserProfile = () => {
                   _hover={{
                     bg: "gray.200",
                   }}
-                  mr={{ base: -2, md: 1 }} 
-                  ml={{ base: -5 }}    
+                  mr={{ base: -8, md: 1 }} 
+                  ml={{ base: -8 }}    
                   px={1}             
                 >
                   <IconButton
                     icon={<IoGridOutline />}
                     borderRadius="md"
-                    fontSize={{ base: 20, md: 22 }}
+                    fontSize={{ base: 16, md: 22 }}
                     // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
                     _hover={{ color: "none", bg: "none" }}
                     aria-label="Home"
                     variant="ghost"
                   />
-                  <Text ml="1" pr={{ base: 0, md: 1}} fontSize={{ base: 16, md: 18}}>
+                  <Text ml={{ base: -2, md: "1"}} pr={{ base: -1, md: 1}} fontSize={{ base: 16, md: 18}}>
                     Posts
                   </Text>
                 </Flex>
@@ -113,18 +115,18 @@ const UserProfile = () => {
                   _hover={{
                     bg: "gray.200",
                   }}
-                  mr={{ base: -2, md: 2 }}                  
+                  mr={{ base: -8, md: 2 }}                  
                 >
                   <IconButton
                     icon={<IoChatbubbleEllipsesOutline />}
                     borderRadius="md"
-                    fontSize={{ base: 20, md: 22 }}
+                    fontSize={{ base: 16, md: 22 }}
                     // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
                     _hover={{ color: "none", bg: "none" }}
                     aria-label="Home"
                     variant="ghost"
                   />
-                  <Text ml="1" pr={1} fontSize={{ base: 16, md: 18}}>
+                  <Text ml={{ base: -2, md: 1}} pr={1} fontSize={{ base: 16, md: 18}}>
                    Comments
                   </Text>
                 </Flex>
@@ -139,20 +141,20 @@ const UserProfile = () => {
                   _hover={{
                     bg: "gray.200",
                   }}
-                  mr={{ base: -2, md: 2 }}
+                  mr={{ base: -8, md: 2 }}
 
                  
                 >
                   <IconButton
                     icon={<IoBookmarksOutline />}
                     borderRadius="md"
-                    fontSize={{ base: 20, md: 22 }}
+                    fontSize={{ base: 16, md: 22 }}
                     // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
                     _hover={{ color: "none", bg: "none" }}
                     aria-label="Home"
                     variant="ghost"
                   />
-                  <Text ml="1"pr={1} fontSize={{ base: 16, md: 18}}>
+                  <Text ml={{ base: -2, md: 1}} pr={1} fontSize={{ base: 16, md: 18}}>
                     Saved
                   </Text>
                 </Flex>
@@ -174,13 +176,13 @@ const UserProfile = () => {
                   <IconButton
                     icon={<IoCaretUpCircleOutline />}
                     borderRadius="md"
-                    fontSize={{ base: 20, md: 22 }}
+                    fontSize={{ base: 16, md: 22 }}
                     // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
                     _hover={{ color: "none", bg: "none" }}
                     aria-label="Home"
                     variant="ghost"
                   />
-                  <Text ml="1"pr={1} fontSize={{ base: 16, md: 18}}>
+                  <Text ml={{ base: -2}} pr={1} fontSize={{ base: 16, md: 18}}>
                     Upvoted
                   </Text>
                 </Flex>
@@ -201,10 +203,10 @@ const UserProfile = () => {
             </TabPanels>
           </Tabs>
         </Flex>
-        <Box display={{ base: "none", md: "block" }}>
+        <Box display={{ base: "none", lg: "block" }} ml={5}>
           <UserCard />
         </Box>
-      </SimpleGrid>
+      </Flex>
         </Flex>
       
     </Layout>

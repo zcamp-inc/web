@@ -19,7 +19,7 @@ export const Layout: React.FC<LayoutProps> = ({children}) => {
 
   return (
     <Center>
-    <Box minH="100vh" bg={{ base: "gray.200", md: "gray.200" }}>
+    <Box minH="100vh" minW='full' bg="gray.200">
       {/* <Flex display={{ base: "none", md: "block" }}>
         <LeftBar onClose={() => onClose} />
       </Flex>
@@ -40,7 +40,7 @@ export const Layout: React.FC<LayoutProps> = ({children}) => {
 
       <Header onOpen={onOpen} />
 
-      <Flex ml={{ base: 0, lg: 60 }} p="4" justify='center'>
+      <Flex justify='center'>
         {children}
       </Flex>
       

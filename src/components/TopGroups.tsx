@@ -11,6 +11,7 @@ import {
   Image,
   Avatar,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React, { useState } from "react";
 import { useGetUserGroupsQuery } from "../generated/graphql";
 
@@ -41,7 +42,7 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
             alt="logo_img"
             borderRadius="10px 10px 0 0"
             mt={data?.topGroups[0] ? -20 : 0}
-            opacity={0.2}
+            opacity={0.4}
           />
         </Box>
         <Text
@@ -61,11 +62,13 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
           <Flex justify="center" direction="column">
             {data?.topGroups.map((groupInfo, i ) => (
               <>
-              <Flex w={60} key={i} mt={2} mb={2} justify='space-between'>
+                    <Flex w={60} key={i} mt={2} mb={2} justify='space-between'>
+                    <NextLink href={{ pathname: '/z/[university]/[name]', query: { university:"CU", name: groupInfo.name }}} passHref>
                 <Flex w={60}> 
                 <Avatar src={groupInfo.logoImgUrl} size="sm"  mr={2}/>
                 <Text w={40}> {groupInfo.name}</Text>
                 </Flex>
+                  </NextLink>
                 <Flex justify="flex-end" key={i}>
                   <Button
                     colorScheme="blue"
@@ -93,8 +96,8 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
               </Flex>
               
               <Divider ml={-5} w={80} />
-
               </>
+
             ))}
           </Flex>
           

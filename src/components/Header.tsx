@@ -7,7 +7,7 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
     <Flex
       display='flex'
       zIndex='1'
-      px={{ base: 4, md: 20}}
+      px={{ base: 0, md: 20}}
       top="0"
       bg = "white"
       position="sticky"      
@@ -15,15 +15,15 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
       alignItems="center"      
       // borderBottomWidth="1px"
       // borderBottomColor='gray.200'
-      justifyContent={{ base: "space-between" }}
+      justifyContent={{ base: "space-between", md: "space-between" }}
       {...rest}
     >
 
-      <Flex justify='flex-start'>
+      <Flex justify='flex-start' ml={{ md: -16 }}>
         <img src="/zlogo/zlogo.png" width="44vh" alt='home logo' />
       </Flex>
       
-      <Flex justify='flex-end'>
+      <Flex justify='flex-end' mr={{ md: -20}}>
       <UserProfile onOpen={onOpen}/>
 
       </Flex>

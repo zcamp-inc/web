@@ -17,6 +17,7 @@ import {
   AvatarBadge,
   Stack,
   Button,
+  Icon,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -36,7 +37,6 @@ import NavLink from "../NavLink";
 import { useMeQuery, useLogoutMutation } from "../../generated/graphql";
 
 const ProfileLinkItems = [
-  { label: "Profile", icon: FiUser, href: "/u/[username]" },
   { label: "Favorites", icon: FiStar, href: "/Trending" },
   { label: "Saved Posts", icon: FiBookmark, href: "/Explore" },
   { label: "Z-Flash", icon: FiZap, href: "#" },
@@ -107,6 +107,36 @@ export default function UserDrawer({ onClose, ...rest }: { onClose: any }) {
           </VStack>
           <Box></Box>
         </Box>
+
+        <NextLink href={{ pathname: '/u/[username]', query: { username: data?.me?.user?.username} }} passHref>
+        <Flex
+          align="center"
+          p={4}
+          mx={4}
+          w={48}       
+          borderRadius="lg"
+          role="group"          
+          cursor="pointer"
+          color="#000a16"
+          fontWeight= {500}
+          _hover={{ bg: "#DDB2FF", color: "#5E00AB", fontWeight: 600 }}
+        >
+
+              <Icon
+                mr="15px"
+                fontSize={{ base: 24, md: 30 }}
+                _groupHover={{ color: "#5E00AB" }}
+                as={FiUser}
+                strokeWidth={1.7}
+
+              />
+
+            <Text fontSize={{base: "1.05rem", lg: "1.3rem"}}  >
+              Profile
+            </Text>
+        </Flex>
+
+    </NextLink>
 
         {ProfileLinkItems.map((link, i) => (
           <NavLink key={i} link={link} />

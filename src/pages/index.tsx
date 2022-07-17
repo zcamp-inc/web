@@ -14,11 +14,19 @@ import {
   Badge,
   Stack,
   VStack,
+  Button,
+  Portal,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
 } from "@chakra-ui/react";
 import { Layout } from "../components/Layout";
 import CreatePost from "../components/post/CreatePost";
 import Explore from "./explore";
-import FakePost from "../components/post/fakepost";
+import NextLink from 'next/link';
 import RightCard from "../components/RightCard";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
@@ -38,7 +46,7 @@ import { useState } from "react";
 interface IndexProps {}
 
 const Index: React.FC<IndexProps> = () => {
-  const [sort, setSort] = useState('recent')
+  const [sort, setSort] = useState("recent");
   const [{ data }] = useHomePostsQuery({
     variables: {
       limit: 15,
@@ -61,16 +69,20 @@ const Index: React.FC<IndexProps> = () => {
   } else {
     reme = (
       <Layout>
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10}>
-          <Flex direction="column" ml={{ base: -10, md: -20 }}>
-            <Box mb={5} alignSelf="center" w={{ base: "full", md: "xl" }}>
+        <Flex justify="center">
+          <Box alignItems={"center"}>
+            <Box
+              mb={5}
+              alignSelf="center"
+              w={{ base: "370px", md: "768px", lg: "600px" }}
+            >
               <CreatePost pageProps={undefined} />
             </Box>
             <Tabs
               isFitted
               variant="unstyled"
               alignSelf="center"
-              w={{ base: "full", md: "xl" }}
+              w={{ base: "370px", md: "768px", lg: "600px" }}
             >
               <TabList
                 bg="white"
@@ -79,7 +91,10 @@ const Index: React.FC<IndexProps> = () => {
                 fontWeight={600}
                 color="gray.500"
               >
-                <Tab _selected={{ color: "#ff3333" }} onClick={ () => setSort('recent')}>
+                <Tab
+                  _selected={{ color: "#ff3333" }}
+                  onClick={() => setSort("recent")}
+                >
                   <Flex
                     align="center"
                     borderRadius="md"
@@ -105,7 +120,10 @@ const Index: React.FC<IndexProps> = () => {
                   </Flex>
                 </Tab>
 
-                <Tab _selected={{ color: "#8225CE" }} onClick = { () => setSort('new') }>
+                <Tab
+                  _selected={{ color: "#8225CE" }}
+                  onClick={() => setSort("new")}
+                >
                   <Flex
                     align="center"
                     borderRadius="md"
@@ -158,6 +176,7 @@ const Index: React.FC<IndexProps> = () => {
                 </Tab>
               </TabList>
               <TabPanels>
+                {/* FOR YOU or RECENT HOMEPOST SECTION or TAB */}
                 <TabPanel>
                   {!data ? (
                     <Box borderRadius="md" bg="tan" px={3}>
@@ -165,14 +184,15 @@ const Index: React.FC<IndexProps> = () => {
                     </Box>
                   ) : (
                     data?.homePosts?.posts?.map((p) => (
-                      <VStack spacing={{ base: 5, md: 5 }}>
+                      <VStack spacing={{ base: 0, md: 5 }} key={p.id}>
                         <Box
                           borderWidth="1px"
                           borderRadius="lg"
                           bg="white"
-                          pb={8}
-                          w={{ base: "full", md: "xl" }}
-                          mb={5}
+                          pb={2}
+                          w={{ base: "370px", md: "768px", lg: "600px" }}
+                          minH={40}
+                          mb={{ base: 2 }}
                         >
                           <Stack spacing={10}>
                             <Flex
@@ -180,24 +200,176 @@ const Index: React.FC<IndexProps> = () => {
                               justify="space-between"
                               px={3}
                             >
-                              <Flex px={2} pt={3}>
+                              <Flex px={2} pt={2} align="center">
                                 <Avatar
                                   size="md"
-                                  src={p.creator.user?.profileImgUrl}
+                                  src={p.group.logoImgUrl}
+                                  mr={-1}
                                 />
-                                <Stack ml={3}>
-                                  <Text
-                                    fontSize={{ base: 14, md: 18 }}
-                                    fontWeight={600}
-                                    mb={-2}
+                                <Stack ml={2}>
+                                  <Popover
+                                    trigger="hover"
+                                    isLazy
+                                    openDelay={650}
                                   >
-                                    {p.creator.user?.username}
-                                  </Text>
+                                    <PopoverTrigger>
+                                      <Button
+                                        fontSize={{ base: 14, md: 18 }}
+                                        fontWeight={600}
+                                        mb={-2}
+                                        mt={-1}
+                                        variant="none"
+                                      >
+                                        {p.group.name}
+                                      </Button>
+                                    </PopoverTrigger>
+                                    <Portal>
+                                      <PopoverContent>
+                                        <PopoverHeader>
+                                          <Flex align="center">
+                                            <Avatar
+                                              size="md"
+                                              src={
+                                                p.group.logoImgUrl
+                                              }
+                                            />
+                                            <Text
+                                              fontSize={18}
+                                              ml={2}
+                                              fontWeight={600}
+                                            >
+                                              {p.group.name}
+                                            </Text>
+                                          </Flex>
+                                        </PopoverHeader>
+                                        <PopoverBody>
+                                          <Text noOfLines={2}> {p.group.description} </Text>
+                                          <Stack
+                                            direction="row"
+                                            spacing={10}
+                                            mt={3}
+                                          >
+                                            <Text
+                                              fontSize="1rem"
+                                              fontWeight={400}
+                                              mr={2}
+                                            >
+                                              <b>100k</b> Upvotes
+                                            </Text>
+
+                                            <Text fontSize="1rem" mr={2}>
+                                              <b>103</b> Points
+                                            </Text>
+                                            <Box>
+                                              <Badge
+                                                colorScheme="yellow"
+                                                variant="solid"
+                                              >
+                                                L1 USER
+                                              </Badge>
+                                            </Box>
+                                          </Stack>
+                                        </PopoverBody>
+                                        <PopoverFooter>
+                                          <Flex>
+                                          <NextLink href={{ pathname: '/z/[university]/[name]', query: { university:"CU", name: p.group.name } }} passHref>
+                                            <Button colorScheme="blue">
+                                              View Group
+                                            </Button>
+                                            </NextLink>
+                                            <Button colorScheme="blue" variant='outline' ml={5}>
+                                              Join Chat
+                                            </Button>
+                                          </Flex>
+                                        </PopoverFooter>
+                                      </PopoverContent>
+                                    </Portal>
+                                  </Popover>
+
+                                  {/* POSTED BY USER SECTION */}
                                   <Flex>
-                                    <Text fontSize="0.6rem" mr={2}>
-                                      Posted by {p.creator.user?.username}
+                                  <Popover
+                                    trigger="hover"
+                                    isLazy
+                                    openDelay={650}
+                                  >
+                                    <PopoverTrigger>
+                                      <Button
+                                        fontSize="0.6rem"
+                                        fontWeight={400}
+                                        mb={-2}
+                                        mt={-4}
+                                        variant="none"
+                                        mr={-2}
+                                      >
+                                       Posted by {p.creator.user?.username}
+                                      </Button>
+                                    </PopoverTrigger>
+                                    <Portal>
+                                      <PopoverContent>
+                                        <PopoverHeader>
+                                          <Flex align="center">
+                                            <Avatar
+                                              size="md"
+                                              src={
+                                                p.creator.user?.profileImgUrl
+                                              }
+                                            />
+                                            <Text
+                                              fontSize={18}
+                                              ml={2}
+                                              fontWeight={600}
+                                            >
+                                              {p.creator.user?.username}
+                                            </Text>
+                                          </Flex>
+                                        </PopoverHeader>
+                                        <PopoverBody>
+                                          <Text> {p.creator.user?.email} </Text>
+                                          <Stack
+                                            direction="row"
+                                            spacing={10}
+                                            mt={3}
+                                          >
+                                            <Text
+                                              fontSize="1rem"
+                                              fontWeight={400}
+                                              mr={2}
+                                            >
+                                              <b>100k</b> Upvotes
+                                            </Text>
+
+                                            <Text fontSize="1rem" mr={2}>
+                                              <b>103</b> Points
+                                            </Text>
+                                            <Box>
+                                              <Badge
+                                                colorScheme="yellow"
+                                                variant="solid"
+                                              >
+                                                L1 USER
+                                              </Badge>
+                                            </Box>
+                                          </Stack>
+                                        </PopoverBody>
+                                        <PopoverFooter>
+                                          <Flex>
+                                          <NextLink href={{ pathname: '/u/[username]', query: { username: p.creator.user?.username} }} passHref>
+                                            <Button colorScheme="blue">
+                                              View Profile
+                                            </Button>
+                                            </NextLink>
+                                            <Button colorScheme="blue" variant='outline' ml={5}>
+                                              Start Chat
+                                            </Button>
+                                          </Flex>
+                                        </PopoverFooter>
+                                      </PopoverContent>
+                                    </Portal>
+                                  </Popover>
+                                    <Text fontSize="0.6rem" mt={-1}>
+                                     {moment(p.createdAt).fromNow()}
                                     </Text>
-                                    <Text fontSize="0.6rem">{moment(p.createdAt).fromNow()}</Text>
                                   </Flex>
                                 </Stack>
                                 <Box>
@@ -222,19 +394,138 @@ const Index: React.FC<IndexProps> = () => {
                             </Flex>
 
                             <Stack px={6}>
-                              <Heading as="h4" fontSize={24} fontWeight={500}>
+                              <Heading
+                                as="h4"
+                                fontSize={24}
+                                fontWeight={500}
+                                mt={-5}
+                                noOfLines={2}
+                              >
                                 {p.title}
                               </Heading>
                               <Box mt={4}>
-                                <Text fontSize={16} fontWeight={300}>
+                                <Text fontSize={16} fontWeight={300} mb={-5}>
+                                  {p.bodySnippet}
+                                </Text>
+                              </Box>
+                              {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
+<Image
+  src={data?.getPost?.body ? data?.getPost?.body : null}
+  alt={data?.getPost?.title ? null : data?.getPost?.title}
+/>
+</Box> */}
+                            </Stack>
+                            <Box maxW="full" maxH="lg" alignItems="center">
+                              <PostInteraction
+                                postVote={p.voteCount}
+                                comments={comments}
+                              />
+                            </Box>
+                          </Stack>
+                        </Box>
+                      </VStack>
+                    ))
+                  )}
+                  <Flex justify="center">
+                    <Button
+                      colorScheme="blue"
+                      borderRadius="md"
+                      size="lg"
+                      h={10}
+                      fontWeight={500}
+                    >
+                      Load More
+                    </Button>
+                  </Flex>
+                </TabPanel>
+
+                {/** NEW HOMEPOST SECTION or TAB */}
+                <TabPanel>
+                  {!data ? (
+                    <Box borderRadius="md" bg="tan" px={3}>
+                      Nothing to see here
+                    </Box>
+                  ) : (
+                    data?.homePosts?.posts?.map((p) => (
+                      <VStack spacing={{ base: 0, md: 5 }}>
+                        <Box
+                          borderWidth="1px"
+                          borderRadius="lg"
+                          bg="white"
+                          pb={2}
+                          w={{ base: "370px", md: "768px", lg: "650px" }}
+                          minH={40}
+                          mb={{ base: 2 }}
+                        >
+                          <Stack spacing={10}>
+                            <Flex
+                              direction="row"
+                              justify="space-between"
+                              px={3}
+                            >
+                              <Flex px={2} pt={2}>
+                                <Avatar
+                                  size="md"
+                                  src={p.creator.user?.profileImgUrl}
+                                />
+                                <Stack ml={3}>
+                                  <Text
+                                    fontSize={{ base: 14, md: 18 }}
+                                    fontWeight={600}
+                                    mb={-2}
+                                  >
+                                    {p.creator.user?.username}
+                                  </Text>
+                                  <Flex>
+                                    <Text fontSize="0.6rem" mr={2}>
+                                      Posted by {p.creator.user?.username}
+                                    </Text>
+                                    <Text fontSize="0.6rem">
+                                      {moment(p.createdAt).fromNow()}
+                                    </Text>
+                                  </Flex>
+                                </Stack>
+                                <Box>
+                                  <Badge
+                                    colorScheme="blue"
+                                    variant="outline"
+                                    ml={2}
+                                  >
+                                    POST
+                                  </Badge>
+                                </Box>
+                              </Flex>
+                              <Flex direction="row" justify="flex-end">
+                                <IconButton
+                                  icon={<BsThreeDots />}
+                                  variant="ghost"
+                                  aria-label="More Options"
+                                  mr={2}
+                                  mt={1}
+                                />
+                              </Flex>
+                            </Flex>
+
+                            <Stack px={6}>
+                              <Heading
+                                as="h4"
+                                fontSize={24}
+                                fontWeight={500}
+                                mt={-5}
+                                noOfLines={2}
+                              >
+                                {p.title}
+                              </Heading>
+                              <Box mt={4}>
+                                <Text fontSize={16} fontWeight={300} mb={-5}>
                                   {p.body}
                                 </Text>
                               </Box>
                               {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
-              <Image
-                src={data?.getPost?.body ? data?.getPost?.body : null}
-                alt={data?.getPost?.title ? null : data?.getPost?.title}
-              />
+            <Image
+              src={data?.getPost?.body ? data?.getPost?.body : null}
+              alt={data?.getPost?.title ? null : data?.getPost?.title}
+            />
             </Box> */}
                             </Stack>
                             <Box maxW="full" maxH="lg" alignItems="center">
@@ -250,106 +541,16 @@ const Index: React.FC<IndexProps> = () => {
                   )}
                 </TabPanel>
                 <TabPanel>
-                {!data ? (
-                    <Box borderRadius="md" bg="tan" px={3}>
-                      Nothing to see here
-                    </Box>
-                  ) : (
-                    data?.homePosts?.posts?.map((p) => (
-                      <VStack spacing={{ base: 5, md: 5 }}>
-                        <Box
-                          borderWidth="1px"
-                          borderRadius="lg"
-                          bg="white"
-                          pb={8}
-                          w={{ base: "full", md: "xl" }}
-                          mb={5}
-                        >
-                          <Stack spacing={10}>
-                            <Flex
-                              direction="row"
-                              justify="space-between"
-                              px={3}
-                            >
-                              <Flex px={2} pt={3}>
-                                <Avatar
-                                  size="md"
-                                  src={p.creator.user?.profileImgUrl}
-                                />
-                                <Stack ml={3}>
-                                  <Text
-                                    fontSize={{ base: 14, md: 18 }}
-                                    fontWeight={600}
-                                    mb={-2}
-                                  >
-                                    {p.creator.user?.username}
-                                  </Text>
-                                  <Flex>
-                                    <Text fontSize="0.6rem" mr={2}>
-                                      Posted by {p.creator.user?.username}
-                                    </Text>
-                                    <Text fontSize="0.6rem">{moment(p.createdAt).fromNow()}</Text>
-                                  </Flex>
-                                </Stack>
-                                <Box>
-                                  <Badge
-                                    colorScheme="blue"
-                                    variant="outline"
-                                    ml={2}
-                                  >
-                                    POST
-                                  </Badge>
-                                </Box>
-                              </Flex>
-                              <Flex direction="row" justify="flex-end">
-                                <IconButton
-                                  icon={<BsThreeDots />}
-                                  variant="ghost"
-                                  aria-label="More Options"
-                                  mr={2}
-                                  mt={1}
-                                />
-                              </Flex>
-                            </Flex>
-
-                            <Stack px={6}>
-                              <Heading as="h4" fontSize={24} fontWeight={500}>
-                                {p.title}
-                              </Heading>
-                              <Box mt={4}>
-                                <Text fontSize={16} fontWeight={300}>
-                                  {p.body}
-                                </Text>
-                              </Box>
-                              {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
-              <Image
-                src={data?.getPost?.body ? data?.getPost?.body : null}
-                alt={data?.getPost?.title ? null : data?.getPost?.title}
-              />
-            </Box> */}
-                            </Stack>
-                            <Box maxW="full" maxH="lg" alignItems="center">
-                              <PostInteraction
-                                postVote={postVote}
-                                comments={comments}
-                              />
-                            </Box>
-                          </Stack>
-                        </Box>
-                      </VStack>
-                    ))
-                  )}
-                </TabPanel>
-                <TabPanel>
                   <Heading>No Events for now</Heading>
                 </TabPanel>
               </TabPanels>
             </Tabs>
-          </Flex>
-          <Box display={{ base: "none", md: "block" }}>
+          </Box>
+          <Box display={{ base: "none", lg: "block" }} ml={5}>
             <RightCard />
           </Box>
-        </SimpleGrid>
+          {/* </SimpleGrid> */}
+        </Flex>
       </Layout>
     );
   }
