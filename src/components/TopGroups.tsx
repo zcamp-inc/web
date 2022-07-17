@@ -64,7 +64,7 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
               <>
                     <Flex w={60} key={i} mt={2} mb={2} justify='space-between'>
                     <NextLink href={{ pathname: '/z/[university]/[name]', query: { university:"CU", name: groupInfo.name }}} passHref>
-                <Flex w={60}> 
+                <Flex w={60} cursor='pointer'> 
                 <Avatar src={groupInfo.logoImgUrl} size="sm"  mr={2}/>
                 <Text w={40}> {groupInfo.name}</Text>
                 </Flex>

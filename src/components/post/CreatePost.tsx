@@ -38,6 +38,7 @@ import { InputField } from "../InputField";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
 import { setgroups } from "process";
+import { groupCollapsed } from "console";
 interface CreatePostProps {}
 
 const CreatePost: React.FC<CreatePostProps> = () => {
@@ -53,9 +54,10 @@ const CreatePost: React.FC<CreatePostProps> = () => {
     onClose: onMenuClose,
   } = useDisclosure();
 
+  const [name, setName] = useControllableState({
+    defaultValue: "Select Group",
+  });
   const [group, setGroup] = useControllableState({ defaultValue: 0 });
-  const [name, setName] = useControllableState({ defaultValue: "Select Group" });
-
 
   const router = useRouter();
   const [{ data, fetching }] = useMeQuery();
@@ -202,7 +204,6 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                       </option>
                   ))}
                 </Select> */}
-                 
                 </Flex>
               </Flex>
 
@@ -213,7 +214,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                   const response = await createpost({
                     title: values.title,
                     body: values.body,
-                    groupId: values.groupId,
+                    groupId: group,
                   });
                   if (response?.data?.createPost?.post) {
                     router.reload();
@@ -221,32 +222,42 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                 }}
               >
                 {({ isSubmitting }) => (
-                  
                   <Form>
-                     <Menu>
-                    {({ isOpen={isMenuOpen} }) => (
-                      <>
-                        <MenuButton
-                          isActive={isMenuOpen}
-                          as={Button}
-                          rightIcon={<IoCaretDown />}
-                        >
-                          {name}
-                        </MenuButton>
-                        <MenuList>
-                          {UserGroup?.getUserGroups.map((groups) =>(
-                            <MenuItem onClick={() => {setGroup(groups.id); setName(groups.name)} } >{groups.name}</MenuItem>
-                          ))}
-                          <MenuItem onClick={() => alert("Kagebunshin")}>
-                            Create a Copy
-                          </MenuItem>
-                        </MenuList>
-                      </>
-                    )}
-                  </Menu>
+                    <Menu>
+                      {() => (
+                        <>
+                          <MenuButton
+                            isActive={isMenuOpen}
+                            as={Button}
+                            rightIcon={<IoCaretDown />}
+                            name="groupId"
+                          >
+                            {name}
+                          </MenuButton>
+                          <MenuList>
+                            {UserGroup?.getUserGroups.map((groups) => (
+                              <>
+                                <MenuItem
+                                  name="groupId"
+                                  onClick={() => {setGroup(groups.id); setName(groups.name)}}
+                                >
+                                  {groups.name}
+                                </MenuItem>
+
+
+                              </>
+                            ))}
+                            <MenuItem onClick={() => alert("Kagebunshin")}>
+                              Create a Copy
+                            </MenuItem>
+                          </MenuList>
+                        </>
+                      )}
+                    </Menu>
                     <Box mb={3} mt={3}>
                       <InputField name="title" placeholder="Title" />
                     </Box>
+
                     <InputField
                       textarea
                       name="body"

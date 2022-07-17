@@ -121,7 +121,7 @@ const CreateGPost: React.FC<CreateGPostProps> = () => {
   } else {
     create = (
       <>
-        <Box borderWidth="1px" borderRadius="lg" bg="white" pb={4} w="full">
+        <Box borderWidth="1px" borderRadius="lg" bg="white" pb={4} w={{ base: "370px", md: "768px", lg: "600px" }}>
           <Flex direction="row" px={2} pt={3}>
             <Avatar src={data?.me?.user?.profileImgUrl} size="md" ml={1} mr={5}>
               {" "}
