@@ -51,6 +51,7 @@ const GroupProfile = () => {
             w={{base: '120px', md: '170px'}} h={{ base: '120px', md: '170px'}}
             mr={{ md: 10, lg: 16 }}
             ml={{ md: 10, lg: 0 }}
+            bg='white'
             // background={
             //   "linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #5E00AB, #57FFF5) border-box"
             // }

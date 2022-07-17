@@ -76,7 +76,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
           borderRadius="lg"
           bgImage={"/newuser.png"}
           pb={8}
-          w={{ base: "370px", md: "768px", lg: "600px" }}
+          w='full'
         >
           <Flex direction="column" px={2} pt={3}>
             <Heading fontWeight={600} fontSize={28}>
