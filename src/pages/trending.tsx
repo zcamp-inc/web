@@ -54,9 +54,7 @@ const Trending = () => {
   const router = useRouter();
   return (
     <Layout>
-              <Flex justify='center'>
-
-      {/* <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10, lg: 5 }} ml={{md: 10, lg: 24}}> */}
+      <Flex justify='center' mt={5}>
         <Flex direction="column">
          <Tabs isFitted variant="unstyled" alignSelf='center' w={{ base: "370px", md: "768px", lg: "600px" }}>
             <TabList

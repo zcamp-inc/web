@@ -69,7 +69,7 @@ const Index: React.FC<IndexProps> = () => {
   } else {
     reme = (
       <Layout>
-        <Flex justify="center">
+        <Flex justify="center" mt={5}>
           <Box alignItems={"center"}>
             <Box
               mb={5}
