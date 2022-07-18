@@ -74,7 +74,7 @@ const Index: React.FC<IndexProps> = () => {
             <Box
               mb={5}
               alignSelf="center"
-              w={{ base: "370px", md: "768px", lg: "600px" }}
+              w={{ base: "370px", md: "768px", lg: "650px" }}
             >
               <CreatePost pageProps={undefined} />
             </Box>
@@ -82,7 +82,7 @@ const Index: React.FC<IndexProps> = () => {
               isFitted
               variant="unstyled"
               alignSelf="center"
-              w={{ base: "370px", md: "768px", lg: "600px" }}
+              w={{ base: "370px", md: "768px", lg: "650px" }}
             >
               <TabList
                 bg="white"
@@ -184,15 +184,18 @@ const Index: React.FC<IndexProps> = () => {
                     </Box>
                   ) : (
                     data?.homePosts?.posts?.map((p) => (
-                      <VStack spacing={{ base: 0, md: 5 }} key={p.id}>
+                      
+                      <VStack spacing={{ base: 0, md: 5 }} key={p.id} >
                         <Box
-                          borderWidth="1px"
+                          borderWidth="2px"
                           borderRadius="lg"
                           bg="white"
+                          _hover={{ borderColor: 'gray.400' }}
                           pb={2}
-                          w={{ base: "370px", md: "768px", lg: "600px" }}
+                          w={{ base: "370px", md: "768px", lg: "650px" }}
                           minH={40}
                           mb={{ base: 2 }}
+                          zIndex={0}
                         >
                           <Stack spacing={10}>
                             <Flex
@@ -389,11 +392,14 @@ const Index: React.FC<IndexProps> = () => {
                                   aria-label="More Options"
                                   mr={2}
                                   mt={1}
+                                  onClick={() => window.open('https://google.com', '_blank')}
+                                  zIndex={2}
                                 />
                               </Flex>
                             </Flex>
+                            <NextLink href={{ pathname: '/z/[university]/[name]/post/[id]', query: { university:"CU", name: p.group.name, id: p.id  } }} passHref>
 
-                            <Stack px={6}>
+                            <Stack px={6} cursor='pointer'>
                               <Heading
                                 as="h4"
                                 fontSize={24}
@@ -415,6 +421,7 @@ const Index: React.FC<IndexProps> = () => {
 />
 </Box> */}
                             </Stack>
+                              </NextLink>
                             <Box maxW="full" maxH="lg" alignItems="center">
                               <PostInteraction
                                 postVote={p.voteCount}

@@ -317,6 +317,15 @@ export type ChangePasswordMutationVariables = Exact<{
 
 export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null } };
 
+export type CreateCommentMutationVariables = Exact<{
+  postId: Scalars['Int'];
+  body?: InputMaybe<Scalars['String']>;
+  parentCommentId?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'CommentResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comment?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+
 export type CreateGroupMutationVariables = Exact<{
   description: Scalars['String'];
   name: Scalars['String'];
@@ -512,6 +521,54 @@ export const ChangePasswordDocument = gql`
 
 export function useChangePasswordMutation() {
   return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
+};
+export const CreateCommentDocument = gql`
+    mutation CreateComment($postId: Int!, $body: String, $parentCommentId: Int) {
+  createComment(postId: $postId, body: $body, parentCommentId: $parentCommentId) {
+    errors {
+      field
+      message
+    }
+    comment {
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      voteCount
+      wasEdited
+      bodySnippet
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useCreateCommentMutation() {
+  return Urql.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument);
 };
 export const CreateGroupDocument = gql`
     mutation CreateGroup($description: String!, $name: String!) {

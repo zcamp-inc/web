@@ -45,6 +45,7 @@ const GroupProfile = () => {
         </Box>
 
         <Flex justify="center" direction='column'>
+
         <Flex direction={{ base: 'column', md:"row"}} justify="flex-start" align="center" mt={-12}>
           <Avatar
             src={data?.group?.group?.logoImgUrl}
@@ -93,7 +94,9 @@ const GroupProfile = () => {
             </Flex>
           </Flex>
         </Flex>
+
         <Flex direction='row' justify='center'>
+          
           <Flex direction="column" mt={20}>
             <Box
               mb={5}
@@ -238,6 +241,7 @@ const GroupProfile = () => {
             </TabPanels>
           </Tabs>
           </Flex>
+
           <Box display={{ base: "none", lg: "block" }} ml={5} mt={{ lg: -24}}>
             <GroupCard />
           </Box>

@@ -1,0 +1,42 @@
+mutation CreateComment($postId: Int!, $body: String, $parentCommentId: Int) {
+  createComment(postId: $postId, body: $body, parentCommentId: $parentCommentId) {
+    errors {
+      field
+      message
+    }
+    comment {
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      voteCount
+      wasEdited
+      bodySnippet
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
+    }
+  }
+}

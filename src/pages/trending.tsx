@@ -56,7 +56,7 @@ const Trending = () => {
     <Layout>
       <Flex justify='center' mt={5}>
         <Flex direction="column">
-         <Tabs isFitted variant="unstyled" alignSelf='center' w={{ base: "370px", md: "768px", lg: "600px" }}>
+         <Tabs isFitted variant="unstyled" alignSelf='center' w={{ base: "370px", md: "768px", lg: "650px" }}>
             <TabList
               bg="white"
               mb={3}
@@ -159,7 +159,7 @@ const Trending = () => {
                           borderRadius="lg"
                           bg="white"
                           pb={2}
-                          w={{ base: "370px", md: "768px", lg: "600px" }}
+                          w={{ base: "370px", md: "768px", lg: "650px" }}
                           minH={40}
                           mb={{ base: 2 }}
                         >
