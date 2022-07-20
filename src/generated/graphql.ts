@@ -343,6 +343,13 @@ export type CreatePostMutationVariables = Exact<{
 
 export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
 
+export type DeletePostMutationVariables = Exact<{
+  deletePostId: Scalars['Float'];
+}>;
+
+
+export type DeletePostMutation = { __typename?: 'Mutation', deletePost: boolean };
+
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -387,6 +394,15 @@ export type UpdateGroupDetailsMutationVariables = Exact<{
 
 
 export type UpdateGroupDetailsMutation = { __typename?: 'Mutation', updateGroupDetails: boolean };
+
+export type UpdatePostMutationVariables = Exact<{
+  updatePostId: Scalars['Int'];
+  body?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
 
 export type GetGroupUserCountQueryVariables = Exact<{
   groupId: Scalars['Float'];
@@ -632,6 +648,15 @@ export const CreatePostDocument = gql`
 export function useCreatePostMutation() {
   return Urql.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument);
 };
+export const DeletePostDocument = gql`
+    mutation DeletePost($deletePostId: Float!) {
+  deletePost(id: $deletePostId)
+}
+    `;
+
+export function useDeletePostMutation() {
+  return Urql.useMutation<DeletePostMutation, DeletePostMutationVariables>(DeletePostDocument);
+};
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -695,6 +720,54 @@ export const UpdateGroupDetailsDocument = gql`
 
 export function useUpdateGroupDetailsMutation() {
   return Urql.useMutation<UpdateGroupDetailsMutation, UpdateGroupDetailsMutationVariables>(UpdateGroupDetailsDocument);
+};
+export const UpdatePostDocument = gql`
+    mutation UpdatePost($updatePostId: Int!, $body: String, $title: String) {
+  updatePost(id: $updatePostId, body: $body, title: $title) {
+    errors {
+      field
+      message
+    }
+    post {
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      voteCount
+      wasEdited
+      bodySnippet
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useUpdatePostMutation() {
+  return Urql.useMutation<UpdatePostMutation, UpdatePostMutationVariables>(UpdatePostDocument);
 };
 export const GetGroupUserCountDocument = gql`
     query GetGroupUserCount($groupId: Float!) {

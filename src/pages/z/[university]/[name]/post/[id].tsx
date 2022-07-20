@@ -71,7 +71,7 @@ const Post = ({}) => {
   return (
     <Layout>
       <Flex direction="column" justify="space-between" align="center" w="full">
-        <Box w="full" h="60px" bgGradient={'linear(to-l, orange.100, purple.300)'} overflow="hidden">
+        <Box w="full" h="60px" bg='pink' overflow="hidden">
           <Flex ml={40} align="center">
             <Avatar
               size="md"
