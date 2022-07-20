@@ -26,7 +26,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
+  Progress,
 } from "@chakra-ui/react";
 import { Layout } from "../components/Layout";
 import CreatePost from "../components/post/CreatePost";
@@ -51,14 +51,19 @@ interface IndexProps {}
 
 const Index: React.FC<IndexProps> = () => {
   const [sort, setSort] = useState("recent");
-  const [{ data }] = useHomePostsQuery({
+  const [{ data, fetching }] = useHomePostsQuery({
     variables: {
       limit: 15,
       cursor: 0,
       sortBy: sort,
     },
   });
+
+
+
+
   const [, deletePost] = useDeletePostMutation();
+  const [loading, isLoading] = useState(false);
   
   const router = useRouter()
   const postVote = Math.floor(Math.random() * 200 + 1);
@@ -66,13 +71,21 @@ const Index: React.FC<IndexProps> = () => {
 
   const me = MeQuery();
   let reme = null;
-  if (!me?.me?.user) {
+  if (!me.data?.me?.user) {
     reme = (
       <>
         <Explore />
       </>
     );
-  } else {
+  }
+  if(me.fetching){
+    reme = (
+      <Heading>
+        Loading...
+      </Heading>
+    )
+  }
+   else {
     reme = (
       <Layout>
         <Flex justify="center" mt={5} minW={{ base: "full", lg: "650px" }}>
@@ -188,10 +201,10 @@ const Index: React.FC<IndexProps> = () => {
               <TabPanels>
                 {/* FOR YOU or RECENT HOMEPOST SECTION or TAB */}
                 <TabPanel>
-                  {!data ? (
-                    <Box borderRadius="md" bg="tan" px={3}>
-                      Nothing to see here
-                    </Box>
+                  {!data && fetching ? (
+                    <Flex borderRadius="md" px={3} align='center'>
+                      Loading...
+                    </Flex>
                   ) : (
                     data?.homePosts?.posts?.map((p) => (
                       <VStack
@@ -698,5 +711,6 @@ export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
 
 export const MeQuery = () => {
   const [{ data, fetching }] = useMeQuery();
-  return data;
+  return {data, fetching};
 };
+

@@ -85,13 +85,13 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           borderRadius="md"
           role="group"
           cursor="pointer"
-          color={router.pathname === "/trending" ? "white" : "gray.700"}
+          color={router.pathname === "/trending" ? "#5E00AB" : "gray.700"}
           // _hover={{
           //   bg: "gray.700",
           //   color: "white",
           // }}
           
-          bg={router.pathname === "/trending" ? "#8225CE" : "none"}
+          bg={router.pathname === "/trending" ? "#EBD2FF" : "none"}
         >
           <IconButton
             icon={router.pathname === "/trending" ? <IoFlash /> : <IoFlashOutline />}
@@ -121,10 +121,10 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           borderRadius="md"
           role="group"
           cursor="pointer"
-          color={router.pathname === "/explore" ? "white" : "gray.700"}
+          color={router.pathname === "/explore" ? "#5E00AB" : "gray.700"}
           
          
-          bg={router.pathname === "/explore" ? "#8225CE" : "none"}
+          bg={router.pathname === "/explore" ? "#EBD2FF" : "none"}
         >
           <IconButton
             icon={router.pathname === "/explore" ? <IoCompass /> : <IoCompassOutline />}
@@ -154,10 +154,10 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           borderRadius="md"
           role="group"
           cursor="pointer"
-          color={router.pathname === "/messages" ? "white" : "gray.700"}
+          color={router.pathname === "/messages" ? "#5E00AB" : "gray.700"}
           
           mr={{ base: 0, md: 2 }}
-          bg={router.pathname === "/messages" ? "#8225CE" : "none"}
+          bg={router.pathname === "/messages" ? "#EBD2FF" : "none"}
         >
           <IconButton
             icon={router.pathname === "/messages" ? <IoMail /> : <IoMailOutline />}
@@ -187,10 +187,10 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           borderRadius="md"
           role="group"
           cursor="pointer"
-          color={router.pathname === "/notifications" ? "white" : "gray.700"}
+          color={router.pathname === "/notifications" ? "#5E00AB" : "gray.700"}
           
           mr={{ base: 0, md: 2 }}
-          bg={router.pathname === "/notifications" ? "#8225CE" : "none"}
+          bg={router.pathname === "/notifications" ? "#EBD2FF" : "none"}
         >
           <IconButton
             icon={router.pathname === "/notifications" ? <IoNotifications /> : <IoNotificationsOutline />}
@@ -223,9 +223,9 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
      
       <Flex
       alignItems="center"
-      _hover={{ bg: "gray.500", color: "white" }}
+      _hover={{ bg: "#EBD2FF", color: "#000a16" }}
       borderRadius="md"
-      bg={{ base: "none", md: "gray.300" }}
+      bg={{ base: "none", md: "none" }}
       minW={{ base: 0, md: 40 }}
       h={{ base: 0, md: 12 }}
       display={{ base: 'none', md: 'flex' }}
@@ -349,14 +349,14 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           borderRadius="md"
           role="group"
           cursor="pointer"
-          color={router.pathname === "/" ? "white" : "gray.700"}
+          color={router.pathname === "/" ? "#5E00AB" : "gray.700"}
           // _hover={{
           //   // bg: "#DDB2FF",
           //   color: "white",
           //   variant: 'outline'
           // }}
           mr={{ base: 0, md: 2 }}
-          bg={router.pathname === "/" ? "#8225CE" : "none"}
+          bg={router.pathname === "/" ? "#EBD2FF" : "none"}
           onClick={() => router.push('/')}
         >
           <IconButton
