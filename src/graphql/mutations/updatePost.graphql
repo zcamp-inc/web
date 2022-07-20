@@ -1,0 +1,42 @@
+mutation UpdatePost($updatePostId: Int!, $body: String, $title: String) {
+  updatePost(id: $updatePostId, body: $body, title: $title) {
+    errors {
+      field
+      message
+    }
+    post {
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      voteCount
+      wasEdited
+      bodySnippet
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
+    }
+  }
+}
