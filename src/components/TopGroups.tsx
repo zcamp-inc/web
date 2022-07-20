@@ -65,7 +65,7 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
                     <Flex w={60} key={i} mt={2} mb={2} justify='space-between'>
                     <NextLink href={{ pathname: '/z/[university]/[name]', query: { university:"CU", name: groupInfo.name }}} passHref>
                 <Flex w={60} cursor='pointer'> 
-                <Avatar src={groupInfo.logoImgUrl} size="sm"  mr={2}/>
+                <Avatar src={groupInfo.logoImgUrl} size="sm"  mr={2} zIndex={0} />
                 <Text w={40}> {groupInfo.name}</Text>
                 </Flex>
                   </NextLink>
@@ -76,19 +76,14 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
                     px={5}
                     h={8}
                     fontWeight={500}
-                    
-                    // onClick={() => join(groupInfo.id  as unknown as Exact<{ groupId: number; }>)}
                     onClick ={ async function(){
-                      if(userGroup?.getUserGroups[groupInfo.id].id === groupInfo.id ){
-                        return setButtonText("Joined")
-                      }
-                      const response = await join({groupId: groupInfo.id});
+                      const response = await join({groupId: groupInfo.id});                  
                       if (response?.error){
-                        console.log('error here')
+                        alert('error here')
                         return null;                      
                       }
-                    }}
-                    
+                      return response
+                    }}                    
                   >
                     {buttonText}
                   </Button>

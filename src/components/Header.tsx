@@ -7,7 +7,7 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
     <Flex
       display='flex'
       zIndex='1'
-      px={{ base: 0, md: 20}}
+      px={{ base: 0, md: 2}}
       top="0"
       bg = "white"
       position="sticky"      
@@ -19,11 +19,11 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
       {...rest}
     >
 
-      <Flex justify='flex-start' ml={{ md: -16 }}>
+      <Flex justify='flex-start'>
         <img src="/zlogo/zlogo.png" width="44vh" alt='home logo' />
       </Flex>
       
-      <Flex justify='flex-end' mr={{ md: -20}}>
+      <Flex justify='flex-end'>
       <UserProfile onOpen={onOpen}/>
 
       </Flex>
