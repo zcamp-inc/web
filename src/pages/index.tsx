@@ -1,5 +1,5 @@
 import {
-  SimpleGrid,
+  Image,
   Text,
   Flex,
   Box,
@@ -26,7 +26,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Progress,
+  Center,
 } from "@chakra-ui/react";
 import { Layout } from "../components/Layout";
 import CreatePost from "../components/post/CreatePost";
@@ -35,7 +35,12 @@ import NextLink from "next/link";
 import RightCard from "../components/RightCard";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
-import { useMeQuery, useHomePostsQuery, useDeletePostMutation, Exact } from "../generated/graphql";
+import {
+  useMeQuery,
+  useHomePostsQuery,
+  useDeletePostMutation,
+  Exact,
+} from "../generated/graphql";
 import {
   IoHeartCircleOutline,
   IoRocketOutline,
@@ -46,6 +51,7 @@ import PostInteraction from "../components/PostInteraction";
 import moment from "moment";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import BarLoader from "react-spinners/BarLoader";
 
 interface IndexProps {}
 
@@ -59,14 +65,8 @@ const Index: React.FC<IndexProps> = () => {
     },
   });
 
-
-
-
   const [, deletePost] = useDeletePostMutation();
-  const [loading, isLoading] = useState(false);
-  
-  const router = useRouter()
-  const postVote = Math.floor(Math.random() * 200 + 1);
+  const router = useRouter();
   const comments = Math.floor(Math.random() * 30 + 1);
 
   const me = MeQuery();
@@ -78,14 +78,22 @@ const Index: React.FC<IndexProps> = () => {
       </>
     );
   }
-  if(me.fetching){
+  if (me.fetching) {
     reme = (
-      <Heading>
-        Loading...
-      </Heading>
-    )
-  }
-   else {
+      <Center>
+        <Box minW="full" mt={{ base: 60, md: 60, lg: 40 }}>
+          <Flex
+            direction="column"
+            align='center'
+            minW={{ base: "full", lg: "650px" }}
+          >
+            <Image src="/zlogo/zlogofilled.png" alt="zlogo" w={40} mb={3} />
+            <BarLoader color="#5E00AB" width="150px" />
+          </Flex>
+        </Box>
+      </Center>
+    );
+  } else {
     reme = (
       <Layout>
         <Flex justify="center" mt={5} minW={{ base: "full", lg: "650px" }}>
@@ -202,7 +210,7 @@ const Index: React.FC<IndexProps> = () => {
                 {/* FOR YOU or RECENT HOMEPOST SECTION or TAB */}
                 <TabPanel>
                   {!data && fetching ? (
-                    <Flex borderRadius="md" px={3} align='center'>
+                    <Flex borderRadius="md" px={3} align="center">
                       Loading...
                     </Flex>
                   ) : (
@@ -229,7 +237,7 @@ const Index: React.FC<IndexProps> = () => {
                               justify="space-between"
                               px={3}
                             >
-                              <Flex px={2} pt={2} >
+                              <Flex px={2} pt={2}>
                                 <Avatar
                                   size="md"
                                   src={p.group.logoImgUrl}
@@ -237,104 +245,6 @@ const Index: React.FC<IndexProps> = () => {
                                 />
                                 <Stack ml={2}>
                                   <Flex>
-                                  <Popover
-                                    trigger="hover"
-                                    isLazy
-                                    openDelay={650}
-                                  >
-                                    <PopoverTrigger>
-                                      <Button
-                                        fontSize={{ base: 14, md: 18 }}
-                                        fontWeight={600}
-                                        mb={-2}
-                                        mt={-1}
-                                        variant="none"
-                                      >
-                                        {p.group.name}
-                                      </Button>
-                                    </PopoverTrigger>
-                                    <Portal>
-                                      <PopoverContent>
-                                        <PopoverHeader>
-                                          <Flex align="center">
-                                            <Avatar
-                                              size="md"
-                                              src={p.group.logoImgUrl}
-                                            />
-                                            <Text
-                                              fontSize={18}
-                                              ml={2}
-                                              fontWeight={600}
-                                            >
-                                              {p.group.name}
-                                            </Text>
-                                          </Flex>
-                                        </PopoverHeader>
-                                        <PopoverBody>
-                                          <Text noOfLines={2}>
-                                            {" "}
-                                            {p.group.description}{" "}
-                                          </Text>
-                                          <Stack
-                                            direction="row"
-                                            spacing={10}
-                                            mt={3}
-                                          >
-                                            <Text
-                                              fontSize="1rem"
-                                              fontWeight={400}
-                                              mr={2}
-                                            >
-                                              <b>100k</b> Upvotes
-                                            </Text>
-
-                                            <Text fontSize="1rem" mr={2}>
-                                              <b>103</b> Points
-                                            </Text>
-                                            <Box>
-                                              <Badge
-                                                colorScheme="yellow"
-                                                variant="solid"
-                                              >
-                                                L1 USER
-                                              </Badge>
-                                            </Box>
-                                          </Stack>
-                                        </PopoverBody>
-                                        <PopoverFooter>
-                                          <Flex>
-                                            <NextLink
-                                              href={{
-                                                pathname:
-                                                  "/z/[university]/[name]",
-                                                query: {
-                                                  university: "CU",
-                                                  name: p.group.name,
-                                                },
-                                              }}
-                                              passHref
-                                            >
-                                              <Button colorScheme="blue">
-                                                View Group
-                                              </Button>
-                                            </NextLink>
-                                            <Button
-                                              colorScheme="blue"
-                                              variant="outline"
-                                              ml={5}
-                                            >
-                                              Join Chat
-                                            </Button>
-                                          </Flex>
-                                        </PopoverFooter>
-                                      </PopoverContent>
-                                    </Portal>
-                                  </Popover>
-                                  </Flex>
-
-                                  {/* POSTED BY USER SECTION */}
-                                  <Flex>
-                                    <Flex align='center' mt={-4}>
                                     <Popover
                                       trigger="hover"
                                       isLazy
@@ -342,12 +252,13 @@ const Index: React.FC<IndexProps> = () => {
                                     >
                                       <PopoverTrigger>
                                         <Button
-                                          fontSize="0.6rem"
-                                          fontWeight={400}
+                                          fontSize={{ base: 14, md: 18 }}
+                                          fontWeight={600}
+                                          mb={-2}
+                                          mt={-1}
                                           variant="none"
-                                          mr={-2}
                                         >
-                                          Posted by {p.creator.user?.username}
+                                          {p.group.name}
                                         </Button>
                                       </PopoverTrigger>
                                       <Portal>
@@ -356,23 +267,21 @@ const Index: React.FC<IndexProps> = () => {
                                             <Flex align="center">
                                               <Avatar
                                                 size="md"
-                                                src={
-                                                  p.creator.user?.profileImgUrl
-                                                }
+                                                src={p.group.logoImgUrl}
                                               />
                                               <Text
                                                 fontSize={18}
                                                 ml={2}
                                                 fontWeight={600}
                                               >
-                                                {p.creator.user?.username}
+                                                {p.group.name}
                                               </Text>
                                             </Flex>
                                           </PopoverHeader>
                                           <PopoverBody>
-                                            <Text>
+                                            <Text noOfLines={2}>
                                               {" "}
-                                              {p.creator.user?.email}{" "}
+                                              {p.group.description}{" "}
                                             </Text>
                                             <Stack
                                               direction="row"
@@ -404,16 +313,17 @@ const Index: React.FC<IndexProps> = () => {
                                             <Flex>
                                               <NextLink
                                                 href={{
-                                                  pathname: "/u/[username]",
+                                                  pathname:
+                                                    "/z/[university]/[name]",
                                                   query: {
-                                                    username:
-                                                      p.creator.user?.username,
+                                                    university: "CU",
+                                                    name: p.group.name,
                                                   },
                                                 }}
                                                 passHref
                                               >
                                                 <Button colorScheme="blue">
-                                                  View Profile
+                                                  View Group
                                                 </Button>
                                               </NextLink>
                                               <Button
@@ -421,21 +331,131 @@ const Index: React.FC<IndexProps> = () => {
                                                 variant="outline"
                                                 ml={5}
                                               >
-                                                Start Chat
+                                                Join Chat
                                               </Button>
                                             </Flex>
                                           </PopoverFooter>
                                         </PopoverContent>
                                       </Portal>
                                     </Popover>
-                                    <Flex align='center'>
-                                    <Text fontSize={9}>
-                                      {moment(p.createdAt).fromNow()}
-                                    </Text>
-                                    </Flex>
-                                    <Flex justify='flex-end' ml={2}>
-                                  <Text fontSize={10} display={p.wasEdited === true ? 'flex' : 'none'} > Edited </Text>
-                                </Flex>
+                                  </Flex>
+
+                                  {/* POSTED BY USER SECTION */}
+                                  <Flex>
+                                    <Flex align="center" mt={-4}>
+                                      <Popover
+                                        trigger="hover"
+                                        isLazy
+                                        openDelay={650}
+                                      >
+                                        <PopoverTrigger>
+                                          <Button
+                                            fontSize="0.6rem"
+                                            fontWeight={400}
+                                            variant="none"
+                                            mr={-2}
+                                          >
+                                            Posted by {p.creator.user?.username}
+                                          </Button>
+                                        </PopoverTrigger>
+                                        <Portal>
+                                          <PopoverContent>
+                                            <PopoverHeader>
+                                              <Flex align="center">
+                                                <Avatar
+                                                  size="md"
+                                                  src={
+                                                    p.creator.user
+                                                      ?.profileImgUrl
+                                                  }
+                                                />
+                                                <Text
+                                                  fontSize={18}
+                                                  ml={2}
+                                                  fontWeight={600}
+                                                >
+                                                  {p.creator.user?.username}
+                                                </Text>
+                                              </Flex>
+                                            </PopoverHeader>
+                                            <PopoverBody>
+                                              <Text>
+                                                {" "}
+                                                {p.creator.user?.email}{" "}
+                                              </Text>
+                                              <Stack
+                                                direction="row"
+                                                spacing={10}
+                                                mt={3}
+                                              >
+                                                <Text
+                                                  fontSize="1rem"
+                                                  fontWeight={400}
+                                                  mr={2}
+                                                >
+                                                  <b>100k</b> Upvotes
+                                                </Text>
+
+                                                <Text fontSize="1rem" mr={2}>
+                                                  <b>103</b> Points
+                                                </Text>
+                                                <Box>
+                                                  <Badge
+                                                    colorScheme="yellow"
+                                                    variant="solid"
+                                                  >
+                                                    L1 USER
+                                                  </Badge>
+                                                </Box>
+                                              </Stack>
+                                            </PopoverBody>
+                                            <PopoverFooter>
+                                              <Flex>
+                                                <NextLink
+                                                  href={{
+                                                    pathname: "/u/[username]",
+                                                    query: {
+                                                      username:
+                                                        p.creator.user
+                                                          ?.username,
+                                                    },
+                                                  }}
+                                                  passHref
+                                                >
+                                                  <Button colorScheme="blue">
+                                                    View Profile
+                                                  </Button>
+                                                </NextLink>
+                                                <Button
+                                                  colorScheme="blue"
+                                                  variant="outline"
+                                                  ml={5}
+                                                >
+                                                  Start Chat
+                                                </Button>
+                                              </Flex>
+                                            </PopoverFooter>
+                                          </PopoverContent>
+                                        </Portal>
+                                      </Popover>
+                                      <Flex align="center">
+                                        <Text fontSize={9}>
+                                          {moment(p.createdAt).fromNow()}
+                                        </Text>
+                                      </Flex>
+                                      <Flex justify="flex-end" ml={2}>
+                                        <Text
+                                          fontSize={10}
+                                          display={
+                                            p.wasEdited === true
+                                              ? "flex"
+                                              : "none"
+                                          }
+                                        >
+                                          {" "}
+                                          Edited{" "}
+                                        </Text>
+                                      </Flex>
                                     </Flex>
                                   </Flex>
                                 </Stack>
@@ -448,7 +468,6 @@ const Index: React.FC<IndexProps> = () => {
                                     POST
                                   </Badge>
                                 </Box>
-                                
                               </Flex>
                               <Flex direction="row" justify="flex-end">
                                 <Menu>
@@ -471,32 +490,35 @@ const Index: React.FC<IndexProps> = () => {
                                           ? "block"
                                           : "none"
                                       }
-                                      onClick={ () => {deletePost({deletePostId: p.id}); router.reload()} }
+                                      onClick={() => {
+                                        deletePost({ deletePostId: p.id });
+                                        router.reload();
+                                      }}
                                     >
                                       Delete
                                     </MenuItem>
                                     <NextLink
-                              href={{
-                                pathname: "/z/[university]/[name]/post/edit/[id]",
-                                query: {
-                                  university: "CU",
-                                  name: p.group.name,
-                                  id: p.id,
-                                },
-                              }}
-                              passHref
-                            >
-                                    <MenuItem
-                                      display={
-                                        p?.creator?.user?.id ===
-                                        me.data?.me?.user?.id
-                                          ? "block"
-                                          : "none"
-                                      }
+                                      href={{
+                                        pathname:
+                                          "/z/[university]/[name]/post/edit/[id]",
+                                        query: {
+                                          university: "CU",
+                                          name: p.group.name,
+                                          id: p.id,
+                                        },
+                                      }}
+                                      passHref
                                     >
-
-                                      Edit
-                                    </MenuItem>
+                                      <MenuItem
+                                        display={
+                                          p?.creator?.user?.id ===
+                                          me.data?.me?.user?.id
+                                            ? "block"
+                                            : "none"
+                                        }
+                                      >
+                                        Edit
+                                      </MenuItem>
                                     </NextLink>
                                     <MenuItem
                                       color="red.300"
@@ -719,6 +741,5 @@ export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
 
 export const MeQuery = () => {
   const [{ data, fetching }] = useMeQuery();
-  return {data, fetching};
+  return { data, fetching };
 };
-
