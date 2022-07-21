@@ -1,18 +1,21 @@
 import { HStack, Box, Flex, Icon, Text, IconButton } from "@chakra-ui/react";
-import {
-  FiChevronUp,
-  FiBookmark,
-  FiChevronDown,
-  FiUpload,
-} from "react-icons/fi";
 
-import { IoChatbubbleOutline } from "react-icons/io5";
+
+import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoBookmarkOutline } from "react-icons/io5";
+import { useVotePostMutation, GetPostQuery, useGetPostQuery  } from "../generated/graphql";
 
 
 
 
-export default function PostInteraction({ postVote, comments } : {postVote: number, comments: number }) {
+export default function PostInteraction({ comments, postID } : {comments: number, postID: number }) {
+  const [,vote] = useVotePostMutation()
+  const [{data}] = useGetPostQuery({
+    variables:{
+      getPostId: postID
+    }
+  })
   return (
+
     // <HStack spacing={{ base: 40, md: 60 }}>
       <Flex direction='row' justify='space-between'>
       {/* <HStack spacing={{ base: 0, md: 20 }}> */}
@@ -26,21 +29,43 @@ export default function PostInteraction({ postVote, comments } : {postVote: numb
           _hover={{ color: "#5E00AB" }}
         >
           <IconButton
-            icon={<FiChevronUp />}
+            icon={<IoCaretUp />}
             aria-label="upvote"
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             fontSize={{ base: 24, md: 26 }}
             variant="ghost"
+            onClick={(async () => {
+              if (data?.getPost.post?.voteCount === 1){
+                return;
+              }
+             
+              await vote({
+                votePostId: data?.getPost?.post?.id!,
+                value: 1,
+              })
+
+            })}
           />
 
-          <Text>{postVote}</Text>
+          <Text>{data?.getPost?.post?.voteCount}</Text>
 
           <IconButton
-            icon={<FiChevronDown />}
+            icon={<IoCaretDown />}
             aria-label="downvote"
             fontSize={{ base: 24, md: 26 }}
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             variant="ghost"
+            onClick={(async () => {
+              if (data?.getPost.post?.voteCount === -1){
+                return;
+              }
+             
+              await vote({
+                votePostId: data?.getPost?.post?.id!,
+                value: -1,
+              })
+
+            })}
             mr={{ base: 2, md:10 }}
           />
         </Flex>
@@ -72,7 +97,7 @@ export default function PostInteraction({ postVote, comments } : {postVote: numb
 
       <Flex direction='row' justify='space-between'>
         <IconButton
-          icon={<FiUpload strokeWidth={1.4} />}
+          icon={<IoShareSocialOutline />}
           aria-label="share post"
           variant="ghost"
           // ml={{ base: -10, md: -20 }}
@@ -83,7 +108,7 @@ export default function PostInteraction({ postVote, comments } : {postVote: numb
         />
 
         <IconButton
-          icon={<FiBookmark strokeWidth={1.4} />}
+          icon={<IoBookmarkOutline />}
           aria-label="save post"
           mr={5}
           variant="ghost"

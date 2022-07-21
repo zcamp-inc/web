@@ -173,7 +173,7 @@ export type MutationVoteCommentArgs = {
 
 
 export type MutationVotePostArgs = {
-  id: Scalars['Int'];
+  id: Scalars['Float'];
   value: Scalars['Float'];
 };
 
@@ -403,6 +403,14 @@ export type UpdatePostMutationVariables = Exact<{
 
 
 export type UpdatePostMutation = { __typename?: 'Mutation', updatePost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+
+export type VotePostMutationVariables = Exact<{
+  value: Scalars['Float'];
+  votePostId: Scalars['Float'];
+}>;
+
+
+export type VotePostMutation = { __typename?: 'Mutation', votePost: boolean };
 
 export type GetGroupUserCountQueryVariables = Exact<{
   groupId: Scalars['Float'];
@@ -768,6 +776,15 @@ export const UpdatePostDocument = gql`
 
 export function useUpdatePostMutation() {
   return Urql.useMutation<UpdatePostMutation, UpdatePostMutationVariables>(UpdatePostDocument);
+};
+export const VotePostDocument = gql`
+    mutation VotePost($value: Float!, $votePostId: Float!) {
+  votePost(value: $value, id: $votePostId)
+}
+    `;
+
+export function useVotePostMutation() {
+  return Urql.useMutation<VotePostMutation, VotePostMutationVariables>(VotePostDocument);
 };
 export const GetGroupUserCountDocument = gql`
     query GetGroupUserCount($groupId: Float!) {
