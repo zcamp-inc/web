@@ -459,7 +459,7 @@ const Index: React.FC<IndexProps> = () => {
                                       fontWeight={600}
                                       display={
                                         p?.creator?.user?.id ===
-                                        me?.me?.user?.id
+                                        me.data?.me?.user?.id
                                           ? "block"
                                           : "none"
                                       }
@@ -481,7 +481,7 @@ const Index: React.FC<IndexProps> = () => {
                                     <MenuItem
                                       display={
                                         p?.creator?.user?.id ===
-                                        me?.me?.user?.id
+                                        me.data?.me?.user?.id
                                           ? "block"
                                           : "none"
                                       }
@@ -495,7 +495,7 @@ const Index: React.FC<IndexProps> = () => {
                                       fontWeight={600}
                                       display={
                                         p?.creator?.user?.id !==
-                                        me?.me?.user?.id
+                                        me.data?.me?.user?.id
                                           ? "block"
                                           : "none"
                                       }
