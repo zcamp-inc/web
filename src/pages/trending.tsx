@@ -25,6 +25,10 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
@@ -35,10 +39,11 @@ import { Layout } from "../components/Layout";
 import FakePost from "../components/post/fakepost";
 import RightCard from "../components/RightCard";
 import { IoHeartCircleOutline, IoInformationCircleOutline, IoNotificationsCircleOutline } from "react-icons/io5";
-import { useTrendingPostsQuery } from "../generated/graphql";
+import { useTrendingPostsQuery, useDeletePostMutation } from "../generated/graphql";
 import moment from "moment";
 import { BsThreeDots } from "react-icons/bs";
 import PostInteraction from "../components/PostInteraction";
+import { MeQuery } from ".";
 
 const Trending = () => {
   const [{data}] = useTrendingPostsQuery({
@@ -48,6 +53,10 @@ const Trending = () => {
       sortBy:"best"
     },
   })
+  const me = MeQuery();
+  const [, deletePost] = useDeletePostMutation();
+
+
 
   const postVote = Math.floor(Math.random()*(200) + 1 );
   const comments = Math.floor(Math.random()* 30 + 1);
@@ -352,13 +361,70 @@ const Trending = () => {
                                 </Box>
                               </Flex>
                               <Flex direction="row" justify="flex-end">
-                                <IconButton
-                                  icon={<BsThreeDots />}
-                                  variant="ghost"
-                                  aria-label="More Options"
-                                  mr={2}
-                                  mt={1}
-                                />
+                                <Menu>
+                                  <MenuButton
+                                    as={IconButton}
+                                    aria-label="more options"
+                                    icon={<BsThreeDots />}
+                                    variant="ghost"
+                                    mr={2}
+                                    mt={1}
+                                    zIndex={1}
+                                  />
+                                  <MenuList zIndex={2} bg="white">
+                                    <MenuItem
+                                      color="red.300"
+                                      fontWeight={600}
+                                      display={
+                                        p?.creator?.user?.id ===
+                                        me.data?.me?.user?.id
+                                          ? "block"
+                                          : "none"
+                                      }
+                                      onClick={ () => {deletePost({deletePostId: p.id}); router.reload()} }
+                                    >
+                                      Delete
+                                    </MenuItem>
+                                    <NextLink
+                              href={{
+                                pathname: "/z/[university]/[name]/post/edit/[id]",
+                                query: {
+                                  university: "CU",
+                                  name: p.group.name,
+                                  id: p.id,
+                                },
+                              }}
+                              passHref
+                            >
+                                    <MenuItem
+                                      display={
+                                        p?.creator?.user?.id ===
+                                        me.data?.me?.user?.id
+                                          ? "block"
+                                          : "none"
+                                      }
+                                    >
+
+                                      Edit
+                                    </MenuItem>
+                                    </NextLink>
+                                    <MenuItem
+                                      color="red.300"
+                                      fontWeight={600}
+                                      display={
+                                        p?.creator?.user?.id !==
+                                        me.data?.me?.user?.id
+                                          ? "block"
+                                          : "none"
+                                      }
+                                    >
+                                      Report
+                                    </MenuItem>
+                                    <MenuItem>Repost</MenuItem>
+                                    <MenuItem>Go to Post</MenuItem>
+                                    <MenuItem>Award Post</MenuItem>
+                                  </MenuList>
+                                </Menu>
                               </Flex>
                             </Flex>
 
@@ -386,8 +452,8 @@ const Trending = () => {
                             </Stack>
                             <Box maxW="full" maxH="lg" alignItems="center">
                               <PostInteraction
-                                postVote={p.voteCount}
                                 comments={comments}
+                                postID = {p.id}
                               />
                             </Box>
                           </Stack>

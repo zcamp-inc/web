@@ -229,13 +229,14 @@ const Index: React.FC<IndexProps> = () => {
                               justify="space-between"
                               px={3}
                             >
-                              <Flex px={2} pt={2} align="center">
+                              <Flex px={2} pt={2} >
                                 <Avatar
                                   size="md"
                                   src={p.group.logoImgUrl}
                                   mr={-1}
                                 />
                                 <Stack ml={2}>
+                                  <Flex>
                                   <Popover
                                     trigger="hover"
                                     isLazy
@@ -329,9 +330,11 @@ const Index: React.FC<IndexProps> = () => {
                                       </PopoverContent>
                                     </Portal>
                                   </Popover>
+                                  </Flex>
 
                                   {/* POSTED BY USER SECTION */}
                                   <Flex>
+                                    <Flex align='center' mt={-4}>
                                     <Popover
                                       trigger="hover"
                                       isLazy
@@ -341,8 +344,6 @@ const Index: React.FC<IndexProps> = () => {
                                         <Button
                                           fontSize="0.6rem"
                                           fontWeight={400}
-                                          mb={-2}
-                                          mt={-4}
                                           variant="none"
                                           mr={-2}
                                         >
@@ -427,9 +428,15 @@ const Index: React.FC<IndexProps> = () => {
                                         </PopoverContent>
                                       </Portal>
                                     </Popover>
-                                    <Text fontSize="0.6rem" mt={-1}>
+                                    <Flex align='center'>
+                                    <Text fontSize={9}>
                                       {moment(p.createdAt).fromNow()}
                                     </Text>
+                                    </Flex>
+                                    <Flex justify='flex-end' ml={2}>
+                                  <Text fontSize={10} display={p.wasEdited === true ? 'flex' : 'none'} > Edited </Text>
+                                </Flex>
+                                    </Flex>
                                   </Flex>
                                 </Stack>
                                 <Box>
@@ -441,6 +448,7 @@ const Index: React.FC<IndexProps> = () => {
                                     POST
                                   </Badge>
                                 </Box>
+                                
                               </Flex>
                               <Flex direction="row" justify="flex-end">
                                 <Menu>
@@ -469,7 +477,7 @@ const Index: React.FC<IndexProps> = () => {
                                     </MenuItem>
                                     <NextLink
                               href={{
-                                pathname: "/z/[university]/[name]/post/[id]",
+                                pathname: "/z/[university]/[name]/post/edit/[id]",
                                 query: {
                                   university: "CU",
                                   name: p.group.name,
@@ -545,8 +553,8 @@ const Index: React.FC<IndexProps> = () => {
                             </NextLink>
                             <Box maxW="full" maxH="lg" alignItems="center">
                               <PostInteraction
-                                postVote={p.voteCount}
                                 comments={comments}
+                                postID={p.id}
                               />
                             </Box>
                           </Stack>
