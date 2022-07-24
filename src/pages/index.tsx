@@ -27,6 +27,10 @@ import {
   MenuList,
   MenuItem,
   Center,
+  SkeletonCircle,
+  SkeletonText,
+  LinkBox,
+  LinkOverlay,
 } from "@chakra-ui/react";
 import { Layout } from "../components/Layout";
 import CreatePost from "../components/post/CreatePost";
@@ -210,9 +214,35 @@ const Index: React.FC<IndexProps> = () => {
                 {/* FOR YOU or RECENT HOMEPOST SECTION or TAB */}
                 <TabPanel>
                   {!data && fetching ? (
-                    <Flex borderRadius="md" px={3} align="center">
-                      Loading...
-                    </Flex>
+                     <VStack spacing={{ base: 0, md: 5 }}>
+                     <Box
+                       borderWidth="1px"
+                       borderRadius="lg"
+                       bg="white"
+                       p={4}
+                       boxShadow='lg'
+                       w={{ base: "370px", md: "768px", lg: "650px" }}
+                       minH={40}
+                       mb={{ base: 2 }}
+                     >
+                       <SkeletonCircle size="10" />
+                       <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                     </Box>
+ 
+                     <Box
+                       borderWidth="1px"
+                       borderRadius="lg"
+                       bg="white"
+                       p={4}
+                       boxShadow='lg'
+                       w={{ base: "370px", md: "768px", lg: "650px" }}
+                       minH={40}
+                       mb={{ base: 2 }}
+                     >
+                       <SkeletonCircle size="10" />
+                       <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                     </Box>
+                   </VStack>
                   ) : (
                     data?.homePosts?.posts?.map((p) => (
                       <VStack
@@ -220,7 +250,9 @@ const Index: React.FC<IndexProps> = () => {
                         key={p.id}
                         minW="full"
                       >
-                        <Box
+                      
+                        <LinkBox
+                        as="article"
                           borderWidth="2px"
                           borderRadius="lg"
                           bg="white"
@@ -230,14 +262,53 @@ const Index: React.FC<IndexProps> = () => {
                           minH={40}
                           minW={{ base: "full", lg: "650px" }}
                           mb={{ base: 2 }}
+                          
                         >
                           <Stack spacing={10}>
-                            <Flex
+                           
+
+                            <NextLink
+                              href={{
+                                pathname: "/z/[university]/[name]/post/[id]",
+                                query: {
+                                  university: "CU",
+                                  name: p.group.name,
+                                  id: p.id,
+                                },
+                              }}
+                              passHref
+                            >
+                              <LinkOverlay>
+                              <Stack px={6} cursor="pointer" mt="75px">
+                                <Heading
+                                  as="h4"
+                                  fontSize={24}
+                                  fontWeight={500}
+                                  noOfLines={2}
+                                >
+                                  {p.title}
+                                </Heading>
+                                <Box mt={4}>
+                                  <Text fontSize={16} fontWeight={300} noOfLines={2} mb="-80px">
+                                    {p.bodySnippet}
+                                  </Text>
+                                </Box>
+                                {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
+<Image
+  src={data?.getPost?.body ? data?.getPost?.body : null}
+  alt={data?.getPost?.title ? null : data?.getPost?.title}
+/>
+</Box> */}
+                              </Stack>
+                              </LinkOverlay>
+                            </NextLink>
+
+                             <Flex
                               direction="row"
                               justify="space-between"
                               px={3}
                             >
-                              <Flex px={2} pt={2}>
+                              <Flex px={2} pt={2} mt="-150px">
                                 <Avatar
                                   size="md"
                                   src={p.group.logoImgUrl}
@@ -445,6 +516,7 @@ const Index: React.FC<IndexProps> = () => {
                                       </Flex>
                                       <Flex justify="flex-end" ml={2}>
                                         <Text
+                                        as='i'
                                           fontSize={10}
                                           display={
                                             p.wasEdited === true
@@ -453,7 +525,7 @@ const Index: React.FC<IndexProps> = () => {
                                           }
                                         >
                                           {" "}
-                                          Edited{" "}
+                                          Edited{" "} {moment(p.updatedAt).fromNow()}
                                         </Text>
                                       </Flex>
                                     </Flex>
@@ -469,7 +541,9 @@ const Index: React.FC<IndexProps> = () => {
                                   </Badge>
                                 </Box>
                               </Flex>
-                              <Flex direction="row" justify="flex-end">
+
+                              {/**  */}
+                              <Flex direction="row" justify="flex-end" mt="-150px">
                                 <Menu>
                                   <MenuButton
                                     as={IconButton}
@@ -538,49 +612,19 @@ const Index: React.FC<IndexProps> = () => {
                                   </MenuList>
                                 </Menu>
                               </Flex>
+
                             </Flex>
-                            <NextLink
-                              href={{
-                                pathname: "/z/[university]/[name]/post/[id]",
-                                query: {
-                                  university: "CU",
-                                  name: p.group.name,
-                                  id: p.id,
-                                },
-                              }}
-                              passHref
-                            >
-                              <Stack px={6} cursor="pointer">
-                                <Heading
-                                  as="h4"
-                                  fontSize={24}
-                                  fontWeight={500}
-                                  mt={-5}
-                                  noOfLines={2}
-                                >
-                                  {p.title}
-                                </Heading>
-                                <Box mt={4}>
-                                  <Text fontSize={16} fontWeight={300} mb={-5}>
-                                    {p.bodySnippet}
-                                  </Text>
-                                </Box>
-                                {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
-<Image
-  src={data?.getPost?.body ? data?.getPost?.body : null}
-  alt={data?.getPost?.title ? null : data?.getPost?.title}
-/>
-</Box> */}
-                              </Stack>
-                            </NextLink>
+
+
                             <Box maxW="full" maxH="lg" alignItems="center">
                               <PostInteraction
                                 comments={comments}
                                 postID={p.id}
-                              />
+                              />   
                             </Box>
+
                           </Stack>
-                        </Box>
+                        </LinkBox>
                       </VStack>
                     ))
                   )}
