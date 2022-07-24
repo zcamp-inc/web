@@ -231,6 +231,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                             as={Button}
                             rightIcon={<IoCaretDown />}
                             name="groupId"
+                            mt={2}
                           >
                             {name}
                           </MenuButton>

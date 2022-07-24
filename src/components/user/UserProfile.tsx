@@ -22,8 +22,8 @@ import {
 
 import NextLink from "next/link";
 import {
-  IoMailOutline,
-  IoMail,
+  IoChatbubbleEllipses,
+  IoChatbubbleEllipsesOutline,
   IoNotificationsOutline,
   IoNotifications,
   IoCompassOutline,
@@ -160,7 +160,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           bg={router.pathname === "/messages" ? "#EBD2FF" : "none"}
         >
           <IconButton
-            icon={router.pathname === "/messages" ? <IoMail /> : <IoMailOutline />}
+            icon={router.pathname === "/messages" ? <IoChatbubbleEllipses /> : <IoChatbubbleEllipsesOutline />}
             borderRadius="md"
             fontSize={{ base: 24, md: 26 }}
             // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
@@ -291,7 +291,8 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
             <MenuItem
               icon={<FiLogOut />}              
               onClick={() => {
-                logout()
+                logout();
+                router.push('/');
               }}
             >
               Logout
@@ -355,7 +356,6 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
           //   color: "white",
           //   variant: 'outline'
           // }}
-          mr={{ base: 0, md: 2 }}
           bg={router.pathname === "/" ? "#EBD2FF" : "none"}
           onClick={() => router.push('/')}
         >
