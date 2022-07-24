@@ -24,6 +24,8 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  SkeletonCircle,
+  SkeletonText,
 } from "@chakra-ui/react";
 import moment from "moment";
 import NextLink from "next/link";
@@ -47,7 +49,7 @@ import { useTrendingPostsQuery } from "../generated/graphql";
 interface ExploreProps {}
 
 const Explore: React.FC<ExploreProps> = () => {
-  const [{data}] = useTrendingPostsQuery({
+  const [{data, fetching}] = useTrendingPostsQuery({
     variables: {
       limit: 15,
       cursor: 0,
@@ -261,7 +263,7 @@ const Explore: React.FC<ExploreProps> = () => {
        </Flex>
 
         <Tabs isFitted variant="unstyled" alignSelf='center' w={{ base: "370px", md: "768px", lg: "650px" }} mt={10}> 
-        <Box  w={{ base: "370px", md: "768px", lg: "650px" }} mb ={3}>
+        <Box  w={{ base: "370px", md: "768px", lg: "650px" }} mb ={3} display={!me.data ? 'flex' : 'none'}>
           <CreatePost pageProps={undefined} />
         </Box>
            <TabList
@@ -354,10 +356,36 @@ const Explore: React.FC<ExploreProps> = () => {
            </TabList>
            <TabPanels>
              <TabPanel>
-             {!data ? (
-                   <Box borderRadius="md" bg="tan" px={3}>
-                     Nothing to see here
-                   </Box>
+             {!data && fetching ? (
+                    <VStack spacing={{ base: 0, md: 5 }}>
+                    <Box
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      bg="white"
+                      p={4}
+                      boxShadow='lg'
+                      w={{ base: "370px", md: "768px", lg: "650px" }}
+                      minH={40}
+                      mb={{ base: 2 }}
+                    >
+                      <SkeletonCircle size="10" />
+                      <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                    </Box>
+
+                    <Box
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      bg="white"
+                      p={4}
+                      boxShadow='lg'
+                      w={{ base: "370px", md: "768px", lg: "650px" }}
+                      minH={40}
+                      mb={{ base: 2 }}
+                    >
+                      <SkeletonCircle size="10" />
+                      <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                    </Box>
+                  </VStack>
                  ) : (
                    data?.trendingPosts?.posts?.map((p) => (
                     <VStack spacing={{ base: 0, md: 5 }} key={p.id}>

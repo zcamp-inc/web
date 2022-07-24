@@ -71,7 +71,8 @@ const Post = ({}) => {
     <Layout>
       <Flex direction="column" justify="space-between" align="center" w="full">
         <Box w="full" h="60px" bg='pink' overflow="hidden">
-          <Flex ml={40} align="center">
+        <NextLink href={{ pathname: '/z/[university]/[name]', query: { university: "CU", name: data?.getPost?.post?.group.name } }} passHref>
+          <Flex ml={40} align="center" cursor='pointer' w={60}>
             <Avatar
               size="md"
               src={data?.getPost?.post?.group?.logoImgUrl}
@@ -85,6 +86,7 @@ const Post = ({}) => {
               z/CU/{data?.getPost?.post?.group?.name}{" "}
             </Text>
           </Flex>
+          </NextLink>
         </Box>
 
         <Flex align="center" direction="row">
@@ -110,8 +112,6 @@ const Post = ({}) => {
                               <Button
                                 fontSize="0.6rem"
                                 fontWeight={400}
-                                mb={-2}
-                                mt={-4}
                                 variant="none"
                                 mr={-2}
                               >
@@ -196,7 +196,7 @@ const Post = ({}) => {
                               </PopoverContent>
                             </Portal>
                           </Popover>
-                          <Text fontSize="0.6rem" mt={-1}>
+                          <Text fontSize="0.6rem">
                             {moment(data?.getPost?.post?.createdAt).fromNow()}
                           </Text>
                         </Flex>
@@ -306,7 +306,7 @@ const Post = ({}) => {
                   </Stack>
                   <Box maxW="full" maxH="lg" alignItems="center">
                     <PostInteraction
-                      postID={data?.getPost?.post?.id}
+                      postID={data?.getPost?.post?.id!}
                       comments={comments}
                     />
                   </Box>
