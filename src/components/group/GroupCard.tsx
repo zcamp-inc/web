@@ -47,7 +47,7 @@ export default function GroupCard() {
     "Nov",
     "Dec",
   ];
-  let d = new Date(thisGroup?.group?.group?.createdAt);
+  let d = new Date(thisGroup?.getGroupByName?.group?.createdAt);
   let day = d.getDate();
   let month = monthshort[d.getMonth()];
   let year = d.getFullYear();
@@ -69,12 +69,12 @@ export default function GroupCard() {
           </Flex>
           <Flex px={4} mt={2} direction="column">
             <Text color="#000a16" fontWeight={400} fontSize={14} w={56}>
-              {thisGroup?.group?.group?.description}
+              {thisGroup?.getGroupByName?.group?.description}
             </Text>
 
             <Stack direction="row" spacing={10} mt={3} mb={3}>
               <Text fontSize="1rem" fontWeight={400} mr={2}>
-                <b> {members?.getGroupUserCount} </b>{" "}
+                <b> {members?.getGroupUserCount } </b>{" "}
                 <Text fontSize="1rem" fontWeight={400}>
                   {members?.getGroupUserCount! > 1 ? "Members" : "Member"}
                 </Text>

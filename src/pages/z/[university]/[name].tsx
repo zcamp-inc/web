@@ -29,7 +29,7 @@ import CreateGPost from "../../../components/group/CreateGPost";
 import { useGetGroupUserCountQuery } from "../../../generated/graphql";
 
 const GroupProfile = () => {
-  const [{ data, error }] = useGetGroupFromUrl();
+  const [{ data }] = useGetGroupFromUrl();
 
   return (
     <Layout>
@@ -41,14 +41,14 @@ const GroupProfile = () => {
           bg="tan"
           overflow='hidden'
         >
-          <Image src={data?.group?.group?.bannerImgUrl} alt='group_banner' w='full' mt={{ base: 0, md: -20 }}/>
+          <Image src={data?.getGroupByName?.group?.bannerImgUrl} alt='group_banner' w='full' h="450px" mt={{ base: 0, md: -20 }}/>
         </Box>
 
         <Flex justify="center" direction='column'>
 
         <Flex direction={{ base: 'column', md:"row"}} justify="flex-start" align="center" mt={-12}>
           <Avatar
-            src={data?.group?.group?.logoImgUrl}
+            src={data?.getGroupByName?.group?.logoImgUrl}
             w={{base: '120px', md: '170px'}} h={{ base: '120px', md: '170px'}}
             mr={{ md: 10, lg: 16 }}
             ml={{ md: 10, lg: 0 }}
@@ -63,7 +63,7 @@ const GroupProfile = () => {
           <Flex direction="column" justify="space-between">
             <Flex direction={{ base: 'column', md: "row"}} justify="space-between" align="center" mt={14}>
               <Heading fontSize={{ base: 20, md: 28 }} fontWeight={400} mr={{ md: 20, lg: 10 }}>
-                {data?.group?.group?.name}
+                {data?.getGroupByName?.group?.name}
               </Heading>
               <Flex direction="row" justify="flex-end">
                 <Button size="sm" colorScheme="blue" fontWeight={400}>
@@ -258,7 +258,7 @@ const MemberCount = () => {
   const findGroup = GroupData();
   const [{ data }] = useGetGroupUserCountQuery({
     variables: {
-      groupId: findGroup?.group?.group?.id!,
+      groupId: findGroup?.getGroupByName?.group?.id!,
     },
   });
 

@@ -37,8 +37,7 @@ import {
 import { InputField } from "../InputField";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
-import { setgroups } from "process";
-import { groupCollapsed } from "console";
+
 interface CreatePostProps {}
 
 const CreatePost: React.FC<CreatePostProps> = () => {
@@ -236,7 +235,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                             {name}
                           </MenuButton>
                           <MenuList>
-                            {UserGroup?.getUserGroups.map((groups) => (
+                            { UserGroup?.data?.getUserGroups.map((groups) => (
                               <>
                                 <MenuItem
                                   name="groupId"
@@ -247,10 +246,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 
 
                               </>
-                            ))}
-                            <MenuItem onClick={() => alert("Kagebunshin")}>
-                              Create a Copy
-                            </MenuItem>
+                            ))}                            
                           </MenuList>
                         </>
                       )}
@@ -294,6 +290,6 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 export default withUrqlClient(createUrqlClient, { ssr: true })(CreatePost);
 
 export const GetUserGroup = () => {
-  const [{ data }] = useGetUserGroupsQuery();
-  return data;
+  const [{ data, fetching }] = useGetUserGroupsQuery();
+  return { data, fetching }  
 };

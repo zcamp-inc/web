@@ -1,5 +1,5 @@
-query Group($name: String!) {
-  group(name: $name) {
+query GetGroupByName($universityName: String!, $groupName: String!) {
+  getGroupByName(universityName: $universityName, groupName: $groupName) {
     errors {
       field
       message

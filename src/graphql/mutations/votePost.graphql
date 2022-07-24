@@ -1,3 +1,3 @@
-mutation VotePost($value: Float!, $votePostId: Float!) {
+mutation VotePost($value: Float!, $votePostId: Int!) {
   votePost(value: $value, id: $votePostId)
 }

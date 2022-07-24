@@ -292,7 +292,7 @@ export default function UserProfile({ onOpen, ...rest }: { onOpen: any }) {
               icon={<FiLogOut />}              
               onClick={() => {
                 logout();
-                router.push('/');
+                router.push("/");
               }}
             >
               Logout

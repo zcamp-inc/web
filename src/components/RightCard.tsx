@@ -19,14 +19,20 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useControllableState,
 } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import NextLink from "next/link";
 import router from "next/router";
-import { Key } from "react";
 import { InputField } from "./InputField";
 import { TopGroups } from "./TopGroups";
-import {useCreateGroupMutation} from "../generated/graphql"
+import { useCreateGroupMutation, useCreatePostMutation, useMeQuery } from "../generated/graphql"
+import { IoCaretDown } from "react-icons/io5";
+import { GetUserGroup } from "./post/CreatePost";
 
 export default function RightCard() {
   const {
@@ -34,7 +40,26 @@ export default function RightCard() {
     onOpen: onTextOpen,
     onClose: onTextClose,
   } = useDisclosure();
+
+  const {
+    isOpen: isPostOpen,
+    onOpen: onPostOpen,
+    onClose: onPostClose,
+  } = useDisclosure();
+
+  const [group, setGroup] = useControllableState({ defaultValue: 0 });
+
+
+  const [{data, fetching}] = useMeQuery()
+
+  
+  const [name, setName] = useControllableState({
+    defaultValue: "Select Group",
+  });
+
   const [, creategroup] = useCreateGroupMutation();
+  const [, createpost] = useCreatePostMutation();
+  const UserGroup = GetUserGroup()
   return (
     <Stack spacing={4} direction="column">
             <TopGroups />
@@ -56,6 +81,7 @@ export default function RightCard() {
               color="#000a16"
               bg="#57FFF5"
               _hover={{ bg: "#57FFF5", color: "#000a16" }}
+              onClick={onPostOpen}
             >
               Create Post
             </Button>
@@ -93,6 +119,123 @@ export default function RightCard() {
           </NextLink>
         </Box>
       </Flex>
+
+      <Modal isOpen={isPostOpen} onClose={onPostClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Create a post</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <Flex align="center">
+                <Avatar
+                  src={data?.me?.user?.profileImgUrl}
+                  size="md"
+                  ml={1}
+                  mr={2}
+                >
+                  {" "}
+                  <AvatarBadge boxSize="1.25em" bg="green.500" />{" "}
+                </Avatar>
+                <Text fontWeight={600} fontSize={20}>
+                  {data?.me?.user?.username}
+                </Text>
+              </Flex>
+              <Flex mt={2} direction="row">
+                <Flex w={40} mr={2}>
+                  <Select placeholder="Everybody">
+                    <option value="campers only">Campers only</option>
+                    <option value="explorers only">Explorers only</option>
+                    {/* {UserGroup?.getUserGroups.map((groups, i) => (
+                    <option value="camps" key={i}>{groups.name}</option>
+                  ))} */}
+                  </Select>
+                </Flex>
+                <Flex w={40}>
+                  {/* <Select placeholder="Select Group">
+                  {UserGroup?.getUserGroups.map((groups) => (
+                    <option value={groups.name} key={groups.id} onSelect={() => setGroup(9)}>
+                      {groups.name}
+                      </option>
+                  ))}
+                </Select> */}
+                </Flex>
+              </Flex>
+
+              <Formik
+                initialValues={{ title: "", body: "", groupId: group }}
+                onSubmit={async (values) => {
+                  console.log(values);
+                  const response = await createpost({
+                    title: values.title,
+                    body: values.body,
+                    groupId: group,
+                  });
+                  if (response?.data?.createPost?.post) {
+                    router.reload();
+                  }
+                }}
+              >
+                {({ isSubmitting }) => (
+                  <Form>
+                    <Menu>
+                      {() => (
+                        <>
+                          <MenuButton
+                            isActive={isPostOpen}
+                            as={Button}
+                            rightIcon={<IoCaretDown />}
+                            name="groupId"
+                            mt={2}
+                          >
+                            {name}
+                          </MenuButton>
+                          <MenuList>
+                            { UserGroup?.data?.getUserGroups.map((groups) => (
+                              <>
+                                <MenuItem
+                                  name="groupId"
+                                  onClick={() => {setGroup(groups.id); setName(groups.name)}}
+                                >
+                                  {groups.name}
+                                </MenuItem>
+
+
+                              </>
+                            ))}                            
+                          </MenuList>
+                        </>
+                      )}
+                    </Menu>
+                    <Box mb={3} mt={3}>
+                      <InputField name="title" placeholder="Title" />
+                    </Box>
+
+                    <InputField
+                      textarea
+                      name="body"
+                      placeholder="What do you want to share?"
+                    />
+                    {/* <Box mt={3} mb={3} w={40}>
+                      <InputField name="postFlair" placeholder="Post Flair" />
+                    </Box> */}
+                    <Flex justify="end">
+                      <Button
+                        colorScheme="blue"
+                        mr={3}
+                        type="submit"
+                        isLoading={isSubmitting}
+                        onClick={onTextClose}
+                      >
+                        Post
+                      </Button>
+                      <Button onClick={onTextClose}>Cancel</Button>
+                    </Flex>
+                  </Form>
+                )}
+              </Formik>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
 
       <Modal isOpen={isTextOpen} onClose={onTextClose}>
           <ModalOverlay />

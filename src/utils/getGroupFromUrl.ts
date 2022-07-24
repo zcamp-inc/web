@@ -1,11 +1,12 @@
-import { useGroupQuery } from "../generated/graphql";
+import { useGetGroupByNameQuery } from "../generated/graphql";
 import { useGetGString } from "./useGetString";
 
 export const useGetGroupFromUrl = () => {
     const useGStr = useGetGString();
-    return useGroupQuery({
+    return useGetGroupByNameQuery({
         variables: {
-            name: useGStr
+            groupName: useGStr,
+            universityName: "Covenant University"
         }
     })
 }

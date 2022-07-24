@@ -1,7 +1,8 @@
 import { IconButton, Flex, Image, Box  } from "@chakra-ui/react";
 import UserProfile from "./user/UserProfile";
-
+import { useRouter } from "next/router";
 export default function Header({ onOpen, ...rest }: {onOpen: any}) {
+  const router = useRouter(); 
   return (
  
     <Flex
@@ -19,7 +20,7 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
       {...rest}
     >
 
-      <Flex justify='flex-start'>
+      <Flex justify='flex-start' onClick={() => router.push('/')} cursor='pointer'>
         <img src="/zlogo/zlogo.png" width="44vh" alt='home logo' />
       </Flex>
       
