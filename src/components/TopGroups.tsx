@@ -10,22 +10,32 @@ import {
   Button,
   Image,
   Avatar,
+  useToast,
+  Skeleton,
+  SkeletonCircle,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useState } from "react";
 import { useGetUserGroupsQuery } from "../generated/graphql";
+import { UserGroups } from "./user/UserGroups";
+import { useRouter } from "next/router"
 
 interface TopGroupProps {
 }
 
 export const TopGroups: React.FC<TopGroupProps> = () => {
-  const [{ data }] = useTopGroupsQuery();
+  const [{ data, fetching }] = useTopGroupsQuery();
   const [, join] = useJoinGroupMutation();
   const userGroup = UserGroup()
-  const range=[ 0, 1, 2, 3];
+  const groupe = userGroup?.getUserGroups?.map((usergroupe) => (usergroupe.id))
+  const tope = data?.topGroups?.map((topgroupe) => (topgroupe.id))
 
-  const [buttonText, setButtonText] = useState("Join")
+  const diff_tope = tope?.filter(x => !groupe?.includes(x));
+  const router = useRouter();
+  const toast = useToast()
   return (
+    <>
+       <UserGroups />
     <Box borderRadius="10px" px={1} pt={1} mb={3} >
       <Box bg="white" borderRadius="10px" pb={3} w={80}>
         <Box
@@ -60,7 +70,35 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
 
         <Flex align="center" justify="space-between" mt={2} px={5} pb={2}>
           <Flex justify="center" direction="column">
-            {data?.topGroups.map((groupInfo, i ) => (
+            { !data && fetching ? (
+              <>
+              <Flex w={60} mt={2} mb={2} justify="space-between">
+                <Flex w={60} align="center">
+                  <SkeletonCircle h={8} w={10} mr={3} />
+                  <Skeleton h="20px" w="full" />
+                </Flex>
+              </Flex>
+              <Divider ml={-5} w={80} />
+
+              <Flex w={60} mt={2} mb={2} justify="space-between">
+                <Flex w={60} align="center">
+                  <SkeletonCircle h={8} w={10} mr={3} />
+                  <Skeleton h="20px" w="full" />
+                </Flex>
+              </Flex>
+
+              <Divider ml={-5} w={80} />
+
+              <Flex w={60} mt={2} mb={2} justify="space-between">
+                <Flex w={60} align="center">
+                  <SkeletonCircle h={8} w={10} mr={3} />
+                  <Skeleton h="20px" w="full" />
+                </Flex>
+              </Flex>
+            </>
+            ) : (
+            
+            data?.topGroups.map((groupInfo, i ) => (
               <>
                     <Flex w={60} key={i} mt={2} mb={2} justify='space-between'>
                     <NextLink href={{ pathname: '/z/[university]/[name]', query: { university:"CU", name: groupInfo.name }}} passHref>
@@ -76,16 +114,33 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
                     px={5}
                     h={8}
                     fontWeight={500}
+                    isDisabled=  { diff_tope?.includes(groupInfo.id) ? false : true } 
                     onClick ={ async function(){
                       const response = await join({groupId: groupInfo.id});                  
                       if (response?.error){
-                        alert('error here')
+                        toast({
+                          title: 'Error',
+                          description: "Unable to Join Group",
+                          status: 'error',
+                          duration: 6000,
+                          isClosable: true,
+                        });
                         return null;                      
-                      }
-                      return response
+                      }else{                      
+                      toast({
+                        title: groupInfo.id,
+                        description: "We have added you to the group",
+                        status: 'success',
+                        duration: 6000,
+                        isClosable: true,
+                      });
+
+                      router.reload()
+                    }
+                    return response
                     }}                    
-                  >
-                    {buttonText}
+                  > 
+                    { diff_tope?.includes(groupInfo.id) ? 'Join' : 'Joined' } 
                   </Button>
                 </Flex>
               </Flex>
@@ -93,7 +148,7 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
               <Divider ml={-5} w={80} />
               </>
 
-            ))}
+            )))}
           </Flex>
           
         </Flex>
@@ -112,6 +167,7 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
         </Flex>
       </Box>
     </Box>
+    </>
   );
 };
 
