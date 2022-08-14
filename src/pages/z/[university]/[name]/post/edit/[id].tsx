@@ -108,7 +108,7 @@ const Post = ({}) => {
                         {/* POSTED BY USER SECTION */}
                         <Flex justify="flex-start" align="center">
                           <Popover trigger="hover" isLazy openDelay={650}>
-                            <PopoverTrigger>
+                            <PopoverTrigger >
                               <Button
                                 fontSize="0.6rem"
                                 fontWeight={400}

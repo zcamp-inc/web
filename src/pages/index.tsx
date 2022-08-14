@@ -116,7 +116,7 @@ const Index: React.FC<IndexProps> = () => {
               variant="unstyled"
               alignSelf="center"
               w={{ lg: "680px" }}
-              minW={{ base: "full", lg: "600px" }}
+              minW={{ lg: "600px" }}
               px={4}
             >
               <TabList
@@ -248,67 +248,28 @@ const Index: React.FC<IndexProps> = () => {
                       <VStack
                         spacing={{ base: 0, md: 5 }}
                         key={p.id}
-                        minW="full"
-                      >
-                      
+                      >                      
                         <LinkBox
-                        as="article"
+                          as="article"
                           borderWidth="2px"
                           borderRadius="lg"
                           bg="white"
                           _hover={{ borderColor: "gray.400" }}
                           pb={2}
-                          w={{ lg: "650px" }}
+                          w={{ base: 'full', lg: "650px" }}
                           minH={40}
-                          minW={{ base: "full", lg: "650px" }}
                           mb={{ base: 2 }}
                           
                         >
                           <Stack spacing={10}>
-                           
-
-                            <NextLink
-                              href={{
-                                pathname: "/z/[university]/[name]/post/[id]",
-                                query: {
-                                  university: "CovenantUniversity",
-                                  name: p.group.name,
-                                  id: p.id,
-                                },
-                              }}
-                              passHref
-                            >
-                              <LinkOverlay>
-                              <Stack px={6} cursor="pointer" mt="75px">
-                                <Heading
-                                  as="h4"
-                                  fontSize={24}
-                                  fontWeight={500}
-                                  noOfLines={2}
-                                >
-                                  {p.title}
-                                </Heading>
-                                <Box mt={4}>
-                                  <Text fontSize={16} fontWeight={300} noOfLines={2} mb="-80px">
-                                    {p.bodySnippet}
-                                  </Text>
-                                </Box>
-                                {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
-<Image
-  src={data?.getPost?.body ? data?.getPost?.body : null}
-  alt={data?.getPost?.title ? null : data?.getPost?.title}
-/>
-</Box> */}
-                              </Stack>
-                              </LinkOverlay>
-                            </NextLink>
-
-                             <Flex
+                          <Flex
                               direction="row"
                               justify="space-between"
                               px={3}
+                              zIndex={2}
+                              
                             >
-                              <Flex px={2} pt={2} mt="-150px">
+                              <Flex px={{ base: 0, md: 2 }} pt={2} >
                                 <Avatar
                                   size="md"
                                   src={p.group.logoImgUrl}
@@ -412,8 +373,8 @@ const Index: React.FC<IndexProps> = () => {
                                   </Flex>
 
                                   {/* POSTED BY USER SECTION */}
-                                  <Flex>
-                                    <Flex align="center" mt={-4}>
+                                  <Flex >
+                                    <Flex justify='start' align={{ lg: 'center'}} mt={-4} direction={{ base: 'column', lg: 'row' }}>
                                       <Popover
                                         trigger="hover"
                                         isLazy
@@ -424,7 +385,6 @@ const Index: React.FC<IndexProps> = () => {
                                             fontSize="0.6rem"
                                             fontWeight={400}
                                             variant="none"
-                                            mr={-2}
                                           >
                                             Posted by {p.creator.user?.username}
                                           </Button>
@@ -509,12 +469,11 @@ const Index: React.FC<IndexProps> = () => {
                                           </PopoverContent>
                                         </Portal>
                                       </Popover>
-                                      <Flex align="center">
-                                        <Text fontSize={9}>
+          
+                                      <Flex ml={{ base: 4, lg: -2}} mt={{ base: -3, lg: 0 }} align='center'>
+                                        <Text fontSize={9} mr={2}>
                                           {moment(p.createdAt).fromNow()}
                                         </Text>
-                                      </Flex>
-                                      <Flex justify="flex-end" ml={2}>
                                         <Text
                                         as='i'
                                           fontSize={10}
@@ -525,7 +484,7 @@ const Index: React.FC<IndexProps> = () => {
                                           }
                                         >
                                           {" "}
-                                          Edited{" "} {moment(p.updatedAt).fromNow()}
+                                          Edited{" "}
                                         </Text>
                                       </Flex>
                                     </Flex>
@@ -543,7 +502,7 @@ const Index: React.FC<IndexProps> = () => {
                               </Flex>
 
                               {/**  */}
-                              <Flex direction="row" justify="flex-end" mt="-150px">
+                              <Flex direction="row" justify="flex-end" >
                                 <Menu>
                                   <MenuButton
                                     as={IconButton}
@@ -614,6 +573,49 @@ const Index: React.FC<IndexProps> = () => {
                               </Flex>
 
                             </Flex>
+
+
+                            <NextLink
+                              href={{
+                                pathname: "/z/[university]/[name]/post/[id]",
+                                query: {
+                                  university: "CovenantUniversity",
+                                  name: p.group.name,
+                                  id: p.id,
+                                },
+                              }}
+                              passHref
+                            >
+                              
+                              <LinkOverlay>
+                              <Stack px={6} cursor="pointer">
+                                <Heading
+                                  as="h4"
+                                  fontSize={24}
+                                  fontWeight={500}
+                                  noOfLines={2}
+                                  mt={-8}
+                                >
+                                  {p.title}
+                                </Heading>
+                                <Box mt={4}>
+                                  <Text fontSize={16} fontWeight={300} noOfLines={2} mb="-30px">
+                                    {p.bodySnippet}...
+                                  </Text>
+                                </Box>
+                                {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
+<Image
+  src={data?.getPost?.body ? data?.getPost?.body : null}
+  alt={data?.getPost?.title ? null : data?.getPost?.title}
+/>
+</Box> */}
+                              </Stack>
+                              </LinkOverlay>
+                            </NextLink>
+                           
+
+
+                             
 
 
                             <Box maxW="full" maxH="lg" alignItems="center">
@@ -757,27 +759,7 @@ const Index: React.FC<IndexProps> = () => {
     );
   }
   return (
-    // <Layout>
-    //   <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ md: 10 }} ml={10}>
-    //     <Flex direction="column" ml={{ base: -10, md: -20 }}>
-    //       <Box mb={5} alignSelf='center'  w={{ base: "full", md: "xl" }}>
-    //         <CreatePost />
-    //       </Box>
-    //       {!data ? null : data?.homePosts?.posts?.map((p) => <Box key={p.id} bg="tan">{p.title}</Box> )}
-
-    //       {/* {data.map((postData, i) => (
-    //         <FakePost postData={postData} key={i} />
-    //       ))} */}
-
-    //     </Flex>
-    //     <Box display={{ base: "none", md: "block" }}>
-
-    //       <RightCard />
-
-    //     </Box>
-    //   </SimpleGrid>
-    // </Layout>
-    reme
+      reme
   );
 };
 
