@@ -691,7 +691,7 @@ const Index: React.FC<IndexProps> = () => {
                                 </Stack>
                                 <Box>
                                   <Badge
-                                    colorScheme="blue"
+                                    colorScheme="pink"
                                     variant="outline"
                                     ml={2}
                                   >
