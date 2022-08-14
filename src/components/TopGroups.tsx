@@ -1,6 +1,7 @@
 import {
   useTopGroupsQuery,
   useJoinGroupMutation,
+  useMeQuery,
 } from "../generated/graphql";
 import {
   Box,
@@ -24,6 +25,7 @@ interface TopGroupProps {
 }
 
 export const TopGroups: React.FC<TopGroupProps> = () => {
+  const [{data: me}] = useMeQuery()
   const [{ data, fetching }] = useTopGroupsQuery();
   const [, join] = useJoinGroupMutation();
   const userGroup = UserGroup()
@@ -35,7 +37,9 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
   const toast = useToast()
   return (
     <>
+    <Box display={!me?.me?.user ? 'none' : 'block'}>
        <UserGroups />
+    </Box>
     <Box borderRadius="10px" px={1} pt={1} mb={3} >
       <Box bg="white" borderRadius="10px" pb={3} w={80}>
         <Box
@@ -101,7 +105,7 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
             data?.topGroups.map((groupInfo, i ) => (
               <>
                     <Flex w={60} key={i} mt={2} mb={2} justify='space-between'>
-                    <NextLink href={{ pathname: '/z/[university]/[name]', query: { university:"CU", name: groupInfo.name }}} passHref>
+                    <NextLink href={{ pathname: '/z/[university]/[name]', query: { university:"CovenantUniversity", name: groupInfo.name }}} passHref>
                 <Flex w={60} cursor='pointer'> 
                 <Avatar src={groupInfo.logoImgUrl} size="sm"  mr={2} zIndex={0} />
                 <Text w={40}> {groupInfo.name}</Text>
@@ -114,25 +118,28 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
                     px={5}
                     h={8}
                     fontWeight={500}
+                    variant={diff_tope?.includes(groupInfo.id) ? 'solid' : 'outline'}
                     isDisabled=  { diff_tope?.includes(groupInfo.id) ? false : true } 
                     onClick ={ async function(){
                       const response = await join({groupId: groupInfo.id});                  
                       if (response?.error){
                         toast({
-                          title: 'Error',
-                          description: "Unable to Join Group",
+                          title: 'Oopsies😭😭',
+                          description: "We could not add you to the subcamp",
                           status: 'error',
                           duration: 6000,
                           isClosable: true,
+                          variant:'left-accent'
                         });
                         return null;                      
                       }else{                      
                       toast({
-                        title: groupInfo.id,
-                        description: "We have added you to the group",
+                        title: "Cool🤩🤩",
+                        description: `We have added you to ${groupInfo.name}`,
                         status: 'success',
                         duration: 6000,
                         isClosable: true,
+                        variant:'subtle',
                       });
 
                       router.reload()

@@ -104,7 +104,7 @@ export const UserGroups: React.FC<UserGroupsProps> = () => {
                       <NextLink
                         href={{
                           pathname: "/z/[university]/[name]",
-                          query: { university: "CU", name: groupInfo.name },
+                          query: { university: "CovenantUniversity", name: groupInfo.name },
                         }}
                         passHref
                       >

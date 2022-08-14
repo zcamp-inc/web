@@ -64,7 +64,7 @@ export default function GroupCard() {
             bgGradient="linear(to-r, #7928CA, #57FFF5)"
           >
             <Text fontSize={20} color="white">
-              About Group
+              About Subcamp
             </Text>
           </Flex>
           <Flex px={4} mt={2} direction="column">

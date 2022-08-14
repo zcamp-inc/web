@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import NextLink from "next/link";
-import router from "next/router";
+import { useRouter } from "next/router";
 import { InputField } from "./InputField";
 import { TopGroups } from "./TopGroups";
 import { useCreateGroupMutation, useCreatePostMutation, useMeQuery } from "../generated/graphql"
@@ -50,18 +50,20 @@ export default function RightCard() {
   const [group, setGroup] = useControllableState({ defaultValue: 0 });
 
 
-  const [{data, fetching}] = useMeQuery()
+  const [{data, fetching}] = useMeQuery();
 
   
   const [name, setName] = useControllableState({
     defaultValue: "Select Group",
   });
 
+  const router = useRouter();
+
   const [, creategroup] = useCreateGroupMutation();
   const [, createpost] = useCreatePostMutation();
-  const UserGroup = GetUserGroup()
+  const UserGroup = GetUserGroup();
   return (
-    <Stack spacing={4} direction="column">
+    <Stack spacing={4} direction="column" mt={-5} >
             <TopGroups />
 
       <Box borderRadius="10px" px={1} pt={1} mb={3}>
@@ -71,8 +73,8 @@ export default function RightCard() {
           </Flex>
           <Flex ml={5} mt={2}>
             <Text color="white" fontWeight={400} fontSize={14} w={56}>
-              Discover new camps, join and interact with campers.
-              <br /> Define your homefeed with your favorite camps
+              Discover new ways to interact with your coursemates and friends
+              <br /> Define your experience with zcamp
             </Text>
           </Flex>
           <VStack mt={2}>
@@ -81,7 +83,7 @@ export default function RightCard() {
               color="#000a16"
               bg="#57FFF5"
               _hover={{ bg: "#57FFF5", color: "#000a16" }}
-              onClick={onPostOpen}
+              onClick={!data?.me?.user ? () =>{ router.push('/login')} : onPostOpen}
             >
               Create Post
             </Button>
@@ -91,7 +93,7 @@ export default function RightCard() {
               color="#57FFF5"
               borderColor="#57FFF5"
               _hover={{ bg: "#57FFF5", color: "#000a16" }}
-              onClick={onTextOpen}
+              onClick={!data?.me?.user ? () =>{ router.push('/login')} : onTextOpen}
             >
               Create Subcamp
             </Button>
