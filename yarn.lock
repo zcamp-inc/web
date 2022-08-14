@@ -1200,6 +1200,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource/karla/-/karla-4.5.8.tgz#776baf80120fc74a46e9d291e3b3de540c8eccb9"
   integrity sha512-QbImqQ2cuXrkbqEA+UspuMUBJ3J5NOPalvyCxs8qPYmi/KRBBYu6an62gQlNv/WN54ogJ7CPDii7YVI4pBSgIg==
 
+"@fontsource/mulish@^4.5.12":
+  version "4.5.12"
+  resolved "https://registry.yarnpkg.com/@fontsource/mulish/-/mulish-4.5.12.tgz#6e309b49e6c5c4defc87edb803308337b39ec53b"
+  integrity sha512-rlM4VI9bvS9rxf1LxiSTmnFB7Pjca2NWnWxb/6L3XTWsRJJbc2PN5jenVDJtt/WEVSz18ZdDtYzE/xb1JUYSWQ==
+
 "@fontsource/nunito@^4.5.9":
   version "4.5.9"
   resolved "https://registry.yarnpkg.com/@fontsource/nunito/-/nunito-4.5.9.tgz#90c89de1bcf40fd1ec1ae2c75392fbe20e45a59c"

@@ -2,6 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 // import "@fontsource/karla";
 import "@fontsource/rubik";
 import "@fontsource/nunito";
+import "@fontsource/mulish";
 
 const breakpoints = {
     sm: '320px',
@@ -13,8 +14,8 @@ const breakpoints = {
 
 const theme = extendTheme({
         fonts: {
-        heading: 'Nunito',
-        body: 'Nunito',       
+        heading: 'Mulish',
+        body: 'Mulish',       
     },
     breakpoints,
     components: {
