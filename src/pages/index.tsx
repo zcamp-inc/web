@@ -271,7 +271,7 @@ const Index: React.FC<IndexProps> = () => {
                               href={{
                                 pathname: "/z/[university]/[name]/post/[id]",
                                 query: {
-                                  university: "CU",
+                                  university: "CovenantUniversity",
                                   name: p.group.name,
                                   id: p.id,
                                 },
@@ -387,7 +387,7 @@ const Index: React.FC<IndexProps> = () => {
                                                   pathname:
                                                     "/z/[university]/[name]",
                                                   query: {
-                                                    university: "CU",
+                                                    university: "CovenantUniversity",
                                                     name: p.group.name,
                                                   },
                                                 }}
@@ -576,7 +576,7 @@ const Index: React.FC<IndexProps> = () => {
                                         pathname:
                                           "/z/[university]/[name]/post/edit/[id]",
                                         query: {
-                                          university: "CU",
+                                          university: "CovenantUniversity",
                                           name: p.group.name,
                                           id: p.id,
                                         },
@@ -732,8 +732,8 @@ const Index: React.FC<IndexProps> = () => {
                             </Stack>
                             <Box maxW="full" maxH="lg" alignItems="center">
                               <PostInteraction
-                                postVote={p.voteCount}
-                                comments={comments}
+                               comments={comments}
+                               postID={p.id}
                               />
                             </Box>
                           </Stack>

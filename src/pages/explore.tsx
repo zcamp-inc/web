@@ -61,7 +61,7 @@ const Explore: React.FC<ExploreProps> = () => {
 
   const me = MeQuery();
   let logged = null;
-  if (!me?.me?.user) {
+  if (!me.data?.me?.user) {
     logged = (
       <Layout>
       <Flex justify='center'>
