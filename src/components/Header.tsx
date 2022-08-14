@@ -7,7 +7,7 @@ export default function Header({ onOpen, ...rest }: {onOpen: any}) {
  
     <Flex
       display='flex'
-      zIndex='1'
+      zIndex='3'
       px={{ base: 0, md: 2}}
       top="0"
       bg = "white"
