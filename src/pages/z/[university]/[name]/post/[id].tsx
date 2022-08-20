@@ -31,20 +31,23 @@ import { BsThreeDots } from "react-icons/bs";
 import PostInteraction from "../../../../../components/PostInteraction";
 import NextLink from "next/link";
 import GroupCard from "../../../../../components/group/GroupCard";
-import { MeQuery } from "../../../..";
 import { InputField } from "../../../../../components/InputField";
-import { group } from "console";
 import { Formik, Form } from "formik";
 import router from "next/router";
 import { IoCaretDown } from "react-icons/io5";
-import { useCreateCommentMutation } from "../../../../../generated/graphql";
+import { useCreateCommentMutation, useMeQuery, useGetPostCommentsQuery } from "../../../../../generated/graphql";
 
 const Post = ({}) => {
   const [{ data, error, fetching }] = useGetPostFromUrl();
-  const me = MeQuery();
   const [, createcomment] = useCreateCommentMutation();
+  const [{data: me}] = useMeQuery();
+  const [{ data: postComments }] = useGetPostCommentsQuery({
+    variables: {
+      postId: data?.getPost?.post?.id!
+    }
+  });
 
-  let getPostId = data?.getPost?.post?.id!
+  const getPostId = data?.getPost?.post?.id!
 
   let comments = 2;
 
@@ -243,7 +246,7 @@ const Post = ({}) => {
                   </Stack>
                   <Box maxW="full" maxH="lg" alignItems="center">
                     <PostInteraction
-                      postVote={data?.getPost?.post?.voteCount!}
+                      postID={data?.getPost?.post?.id!}
                       comments={comments}
                     />
                   </Box>
@@ -314,12 +317,21 @@ const Post = ({}) => {
                         type="submit"
                         isLoading={isSubmitting}
                       >
-                        Post
+                        Post {postComments?.getPostComments?.comments?.id}
+
                       </Button>
                     </Flex>
                   </Form>
                 )}
               </Formik>
+              </Box>
+
+              <Box w='full' h='20px' bg='blue'>
+                {postComments?.getPostComments?.comments?.map((p) => (
+                  <Heading> {p.body} </Heading>
+                ))}
+                
+
               </Box>
             </Flex>
 

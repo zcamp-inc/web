@@ -2,7 +2,7 @@ import { HStack, Box, Flex, Icon, Text, IconButton } from "@chakra-ui/react";
 
 
 import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoBookmarkOutline } from "react-icons/io5";
-import { useVotePostMutation, GetPostQuery, useGetPostQuery  } from "../generated/graphql";
+import { useVotePostMutation, useMeQuery, useGetPostQuery  } from "../generated/graphql";
 
 
 
@@ -14,6 +14,8 @@ export default function PostInteraction({ comments, postID } : {comments: number
       getPostId: postID
     }
   })
+
+  const [{data: me}] = useMeQuery();
   return (
 
     // <HStack spacing={{ base: 40, md: 60 }}>
@@ -34,16 +36,11 @@ export default function PostInteraction({ comments, postID } : {comments: number
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             fontSize={{ base: 24, md: 26 }}
             variant="ghost"
-            onClick={(async () => {
-              if (data?.getPost.post?.voteCount === 1){
-                return;
-              }
-             
+            onClick={(async () => {          
               await vote({
                 votePostId: data?.getPost?.post?.id!,
                 value: 1,
               })
-
             })}
           />
 
@@ -56,14 +53,11 @@ export default function PostInteraction({ comments, postID } : {comments: number
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             variant="ghost"
             onClick={(async () => {
-              if (data?.getPost.post?.voteCount === -1){
-                return;
-              }
-             
-              await vote({
+               await vote({
                 votePostId: data?.getPost?.post?.id!,
                 value: -1,
               })
+
 
             })}
             mr={{ base: 2, md:10 }}

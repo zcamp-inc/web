@@ -32,6 +32,8 @@ import {
   Skeleton,
   SkeletonCircle,
   SkeletonText,
+  LinkBox,
+  LinkOverlay,
 } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
@@ -203,26 +205,43 @@ const Trending = () => {
                   </VStack>
                 ) : (
                   data?.trendingPosts?.posts?.map((p) => (
-                    <VStack spacing={{ base: 0, md: 5 }} key={p.id}>
-                      <Box
-                        borderWidth="1px"
-                        borderRadius="lg"
-                        bg="white"
-                        pb={2}
-                        w={{ base: "370px", md: "768px", lg: "650px" }}
-                        minH={40}
-                        mb={{ base: 2 }}
-                      >
-                        <Stack spacing={10}>
-                          <Flex direction="row" justify="space-between" px={3}>
-                            <Flex px={2} pt={2} align="center">
-                              <Avatar
-                                size="md"
-                                src={p.group.logoImgUrl}
-                                mr={-1}
-                              />
-                              <Stack ml={2}>
-                                <Popover trigger="hover" isLazy openDelay={650}>
+                    <VStack
+                    spacing={{ base: 0, md: 5 }}
+                    key={p.id}
+                  >                      
+                    <LinkBox
+                      as="article"
+                      borderWidth="2px"
+                      borderRadius="lg"
+                      bg="white"
+                      _hover={{ borderColor: "gray.400" }}
+                      pb={2}
+                      w={{ base: 'full', lg: "650px" }}
+                      minH={40}
+                      mb={{ base: 2 }}
+                      
+                    >
+                      <Stack spacing={10}>
+                      <Flex
+                          direction="row"
+                          justify="space-between"
+                          px={3}
+                          zIndex={2}
+                          
+                        >
+                          <Flex px={{ base: 0, md: 2 }} pt={2} >
+                            <Avatar
+                              size="md"
+                              src={p.group.logoImgUrl}
+                              mr={-1}
+                            />
+                            <Stack ml={2}>
+                              <Flex>
+                                <Popover
+                                  trigger="hover"
+                                  isLazy
+                                  openDelay={650}
+                                >
                                   <PopoverTrigger>
                                     <Button
                                       fontSize={{ base: 14, md: 18 }}
@@ -289,7 +308,7 @@ const Trending = () => {
                                               pathname:
                                                 "/z/[university]/[name]",
                                               query: {
-                                                university: "CU",
+                                                university: "CovenantUniversity",
                                                 name: p.group.name,
                                               },
                                             }}
@@ -311,9 +330,11 @@ const Trending = () => {
                                     </PopoverContent>
                                   </Portal>
                                 </Popover>
+                              </Flex>
 
-                                {/* POSTED BY USER SECTION */}
-                                <Flex>
+                              {/* POSTED BY USER SECTION */}
+                              <Flex >
+                                <Flex justify='start' align={{ lg: 'center'}} mt={-4} direction={{ base: 'column', lg: 'row' }}>
                                   <Popover
                                     trigger="hover"
                                     isLazy
@@ -323,10 +344,7 @@ const Trending = () => {
                                       <Button
                                         fontSize="0.6rem"
                                         fontWeight={400}
-                                        mb={-2}
-                                        mt={-4}
                                         variant="none"
-                                        mr={-2}
                                       >
                                         Posted by {p.creator.user?.username}
                                       </Button>
@@ -338,7 +356,8 @@ const Trending = () => {
                                             <Avatar
                                               size="md"
                                               src={
-                                                p.creator.user?.profileImgUrl
+                                                p.creator.user
+                                                  ?.profileImgUrl
                                               }
                                             />
                                             <Text
@@ -351,7 +370,10 @@ const Trending = () => {
                                           </Flex>
                                         </PopoverHeader>
                                         <PopoverBody>
-                                          <Text> {p.creator.user?.email} </Text>
+                                          <Text>
+                                            {" "}
+                                            {p.creator.user?.email}{" "}
+                                          </Text>
                                           <Stack
                                             direction="row"
                                             spacing={10}
@@ -385,7 +407,8 @@ const Trending = () => {
                                                 pathname: "/u/[username]",
                                                 query: {
                                                   username:
-                                                    p.creator.user?.username,
+                                                    p.creator.user
+                                                      ?.username,
                                                 },
                                               }}
                                               passHref
@@ -406,123 +429,165 @@ const Trending = () => {
                                       </PopoverContent>
                                     </Portal>
                                   </Popover>
-                                  <Text fontSize="0.6rem" mt={-1}>
-                                    {moment(p.createdAt).fromNow()}
-                                  </Text>
+      
+                                  <Flex ml={{ base: 4, lg: -2}} mt={{ base: -3, lg: 0 }} align='center'>
+                                    <Text fontSize={9} mr={2}>
+                                      {moment(p.createdAt).fromNow()}
+                                    </Text>
+                                    <Text
+                                    as='i'
+                                      fontSize={10}
+                                      display={
+                                        p.wasEdited === true
+                                          ? "flex"
+                                          : "none"
+                                      }
+                                    >
+                                      {" "}
+                                      Edited{" "}
+                                    </Text>
+                                  </Flex>
                                 </Flex>
-                              </Stack>
-                              <Box>
-                                <Badge
-                                  colorScheme="blue"
-                                  variant="outline"
-                                  ml={2}
+                              </Flex>
+                            </Stack>
+                            <Box>
+                              <Badge
+                                colorScheme="blue"
+                                variant="outline"
+                                ml={2}
+                              >
+                                POST
+                              </Badge>
+                            </Box>
+                          </Flex>
+
+                          {/**  */}
+                          <Flex direction="row" justify="flex-end" >
+                            <Menu>
+                              <MenuButton
+                                as={IconButton}
+                                aria-label="more options"
+                                icon={<BsThreeDots />}
+                                variant="ghost"
+                                mr={2}
+                                mt={1}
+                                zIndex={1}
+                              />
+                              <MenuList zIndex={2} bg="white">
+                                <MenuItem
+                                  color="red.300"
+                                  fontWeight={600}
+                                  display={
+                                    p?.creator?.user?.id ===
+                                    me.data?.me?.user?.id
+                                      ? "block"
+                                      : "none"
+                                  }
+                                  onClick={() => {
+                                    deletePost({ deletePostId: p.id });
+                                    router.reload();
+                                  }}
                                 >
-                                  POST
-                                </Badge>
-                              </Box>
-                            </Flex>
-                            <Flex direction="row" justify="flex-end">
-                              <Menu>
-                                <MenuButton
-                                  as={IconButton}
-                                  aria-label="more options"
-                                  icon={<BsThreeDots />}
-                                  variant="ghost"
-                                  mr={2}
-                                  mt={1}
-                                  zIndex={1}
-                                />
-                                <MenuList zIndex={2} bg="white">
+                                  Delete
+                                </MenuItem>
+                                <NextLink
+                                  href={{
+                                    pathname:
+                                      "/z/[university]/[name]/post/edit/[id]",
+                                    query: {
+                                      university: "CovenantUniversity",
+                                      name: p.group.name,
+                                      id: p.id,
+                                    },
+                                  }}
+                                  passHref
+                                >
                                   <MenuItem
-                                    color="red.300"
-                                    fontWeight={600}
                                     display={
                                       p?.creator?.user?.id ===
                                       me.data?.me?.user?.id
                                         ? "block"
                                         : "none"
                                     }
-                                    onClick={() => {
-                                      deletePost({ deletePostId: p.id });
-                                      router.reload();
-                                    }}
                                   >
-                                    Delete
+                                    Edit
                                   </MenuItem>
-                                  <NextLink
-                                    href={{
-                                      pathname:
-                                        "/z/[university]/[name]/post/edit/[id]",
-                                      query: {
-                                        university: "CU",
-                                        name: p.group.name,
-                                        id: p.id,
-                                      },
-                                    }}
-                                    passHref
-                                  >
-                                    <MenuItem
-                                      display={
-                                        p?.creator?.user?.id ===
-                                        me.data?.me?.user?.id
-                                          ? "block"
-                                          : "none"
-                                      }
-                                    >
-                                      Edit
-                                    </MenuItem>
-                                  </NextLink>
-                                  <MenuItem
-                                    color="red.300"
-                                    fontWeight={600}
-                                    display={
-                                      p?.creator?.user?.id !==
-                                      me.data?.me?.user?.id
-                                        ? "block"
-                                        : "none"
-                                    }
-                                  >
-                                    Report
-                                  </MenuItem>
-                                  <MenuItem>Repost</MenuItem>
-                                  <MenuItem>Go to Post</MenuItem>
-                                  <MenuItem>Award Post</MenuItem>
-                                </MenuList>
-                              </Menu>
-                            </Flex>
+                                </NextLink>
+                                <MenuItem
+                                  color="red.300"
+                                  fontWeight={600}
+                                  display={
+                                    p?.creator?.user?.id !==
+                                    me.data?.me?.user?.id
+                                      ? "block"
+                                      : "none"
+                                  }
+                                >
+                                  Report
+                                </MenuItem>
+                                <MenuItem>Repost</MenuItem>
+                                <MenuItem>Go to Post</MenuItem>
+                                <MenuItem>Award Post</MenuItem>
+                              </MenuList>
+                            </Menu>
                           </Flex>
 
-                          <Stack px={6}>
+                        </Flex>
+
+
+                        <NextLink
+                          href={{
+                            pathname: "/z/[university]/[name]/post/[id]",
+                            query: {
+                              university: "CovenantUniversity",
+                              name: p.group.name,
+                              id: p.id,
+                            },
+                          }}
+                          passHref
+                        >
+                          
+                          <LinkOverlay>
+                          <Stack px={6} cursor="pointer">
                             <Heading
                               as="h4"
                               fontSize={24}
                               fontWeight={500}
-                              mt={-5}
                               noOfLines={2}
+                              mt={-8}
                             >
                               {p.title}
                             </Heading>
                             <Box mt={4}>
-                              <Text fontSize={16} fontWeight={300} mb={-5}>
-                                {p.bodySnippet}
+                              <Text fontSize={16} fontWeight={300} noOfLines={2} mb="-30px">
+                                {p.bodySnippet}...
                               </Text>
                             </Box>
                             {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
 <Image
-  src={data?.getPost?.body ? data?.getPost?.body : null}
-  alt={data?.getPost?.title ? null : data?.getPost?.title}
+src={data?.getPost?.body ? data?.getPost?.body : null}
+alt={data?.getPost?.title ? null : data?.getPost?.title}
 />
 </Box> */}
                           </Stack>
-                          <Box maxW="full" maxH="lg" alignItems="center">
-                            <PostInteraction
-                              comments={comments}
-                              postID={p.id}
-                            />
-                          </Box>
-                        </Stack>
-                      </Box>
-                    </VStack>
+                          </LinkOverlay>
+                        </NextLink>
+                       
+
+
+                         
+
+
+                        <Box maxW="full" maxH="lg" alignItems="center">
+                          <PostInteraction
+                            comments={comments}
+                            postID={p.id}
+                          />   
+                        </Box>
+
+                      </Stack>
+                    </LinkBox>
+                  </VStack>
                   ))
                 )}
               </TabPanel>

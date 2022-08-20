@@ -21,18 +21,24 @@ export type Comment = {
   body: Scalars['String'];
   bodySnippet: Scalars['String'];
   createdAt: Scalars['DateTime'];
-  creator: User;
+  creator: UserResponse;
   id: Scalars['Float'];
   isDisabled: Scalars['Boolean'];
   post: User;
   updatedAt: Scalars['DateTime'];
-  voteCount: Scalars['Int'];
+  voteCount: Scalars['Float'];
   wasEdited: Scalars['Boolean'];
 };
 
 export type CommentResponse = {
   __typename?: 'CommentResponse';
-  comment?: Maybe<Post>;
+  comment?: Maybe<Comment>;
+  errors?: Maybe<Array<FieldError>>;
+};
+
+export type CommentsResponse = {
+  __typename?: 'CommentsResponse';
+  comments?: Maybe<Array<Comment>>;
   errors?: Maybe<Array<FieldError>>;
 };
 
@@ -51,6 +57,7 @@ export type Group = {
   isDisabled: Scalars['Boolean'];
   logoImgUrl: Scalars['String'];
   name: Scalars['String'];
+  university: UniversityResponse;
 };
 
 export type GroupResponse = {
@@ -212,7 +219,10 @@ export type Query = {
   getGroupUserCount: Scalars['Float'];
   getGroups: Array<Group>;
   getPost: PostResponse;
+  getPostComments?: Maybe<CommentsResponse>;
+  getPostVoteValue: Scalars['Float'];
   getUniversities: Array<University>;
+  getUniversityGroups: Array<Group>;
   getUserGroups: Array<Group>;
   homePosts: PaginatedPosts;
   me?: Maybe<UserResponse>;
@@ -241,6 +251,21 @@ export type QueryGetGroupUserCountArgs = {
 
 export type QueryGetPostArgs = {
   id: Scalars['Float'];
+};
+
+
+export type QueryGetPostCommentsArgs = {
+  postId: Scalars['Int'];
+};
+
+
+export type QueryGetPostVoteValueArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetUniversityGroupsArgs = {
+  universityId: Scalars['Float'];
 };
 
 
@@ -278,6 +303,12 @@ export type University = {
   isDisabled: Scalars['Boolean'];
   logoImgUrl: Scalars['String'];
   name: Scalars['String'];
+};
+
+export type UniversityResponse = {
+  __typename?: 'UniversityResponse';
+  errors?: Maybe<Array<FieldError>>;
+  university?: Maybe<University>;
 };
 
 export type User = {
@@ -325,7 +356,7 @@ export type CreateCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'CommentResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comment?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'CommentResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comment?: { __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null }, post: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } } | null } };
 
 export type CreateGroupMutationVariables = Exact<{
   description: Scalars['String'];
@@ -439,6 +470,20 @@ export type GetPostQueryVariables = Exact<{
 
 
 export type GetPostQuery = { __typename?: 'Query', getPost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+
+export type GetPostCommentsQueryVariables = Exact<{
+  postId: Scalars['Int'];
+}>;
+
+
+export type GetPostCommentsQuery = { __typename?: 'Query', getPostComments?: { __typename?: 'CommentsResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comments?: Array<{ __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null }, post: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } }> | null } | null };
+
+export type GetPostVoteValueQueryVariables = Exact<{
+  getPostVoteValueId: Scalars['Int'];
+}>;
+
+
+export type GetPostVoteValueQuery = { __typename?: 'Query', getPostVoteValue: number };
 
 export type GetUniversitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -559,21 +604,11 @@ export const CreateCommentDocument = gql`
       id
       createdAt
       updatedAt
-      title
       body
       isDisabled
-      voteCount
       wasEdited
+      voteCount
       bodySnippet
-      group {
-        id
-        createdAt
-        name
-        description
-        isDisabled
-        logoImgUrl
-        bannerImgUrl
-      }
       creator {
         errors {
           field
@@ -587,6 +622,14 @@ export const CreateCommentDocument = gql`
           profileImgUrl
           email
         }
+      }
+      post {
+        id
+        createdAt
+        username
+        isDisabled
+        profileImgUrl
+        email
       }
     }
   }
@@ -884,6 +927,61 @@ export const GetPostDocument = gql`
 
 export function useGetPostQuery(options: Omit<Urql.UseQueryArgs<GetPostQueryVariables>, 'query'>) {
   return Urql.useQuery<GetPostQuery>({ query: GetPostDocument, ...options });
+};
+export const GetPostCommentsDocument = gql`
+    query GetPostComments($postId: Int!) {
+  getPostComments(postId: $postId) {
+    errors {
+      field
+      message
+    }
+    comments {
+      id
+      createdAt
+      updatedAt
+      body
+      isDisabled
+      wasEdited
+      voteCount
+      bodySnippet
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
+      post {
+        id
+        createdAt
+        username
+        isDisabled
+        profileImgUrl
+        email
+      }
+    }
+  }
+}
+    `;
+
+export function useGetPostCommentsQuery(options: Omit<Urql.UseQueryArgs<GetPostCommentsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPostCommentsQuery>({ query: GetPostCommentsDocument, ...options });
+};
+export const GetPostVoteValueDocument = gql`
+    query GetPostVoteValue($getPostVoteValueId: Int!) {
+  getPostVoteValue(id: $getPostVoteValueId)
+}
+    `;
+
+export function useGetPostVoteValueQuery(options: Omit<Urql.UseQueryArgs<GetPostVoteValueQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPostVoteValueQuery>({ query: GetPostVoteValueDocument, ...options });
 };
 export const GetUniversitiesDocument = gql`
     query GetUniversities {

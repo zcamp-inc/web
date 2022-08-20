@@ -7,7 +7,10 @@ import {
   Image,
   Stack,
   Text,
-  SimpleGrid,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
   Tabs,
   TabList,
   TabPanels,
@@ -26,6 +29,8 @@ import {
   Portal,
   SkeletonCircle,
   SkeletonText,
+  LinkBox,
+  LinkOverlay,
 } from "@chakra-ui/react";
 import moment from "moment";
 import NextLink from "next/link";
@@ -43,8 +48,7 @@ import CreatePost from "../components/post/CreatePost";
 import FakePost from "../components/post/fakepost";
 import PostInteraction from "../components/PostInteraction";
 import RightCard from "../components/RightCard";
-import { MeQuery } from "./index";
-import { useTrendingPostsQuery } from "../generated/graphql";
+import { useTrendingPostsQuery, useMeQuery } from "../generated/graphql";
 
 interface ExploreProps {}
 
@@ -56,22 +60,22 @@ const Explore: React.FC<ExploreProps> = () => {
     },
   })
 
+  const [{data: me, fetching: fetchMe}] = useMeQuery();
+
   const postVote = Math.floor(Math.random()*(200) + 1 );
   const comments = Math.floor(Math.random()* 30 + 1);
-
-  const me = MeQuery();
   let logged = null;
-  if (!me.data?.me?.user) {
+  if (!me?.me?.user) {
     logged = (
       <Layout>
       <Flex justify='center'>
 
        <Flex direction="column" >
 
-       <Flex direction="column" mt={3} >
+       <Flex direction="column" mt={7} >
              <Flex direction="row" justify={'center'} >
                <Box
-                 maxW={{ base: 64, lg: 40}}
+                 maxW={{ base: 40, md: 64, lg: 40}}
                  maxH={40}
                  borderWidth="1px"
                  borderRadius="10px"
@@ -118,14 +122,13 @@ const Explore: React.FC<ExploreProps> = () => {
                </Box>
 
                <Box
-                 maxW={{ base: 64, lg: 40}}
+                 maxW={{ base: 40, md: 64, lg: 40}}
                  maxH={40}
                  borderWidth="1px"
                  borderRadius="10px"
                  mr={3}
                  bg="white"
                  overflow="hidden"
-                 display={{ base: "none", md: "block" }} 
                >
                  <Box
                    overflow="hidden"
@@ -166,14 +169,14 @@ const Explore: React.FC<ExploreProps> = () => {
                </Box>
 
                <Box
-                 maxW={{ lg: 40}}
+                 maxW={{ base: 64, lg: 40}}
                  maxH={40}
                  borderWidth="1px"
                  borderRadius="10px"
                  mr={3}
                  bg="white"
                  overflow="hidden"
-                 display={{ base: "none", md: "none", lg: 'block' }} 
+                 display={{ base: "none", md: 'block' }} 
                >
                  <Box
                    overflow="hidden"
@@ -262,10 +265,10 @@ const Explore: React.FC<ExploreProps> = () => {
              </Flex>
        </Flex>
 
-        <Tabs isFitted variant="unstyled" alignSelf='center' w={{ base: "370px", md: "768px", lg: "650px" }} mt={10}> 
-        <Box  w={{ base: "370px", md: "768px", lg: "650px" }} mb ={3} display={!me.data ? 'flex' : 'none'}>
+        <Box w={{ lg: "680px"}} minW={{ base: "full", lg: "650px" }} mb ={3} display={!me?.me?.user ? 'flex' : 'none'} px={4} mt={5}>
           <CreatePost pageProps={undefined} />
         </Box>
+        <Tabs isFitted variant="unstyled" alignSelf='center' minW={{ base: "full", lg: "600px" }} w={{ lg: "680px" }} mt={2} px={4}> 
            <TabList
              bg="white"
              mb={3}
@@ -388,192 +391,249 @@ const Explore: React.FC<ExploreProps> = () => {
                   </VStack>
                  ) : (
                    data?.trendingPosts?.posts?.map((p) => (
-                    <VStack spacing={{ base: 0, md: 5 }} key={p.id}>
-                    <Box
-                      borderWidth="1px"
+                    <VStack
+                    spacing={{ base: 0, md: 5 }}
+                    key={p.id}
+                  >                      
+                    <LinkBox
+                      as="article"
+                      borderWidth="2px"
                       borderRadius="lg"
                       bg="white"
+                      _hover={{ borderColor: "gray.400" }}
                       pb={2}
-                      w={{ base: "370px", md: "768px", lg: "650px" }}
+                      w={{ base: 'full', lg: "650px" }}
                       minH={40}
                       mb={{ base: 2 }}
+                      
                     >
                       <Stack spacing={10}>
-                        <Flex
+                      <Flex
                           direction="row"
                           justify="space-between"
                           px={3}
+                          zIndex={2}
+                          
                         >
-                          <Flex px={2} pt={2} align="center">
+                          <Flex px={{ base: 0, md: 2 }} pt={2} >
                             <Avatar
                               size="md"
                               src={p.group.logoImgUrl}
                               mr={-1}
                             />
                             <Stack ml={2}>
-                              <Popover
-                                trigger="hover"
-                                isLazy
-                                openDelay={650}
-                              >
-                                <PopoverTrigger>
-                                  <Button
-                                    fontSize={{ base: 14, md: 18 }}
-                                    fontWeight={600}
-                                    mb={-2}
-                                    mt={-1}
-                                    variant="none"
-                                  >
-                                    {p.group.name}
-                                  </Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                  <PopoverContent>
-                                    <PopoverHeader>
-                                      <Flex align="center">
-                                        <Avatar
-                                          size="md"
-                                          src={
-                                            p.group.logoImgUrl
-                                          }
-                                        />
-                                        <Text
-                                          fontSize={18}
-                                          ml={2}
-                                          fontWeight={600}
-                                        >
-                                          {p.group.name}
-                                        </Text>
-                                      </Flex>
-                                    </PopoverHeader>
-                                    <PopoverBody>
-                                      <Text noOfLines={2}> {p.group.description} </Text>
-                                      <Stack
-                                        direction="row"
-                                        spacing={10}
-                                        mt={3}
-                                      >
-                                        <Text
-                                          fontSize="1rem"
-                                          fontWeight={400}
-                                          mr={2}
-                                        >
-                                          <b>100k</b> Upvotes
-                                        </Text>
-
-                                        <Text fontSize="1rem" mr={2}>
-                                          <b>103</b> Points
-                                        </Text>
-                                        <Box>
-                                          <Badge
-                                            colorScheme="yellow"
-                                            variant="solid"
+                              <Flex>
+                                <Popover
+                                  trigger="hover"
+                                  isLazy
+                                  openDelay={650}
+                                >
+                                  <PopoverTrigger>
+                                    <Button
+                                      fontSize={{ base: 14, md: 18 }}
+                                      fontWeight={600}
+                                      mb={-2}
+                                      mt={-1}
+                                      variant="none"
+                                    >
+                                      {p.group.name}
+                                    </Button>
+                                  </PopoverTrigger>
+                                  <Portal>
+                                    <PopoverContent>
+                                      <PopoverHeader>
+                                        <Flex align="center">
+                                          <Avatar
+                                            size="md"
+                                            src={p.group.logoImgUrl}
+                                          />
+                                          <Text
+                                            fontSize={18}
+                                            ml={2}
+                                            fontWeight={600}
                                           >
-                                            L1 USER
-                                          </Badge>
-                                        </Box>
-                                      </Stack>
-                                    </PopoverBody>
-                                    <PopoverFooter>
-                                      <Flex>
-                                      <NextLink href={{ pathname: '/z/[university]/[name]', query: { university:"CU", name: p.group.name } }} passHref>
-                                        <Button colorScheme="blue">
-                                          View Group
-                                        </Button>
-                                        </NextLink>
-                                        <Button colorScheme="blue" variant='outline' ml={5}>
-                                          Join Chat
-                                        </Button>
-                                      </Flex>
-                                    </PopoverFooter>
-                                  </PopoverContent>
-                                </Portal>
-                              </Popover>
+                                            {p.group.name}
+                                          </Text>
+                                        </Flex>
+                                      </PopoverHeader>
+                                      <PopoverBody>
+                                        <Text noOfLines={2}>
+                                          {" "}
+                                          {p.group.description}{" "}
+                                        </Text>
+                                        <Stack
+                                          direction="row"
+                                          spacing={10}
+                                          mt={3}
+                                        >
+                                          <Text
+                                            fontSize="1rem"
+                                            fontWeight={400}
+                                            mr={2}
+                                          >
+                                            <b>100k</b> Upvotes
+                                          </Text>
+
+                                          <Text fontSize="1rem" mr={2}>
+                                            <b>103</b> Points
+                                          </Text>
+                                          <Box>
+                                            <Badge
+                                              colorScheme="yellow"
+                                              variant="solid"
+                                            >
+                                              L1 USER
+                                            </Badge>
+                                          </Box>
+                                        </Stack>
+                                      </PopoverBody>
+                                      <PopoverFooter>
+                                        <Flex>
+                                          <NextLink
+                                            href={{
+                                              pathname:
+                                                "/z/[university]/[name]",
+                                              query: {
+                                                university: "CovenantUniversity",
+                                                name: p.group.name,
+                                              },
+                                            }}
+                                            passHref
+                                          >
+                                            <Button colorScheme="blue">
+                                              View Group
+                                            </Button>
+                                          </NextLink>
+                                          <Button
+                                            colorScheme="blue"
+                                            variant="outline"
+                                            ml={5}
+                                          >
+                                            Join Chat
+                                          </Button>
+                                        </Flex>
+                                      </PopoverFooter>
+                                    </PopoverContent>
+                                  </Portal>
+                                </Popover>
+                              </Flex>
 
                               {/* POSTED BY USER SECTION */}
-                              <Flex>
-                              <Popover
-                                trigger="hover"
-                                isLazy
-                                openDelay={650}
-                              >
-                                <PopoverTrigger>
-                                  <Button
-                                    fontSize="0.6rem"
-                                    fontWeight={400}
-                                    mb={-2}
-                                    mt={-4}
-                                    variant="none"
-                                    mr={-2}
+                              <Flex >
+                                <Flex justify='start' align={{ lg: 'center'}} mt={-4} direction={{ base: 'column', lg: 'row' }}>
+                                  <Popover
+                                    trigger="hover"
+                                    isLazy
+                                    openDelay={650}
                                   >
-                                   Posted by {p.creator.user?.username}
-                                  </Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                  <PopoverContent>
-                                    <PopoverHeader>
-                                      <Flex align="center">
-                                        <Avatar
-                                          size="md"
-                                          src={
-                                            p.creator.user?.profileImgUrl
-                                          }
-                                        />
-                                        <Text
-                                          fontSize={18}
-                                          ml={2}
-                                          fontWeight={600}
-                                        >
-                                          {p.creator.user?.username}
-                                        </Text>
-                                      </Flex>
-                                    </PopoverHeader>
-                                    <PopoverBody>
-                                      <Text> {p.creator.user?.email} </Text>
-                                      <Stack
-                                        direction="row"
-                                        spacing={10}
-                                        mt={3}
+                                    <PopoverTrigger>
+                                      <Button
+                                        fontSize="0.6rem"
+                                        fontWeight={400}
+                                        variant="none"
                                       >
-                                        <Text
-                                          fontSize="1rem"
-                                          fontWeight={400}
-                                          mr={2}
-                                        >
-                                          <b>100k</b> Upvotes
-                                        </Text>
-
-                                        <Text fontSize="1rem" mr={2}>
-                                          <b>103</b> Points
-                                        </Text>
-                                        <Box>
-                                          <Badge
-                                            colorScheme="yellow"
-                                            variant="solid"
+                                        Posted by {p.creator.user?.username}
+                                      </Button>
+                                    </PopoverTrigger>
+                                    <Portal>
+                                      <PopoverContent>
+                                        <PopoverHeader>
+                                          <Flex align="center">
+                                            <Avatar
+                                              size="md"
+                                              src={
+                                                p.creator.user
+                                                  ?.profileImgUrl
+                                              }
+                                            />
+                                            <Text
+                                              fontSize={18}
+                                              ml={2}
+                                              fontWeight={600}
+                                            >
+                                              {p.creator.user?.username}
+                                            </Text>
+                                          </Flex>
+                                        </PopoverHeader>
+                                        <PopoverBody>
+                                          <Text>
+                                            {" "}
+                                            {p.creator.user?.email}{" "}
+                                          </Text>
+                                          <Stack
+                                            direction="row"
+                                            spacing={10}
+                                            mt={3}
                                           >
-                                            L1 USER
-                                          </Badge>
-                                        </Box>
-                                      </Stack>
-                                    </PopoverBody>
-                                    <PopoverFooter>
-                                      <Flex>
-                                      <NextLink href={{ pathname: '/u/[username]', query: { username: p.creator.user?.username} }} passHref>
-                                        <Button colorScheme="blue">
-                                          View Profile
-                                        </Button>
-                                        </NextLink>
-                                        <Button colorScheme="blue" variant='outline' ml={5}>
-                                          Start Chat
-                                        </Button>
-                                      </Flex>
-                                    </PopoverFooter>
-                                  </PopoverContent>
-                                </Portal>
-                              </Popover>
-                                <Text fontSize="0.6rem" mt={-1}>
-                                 {moment(p.createdAt).fromNow()}
-                                </Text>
+                                            <Text
+                                              fontSize="1rem"
+                                              fontWeight={400}
+                                              mr={2}
+                                            >
+                                              <b>100k</b> Upvotes
+                                            </Text>
+
+                                            <Text fontSize="1rem" mr={2}>
+                                              <b>103</b> Points
+                                            </Text>
+                                            <Box>
+                                              <Badge
+                                                colorScheme="yellow"
+                                                variant="solid"
+                                              >
+                                                L1 USER
+                                              </Badge>
+                                            </Box>
+                                          </Stack>
+                                        </PopoverBody>
+                                        <PopoverFooter>
+                                          <Flex>
+                                            <NextLink
+                                              href={{
+                                                pathname: "/u/[username]",
+                                                query: {
+                                                  username:
+                                                    p.creator.user
+                                                      ?.username,
+                                                },
+                                              }}
+                                              passHref
+                                            >
+                                              <Button colorScheme="blue">
+                                                View Profile
+                                              </Button>
+                                            </NextLink>
+                                            <Button
+                                              colorScheme="blue"
+                                              variant="outline"
+                                              ml={5}
+                                            >
+                                              Start Chat
+                                            </Button>
+                                          </Flex>
+                                        </PopoverFooter>
+                                      </PopoverContent>
+                                    </Portal>
+                                  </Popover>
+      
+                                  <Flex ml={{ base: 4, lg: -2}} mt={{ base: -3, lg: 0 }} align='center'>
+                                    <Text fontSize={9} mr={2}>
+                                      {moment(p.createdAt).fromNow()}
+                                    </Text>
+                                    <Text
+                                    as='i'
+                                      fontSize={10}
+                                      display={
+                                        p.wasEdited === true
+                                          ? "flex"
+                                          : "none"
+                                      }
+                                    >
+                                      {" "}
+                                      Edited{" "}
+                                    </Text>
+                                  </Flex>
+                                </Flex>
                               </Flex>
                             </Stack>
                             <Box>
@@ -586,47 +646,133 @@ const Explore: React.FC<ExploreProps> = () => {
                               </Badge>
                             </Box>
                           </Flex>
-                          <Flex direction="row" justify="flex-end">
-                            <IconButton
-                              icon={<BsThreeDots />}
-                              variant="ghost"
-                              aria-label="More Options"
-                              mr={2}
-                              mt={1}
-                            />
+
+                          {/**  */}
+                          <Flex direction="row" justify="flex-end" >
+                            <Menu>
+                              <MenuButton
+                                as={IconButton}
+                                aria-label="more options"
+                                icon={<BsThreeDots />}
+                                variant="ghost"
+                                mr={2}
+                                mt={1}
+                                zIndex={1}
+                              />
+                              <MenuList zIndex={2} bg="white">
+                                <MenuItem
+                                  color="red.300"
+                                  fontWeight={600}
+                                  display={
+                                    p?.creator?.user?.id ===
+                                    me.data?.me?.user?.id
+                                      ? "block"
+                                      : "none"
+                                  }
+                                  onClick={() => {
+                                    deletePost({ deletePostId: p.id });
+                                    router.reload();
+                                  }}
+                                >
+                                  Delete
+                                </MenuItem>
+                                <NextLink
+                                  href={{
+                                    pathname:
+                                      "/z/[university]/[name]/post/edit/[id]",
+                                    query: {
+                                      university: "CovenantUniversity",
+                                      name: p.group.name,
+                                      id: p.id,
+                                    },
+                                  }}
+                                  passHref
+                                >
+                                  <MenuItem
+                                    display={
+                                      p?.creator?.user?.id ===
+                                      me.data?.me?.user?.id
+                                        ? "block"
+                                        : "none"
+                                    }
+                                  >
+                                    Edit
+                                  </MenuItem>
+                                </NextLink>
+                                <MenuItem
+                                  color="red.300"
+                                  fontWeight={600}
+                                  display={
+                                    p?.creator?.user?.id !==
+                                    me.data?.me?.user?.id
+                                      ? "block"
+                                      : "none"
+                                  }
+                                >
+                                  Report
+                                </MenuItem>
+                                <MenuItem>Repost</MenuItem>
+                                <MenuItem>Go to Post</MenuItem>
+                                <MenuItem>Award Post</MenuItem>
+                              </MenuList>
+                            </Menu>
                           </Flex>
+
                         </Flex>
 
-                        <Stack px={6}>
-                          <Heading
-                            as="h4"
-                            fontSize={24}
-                            fontWeight={500}
-                            mt={-5}
-                            noOfLines={2}
-                          >
-                            {p.title}
-                          </Heading>
-                          <Box mt={4}>
-                            <Text fontSize={16} fontWeight={300} mb={-5}>
-                              {p.bodySnippet}
-                            </Text>
-                          </Box>
-                          {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
+
+                        <NextLink
+                          href={{
+                            pathname: "/z/[university]/[name]/post/[id]",
+                            query: {
+                              university: "CovenantUniversity",
+                              name: p.group.name,
+                              id: p.id,
+                            },
+                          }}
+                          passHref
+                        >
+                          
+                          <LinkOverlay>
+                          <Stack px={6} cursor="pointer">
+                            <Heading
+                              as="h4"
+                              fontSize={24}
+                              fontWeight={500}
+                              noOfLines={2}
+                              mt={-8}
+                            >
+                              {p.title}
+                            </Heading>
+                            <Box mt={4}>
+                              <Text fontSize={16} fontWeight={300} noOfLines={2} mb="-30px">
+                                {p.bodySnippet}...
+                              </Text>
+                            </Box>
+                            {/* <Box maxW="md" maxH="md" overflow="hidden" borderRadius={30}>
 <Image
 src={data?.getPost?.body ? data?.getPost?.body : null}
 alt={data?.getPost?.title ? null : data?.getPost?.title}
 />
 </Box> */}
-                        </Stack>
+                          </Stack>
+                          </LinkOverlay>
+                        </NextLink>
+                       
+
+
+                         
+
+
                         <Box maxW="full" maxH="lg" alignItems="center">
                           <PostInteraction
-                            postVote={p.voteCount}
                             comments={comments}
-                          />
+                            postID={p.id}
+                          />   
                         </Box>
+
                       </Stack>
-                    </Box>
+                    </LinkBox>
                   </VStack>
                    ))
                  )}
@@ -1019,7 +1165,7 @@ alt={data?.getPost?.title ? null : data?.getPost?.title}
                           </Stack>
                           <Box maxW="full" maxH="lg" alignItems="center">
                             <PostInteraction
-                              postVote={p.voteCount}
+                              postID={p.id}
                               comments={comments}
                             />
                           </Box>
@@ -1038,7 +1184,7 @@ alt={data?.getPost?.title ? null : data?.getPost?.title}
             </TabPanels>
           </Tabs>
         </Flex>
-        <Box display={{ base: "none", lg: "block" }} mt={{ lg: 3 }} ml={5}>
+        <Box display={{ base: "none", lg: "block" }} ml={5}>
           <RightCard />
         </Box>
       </Flex>

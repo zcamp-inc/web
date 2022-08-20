@@ -17,10 +17,10 @@ import {
   Button,
   Portal,
   Popover,
-  PopoverTrigger,
   PopoverContent,
   PopoverHeader,
   PopoverBody,
+  PopoverTrigger,
   PopoverFooter,
   Menu,
   MenuButton,
@@ -68,6 +68,7 @@ const Index: React.FC<IndexProps> = () => {
       sortBy: sort,
     },
   });
+  
 
   const [, deletePost] = useDeletePostMutation();
   const router = useRouter();
@@ -75,13 +76,6 @@ const Index: React.FC<IndexProps> = () => {
 
   const me = MeQuery();
   let reme = null;
-  if (!me.data?.me?.user) {
-    reme = (
-      <>
-        <Explore />
-      </>
-    );
-  }
   if (me.fetching) {
     reme = (
       <Center>
@@ -97,7 +91,13 @@ const Index: React.FC<IndexProps> = () => {
         </Box>
       </Center>
     );
-  } else {
+  }
+   else if (!me.data?.me?.user) {
+    reme = (
+       <Explore />
+    );
+  }
+  else{
     reme = (
       <Layout>
         <Flex justify="center" mt={5} minW={{ base: "full", lg: "650px" }}>
@@ -753,7 +753,6 @@ const Index: React.FC<IndexProps> = () => {
           <Box display={{ base: "none", lg: "block" }} ml={5}>
             <RightCard />
           </Box>
-          {/* </SimpleGrid> */}
         </Flex>
       </Layout>
     );

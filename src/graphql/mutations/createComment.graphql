@@ -8,21 +8,11 @@ mutation CreateComment($postId: Int!, $body: String, $parentCommentId: Int) {
       id
       createdAt
       updatedAt
-      title
       body
       isDisabled
-      voteCount
       wasEdited
+      voteCount
       bodySnippet
-      group {
-        id
-        createdAt
-        name
-        description
-        isDisabled
-        logoImgUrl
-        bannerImgUrl
-      }
       creator {
         errors {
           field
@@ -36,6 +26,14 @@ mutation CreateComment($postId: Int!, $body: String, $parentCommentId: Int) {
           profileImgUrl
           email
         }
+      }
+      post {
+        id
+        createdAt
+        username
+        isDisabled
+        profileImgUrl
+        email
       }
     }
   }
