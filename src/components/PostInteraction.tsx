@@ -1,4 +1,4 @@
-import { HStack, Box, Flex, Icon, Text, IconButton } from "@chakra-ui/react";
+import { HStack, Box, Flex, Icon, Text, IconButton, useToast } from "@chakra-ui/react";
 
 
 import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoBookmarkOutline } from "react-icons/io5";
@@ -14,6 +14,7 @@ export default function PostInteraction({ comments, postID } : {comments: number
       getPostId: postID
     }
   })
+  const toast = useToast();
 
   const [{data: me}] = useMeQuery();
   return (
@@ -36,11 +37,24 @@ export default function PostInteraction({ comments, postID } : {comments: number
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             fontSize={{ base: 24, md: 26 }}
             variant="ghost"
-            onClick={(async () => {          
+            onClick={(async () => {  
+              if(!me?.me?.user){
+                toast({
+                  title: 'Oopsies😭😭',
+                  description: "You can't do that yet, please login",
+                  status: 'error',
+                  duration: 6000,
+                  isClosable: true,
+                  variant:'left-accent'
+                });
+                return null;                
+              }else{        
               await vote({
                 votePostId: data?.getPost?.post?.id!,
                 value: 1,
               })
+            }
+            return vote;
             })}
           />
 

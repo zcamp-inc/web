@@ -98,7 +98,7 @@ export type MutationChangePasswordArgs = {
 export type MutationCreateCommentArgs = {
   body?: InputMaybe<Scalars['String']>;
   parentCommentId?: InputMaybe<Scalars['Int']>;
-  postId: Scalars['Int'];
+  postId: Scalars['Float'];
 };
 
 
@@ -255,7 +255,7 @@ export type QueryGetPostArgs = {
 
 
 export type QueryGetPostCommentsArgs = {
-  postId: Scalars['Int'];
+  postId: Scalars['Float'];
 };
 
 
@@ -350,7 +350,7 @@ export type ChangePasswordMutationVariables = Exact<{
 export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null } };
 
 export type CreateCommentMutationVariables = Exact<{
-  postId: Scalars['Int'];
+  postId: Scalars['Float'];
   body?: InputMaybe<Scalars['String']>;
   parentCommentId?: InputMaybe<Scalars['Int']>;
 }>;
@@ -472,7 +472,7 @@ export type GetPostQueryVariables = Exact<{
 export type GetPostQuery = { __typename?: 'Query', getPost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
 
 export type GetPostCommentsQueryVariables = Exact<{
-  postId: Scalars['Int'];
+  postId: Scalars['Float'];
 }>;
 
 
@@ -594,7 +594,7 @@ export function useChangePasswordMutation() {
   return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
 };
 export const CreateCommentDocument = gql`
-    mutation CreateComment($postId: Int!, $body: String, $parentCommentId: Int) {
+    mutation CreateComment($postId: Float!, $body: String, $parentCommentId: Int) {
   createComment(postId: $postId, body: $body, parentCommentId: $parentCommentId) {
     errors {
       field
@@ -929,7 +929,7 @@ export function useGetPostQuery(options: Omit<Urql.UseQueryArgs<GetPostQueryVari
   return Urql.useQuery<GetPostQuery>({ query: GetPostDocument, ...options });
 };
 export const GetPostCommentsDocument = gql`
-    query GetPostComments($postId: Int!) {
+    query GetPostComments($postId: Float!) {
   getPostComments(postId: $postId) {
     errors {
       field

@@ -1,4 +1,4 @@
-mutation CreateComment($postId: Int!, $body: String, $parentCommentId: Int) {
+mutation CreateComment($postId: Float!, $body: String, $parentCommentId: Int) {
   createComment(postId: $postId, body: $body, parentCommentId: $parentCommentId) {
     errors {
       field

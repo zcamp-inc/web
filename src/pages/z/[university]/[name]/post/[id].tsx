@@ -36,18 +36,16 @@ import { Formik, Form } from "formik";
 import router from "next/router";
 import { IoCaretDown } from "react-icons/io5";
 import { useCreateCommentMutation, useMeQuery, useGetPostCommentsQuery } from "../../../../../generated/graphql";
+import { useGetCommentFromPostUrl } from "../../../../../utils/getCommentFromPostUrl";
 
 const Post = ({}) => {
   const [{ data, error, fetching }] = useGetPostFromUrl();
   const [, createcomment] = useCreateCommentMutation();
   const [{data: me}] = useMeQuery();
-  const [{ data: postComments }] = useGetPostCommentsQuery({
-    variables: {
-      postId: data?.getPost?.post?.id!
-    }
-  });
-
   const getPostId = data?.getPost?.post?.id!
+
+  const [{ data: postComments }] = useGetCommentFromPostUrl();
+
 
   let comments = 2;
 

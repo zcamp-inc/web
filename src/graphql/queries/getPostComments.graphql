@@ -1,4 +1,4 @@
-query GetPostComments($postId: Int!) {
+query GetPostComments($postId: Float!) {
   getPostComments(postId: $postId) {
     errors {
       field
