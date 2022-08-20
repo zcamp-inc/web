@@ -27,14 +27,6 @@ mutation CreateComment($postId: Float!, $body: String, $parentCommentId: Int) {
           email
         }
       }
-      post {
-        id
-        createdAt
-        username
-        isDisabled
-        profileImgUrl
-        email
-      }
     }
   }
 }
