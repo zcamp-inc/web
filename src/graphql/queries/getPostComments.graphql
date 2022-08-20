@@ -1,0 +1,40 @@
+query GetPostComments($postId: Int!) {
+  getPostComments(postId: $postId) {
+    errors {
+      field
+      message
+    }
+    comments {
+      id
+      createdAt
+      updatedAt
+      body
+      isDisabled
+      wasEdited
+      voteCount
+      bodySnippet
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
+      post {
+        id
+        createdAt
+        username
+        isDisabled
+        profileImgUrl
+        email
+      }
+    }
+  }
+}
