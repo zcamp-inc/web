@@ -476,7 +476,7 @@ export type GetPostCommentsQueryVariables = Exact<{
 }>;
 
 
-export type GetPostCommentsQuery = { __typename?: 'Query', getPostComments?: { __typename?: 'CommentsResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comments?: Array<{ __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null }, post: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } }> | null } | null };
+export type GetPostCommentsQuery = { __typename?: 'Query', getPostComments?: { __typename?: 'CommentsResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comments?: Array<{ __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } }> | null } | null };
 
 export type GetPostVoteValueQueryVariables = Exact<{
   getPostVoteValueId: Scalars['Int'];
@@ -957,14 +957,6 @@ export const GetPostCommentsDocument = gql`
           profileImgUrl
           email
         }
-      }
-      post {
-        id
-        createdAt
-        username
-        isDisabled
-        profileImgUrl
-        email
       }
     }
   }
