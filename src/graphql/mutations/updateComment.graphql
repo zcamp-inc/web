@@ -1,5 +1,5 @@
-mutation CreateComment($postId: Int!, $body: String, $parentCommentId: Int) {
-  createComment(postId: $postId, body: $body, parentCommentId: $parentCommentId) {
+mutation UpdateComment($body: String!, $updateCommentId: Int!) {
+  updateComment(body: $body, id: $updateCommentId) {
     errors {
       field
       message
@@ -27,6 +27,7 @@ mutation CreateComment($postId: Int!, $body: String, $parentCommentId: Int) {
           email
         }
       }
+      
     }
   }
 }

@@ -14,15 +14,6 @@ mutation UpdatePost($updatePostId: Int!, $body: String, $title: String) {
       voteCount
       wasEdited
       bodySnippet
-      group {
-        id
-        createdAt
-        name
-        description
-        isDisabled
-        logoImgUrl
-        bannerImgUrl
-      }
       creator {
         errors {
           field

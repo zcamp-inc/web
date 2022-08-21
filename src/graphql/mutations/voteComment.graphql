@@ -1,0 +1,3 @@
+mutation VoteComment($value: Float!, $voteCommentId: Int!) {
+  voteComment(value: $value, id: $voteCommentId)
+}
