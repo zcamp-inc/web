@@ -1,0 +1,10 @@
+query GetUsers {
+  getUsers {
+    id
+    createdAt
+    username
+    isDisabled
+    profileImgUrl
+    email
+  }
+}

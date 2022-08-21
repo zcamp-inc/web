@@ -1,10 +1,10 @@
-query GetPostComments($postId: Int!) {
-  getPostComments(postId: $postId) {
+query GetComment($getCommentId: Float!) {
+  getComment(id: $getCommentId) {
     errors {
       field
       message
     }
-    comments {
+    comment {
       id
       createdAt
       updatedAt
@@ -27,6 +27,7 @@ query GetPostComments($postId: Int!) {
           email
         }
       }
+      
     }
   }
 }
