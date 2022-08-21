@@ -2,7 +2,7 @@ import { HStack, Box, Flex, Icon, Text, IconButton, useToast } from "@chakra-ui/
 
 
 import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoBookmarkOutline } from "react-icons/io5";
-import { useVotePostMutation, useMeQuery, useGetPostQuery  } from "../generated/graphql";
+import { useVotePostMutation, useMeQuery, useGetPostQuery } from "../generated/graphql";
 
 
 
