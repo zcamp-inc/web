@@ -41,15 +41,15 @@ export const Comments = ({ postID }: { postID: number }) => {
   return (
     <>
       {postComments?.getPostComments?.comments?.map((c) => (
-        <Flex direction="row" w='full' bg='white'>
+        <Flex direction="row" w='full' bg='white' px={4}>
           <Flex direction="column">
             <Avatar src={c.creator.user?.profileImgUrl} size="sm" />
           </Flex>
-          <Flex direction="column">
-            <Text fontSize={14} fontWeight={500}>
+          <Flex direction="column" px={4}>
+            <Text fontSize={14} fontWeight={600}>
               {c.creator.user?.username}
             </Text>
-            <Box>
+            <Box w={{ base:'full', md: '400px', lg: '550px'}}>
                 <Highlight query={user?.getUsers?.map((p) => (p.username))!} styles={{color: '#5E00AB'}} >
                     {c.body}
                 </Highlight>

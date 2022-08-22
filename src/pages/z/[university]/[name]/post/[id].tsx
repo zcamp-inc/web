@@ -333,6 +333,7 @@ const Post = ({}) => {
                         Post
 
                       </Button>
+                      <Button onClick={() => router.push("/")} variant='outline' colorScheme='blue'>Cancel</Button>
                     </Flex>
                   </Form>
                 )}

@@ -276,7 +276,7 @@ const Post = ({}) => {
                       >
                        Update Post
                       </Button>
-                      <Button onClick={() => router.push("/")}>Cancel</Button>
+                      <Button onClick={() => router.push("/")} variant='outline' colorScheme='blue'>Cancel</Button>
                     </Flex>
                   </Form>
                 )}

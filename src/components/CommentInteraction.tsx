@@ -60,15 +60,13 @@ export const CommentInteraction = ({
 
 
   return (
-    <Box>
+    <Flex direction='column'>
     <Flex
       direction="row"
-      align="center"
       mb={5}  
     >
       <Flex
         align="center"
-        ml={{ base: 2, md: 5 }}
         borderRadius="lg"
         role="group"
         color="#000a16"
@@ -78,8 +76,9 @@ export const CommentInteraction = ({
           icon={<IoCaretUp />}
           aria-label="upvote"
           _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
-          fontSize={{ base: 24, md: 26 }}
+          fontSize={{ base: 24, md: 24 }}
           variant="ghost"
+          size='sm'
           onClick={async () => {
             if (!me?.me?.user) {
               toast({
@@ -106,16 +105,17 @@ export const CommentInteraction = ({
         <IconButton
           icon={<IoCaretDown />}
           aria-label="downvote"
-          fontSize={{ base: 24, md: 26 }}
+          fontSize={{ base: 24, md: 24 }}
           _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
           variant="ghost"
+          size='sm'
           onClick={async () => {
             await vote({
               voteCommentId: data?.getComment?.comment?.id!,
               value: -1,
             });
           }}
-          mr={{ base: 2, md: 10 }}
+          mr={2}
         />
       </Flex>
 
@@ -145,9 +145,7 @@ export const CommentInteraction = ({
           </Text>
         </Flex>  
         <Button
-            px={2}
-            ml={2}
-            minW="80px"
+            minW="70px"
             cursor='pointer'
             borderRadius='lg'
             color="#000A16"
@@ -163,9 +161,7 @@ export const CommentInteraction = ({
         </Button> 
 
         <Button
-            px={2}
-            ml={2}
-            minW="80px"
+            minW="70px"
             cursor='pointer'
             borderRadius='lg'
             color="#000A16"
@@ -183,9 +179,7 @@ export const CommentInteraction = ({
         </Button>  
        
         <Button
-            px={2}
-            ml={2}
-            minW="80px"
+            minW="70px"
             cursor='pointer'
             borderRadius='lg'
             color="red.300"
@@ -241,7 +235,7 @@ export const CommentInteraction = ({
           >
             {({ isSubmitting }) => (
               <Form>
-                <Box ml={{base: 0, lg: 7}} mt={1} w={{ base: 'full', lg: '400px'}} >
+                <Box  w={{ base: 'full', lg: '400px'}} >
                 <InputField
                   textarea
                   name="body"
@@ -276,7 +270,7 @@ export const CommentInteraction = ({
             onSubmit={async (values) => {
               console.log(values);
               const response = await updatecomment({
-                body:values.body,
+                body: data?.getComment?.comment?.body!,
                 updateCommentId: data?.getComment?.comment?.id!,
               });
               if (response?.data?.updateComment?.errors) {
@@ -335,7 +329,7 @@ export const CommentInteraction = ({
           </Formik>
         </Collapse>
 
-    </Box>
+    </Flex>
 
     
   );
