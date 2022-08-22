@@ -8,6 +8,7 @@ import {
   Collapse,
   Button,
   Box,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import React from "react";
 import {
@@ -23,6 +24,7 @@ import {
   useMeQuery,
   useCreateCommentMutation,
   useDeleteCommentMutation,
+  useUpdateCommentMutation,
   useGetCommentQuery,
 } from "../generated/graphql";
 import { InputField } from "./InputField";
@@ -40,7 +42,8 @@ export const CommentInteraction = ({
     const [, vote] = useVoteCommentMutation();
     const [, createcomment] = useCreateCommentMutation();
     const [, deleteComment] = useDeleteCommentMutation();
-    const [{ data }] = useGetCommentQuery({
+    const [, updatecomment] = useUpdateCommentMutation();
+     const [{ data }] = useGetCommentQuery({
         variables: {
         getCommentId: commentID,
         },
@@ -54,6 +57,7 @@ export const CommentInteraction = ({
   const router = useRouter();
   const { isOpen, onToggle } = useDisclosure();
   const { isOpen: isCommentOpen, onToggle: onCommentToggle} = useDisclosure();
+
 
   return (
     <Box>
@@ -173,6 +177,7 @@ export const CommentInteraction = ({
             display={ data?.getComment?.comment?.creator?.user?.id === me?.me?.user?.id ? 'block' : 'none'}
             fontWeight={500}
             fontSize={15}
+            onClick={onCommentToggle}
             >
             Edit
         </Button>  
@@ -253,6 +258,75 @@ export const CommentInteraction = ({
                     isLoading={isSubmitting}
                   >
                     Post
+                  </Button>
+                </Flex>
+                </Box>
+              </Form>
+            )}
+          </Formik>
+        </Collapse>
+
+
+        <Collapse in={isCommentOpen}>
+          <Formik
+            initialValues={{
+              body: data?.getComment?.comment?.body!,
+              updateCommentId: data?.getComment?.comment?.id!,
+            }}
+            onSubmit={async (values) => {
+              console.log(values);
+              const response = await updatecomment({
+                body:values.body,
+                updateCommentId: data?.getComment?.comment?.id!,
+              });
+              if (response?.data?.updateComment?.errors) {
+                toast({
+                  title: "Comments Error😓😓",
+                  description: "We've could not update your comment.",
+                  status: "success",
+                  duration: 5000,
+                  isClosable: true,
+                });
+              }
+              toast({
+                title: "Comment Updated.🤝🤝",
+                description: "We've updated your comment.",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+              });
+              router.reload();
+            }}
+          >
+            {({ isSubmitting: isCommentSubmitting }) => (
+              <Form>
+                <Box ml={{base: 0, lg: 7}} mt={1} w={{ base: 'full', lg: '400px'}} >
+                <InputField
+                  textarea
+                  name="body"
+                />
+                {/* <Box mt={3} mb={3} w={40}>
+                      <InputField name="postFlair" placeholder="Post Flair" />
+                    </Box> */}
+                <Flex justify="end">
+
+                  <Button
+                    colorScheme="blue"
+                    mr={3}
+                    type="submit"
+                    isLoading={isCommentSubmitting}
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    borderColor='red.300'
+                    color='red.300'
+                    _hover={{ bg: 'red.300', color: 'white'}}
+                    variant='outline'
+                    mr={3}
+                    onClick={onCommentToggle}
+                  >
+                    Cancel
                   </Button>
                 </Flex>
                 </Box>
