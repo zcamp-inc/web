@@ -1,8 +1,9 @@
 import { HStack, Box, Flex, Icon, Text, IconButton, useToast } from "@chakra-ui/react";
+import { useState } from "react";
 
 
 import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoBookmarkOutline } from "react-icons/io5";
-import { useVotePostMutation, useMeQuery, useGetPostQuery } from "../generated/graphql";
+import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, useGetUserVoteValueQuery } from "../generated/graphql";
 
 
 
@@ -14,9 +15,55 @@ export default function PostInteraction({ comments, postID } : {comments: number
       getPostId: postID
     }
   })
-  const toast = useToast();
+  
+  const [{data: voteValue}] = useGetPostVoteValueQuery({
+    variables: {
+      getPostVoteValueId: postID 
+    }
+  });
 
+  const toast = useToast();
+  
   const [{data: me}] = useMeQuery();
+  const upvote = () => {
+    if(!me?.me?.user){
+      toast({
+        title: 'Oopsies😭😭',
+        description: "You can't do that yet, please login",
+        status: 'error',
+        duration: 6000,
+        isClosable: true,
+        variant:'left-accent'
+      });
+      return null;                
+    }
+    vote({
+    votePostId: data?.getPost?.post?.id!,
+    value: 1,
+  })
+ return
+}
+
+const downvote = () => {
+  if(!me?.me?.user){
+    toast({
+      title: 'Oopsies😭😭',
+      description: "You can't do that yet, please login",
+      status: 'error',
+      duration: 6000,
+      isClosable: true,
+      variant:'left-accent'
+    });
+    return null;                
+  }
+  vote({
+  votePostId: data?.getPost?.post?.id!,
+  value: -1,
+})
+return
+
+}
+
   return (
 
     // <HStack spacing={{ base: 40, md: 60 }}>
@@ -28,7 +75,6 @@ export default function PostInteraction({ comments, postID } : {comments: number
           ml={{ base: 2, md: 5 }}
           borderRadius="lg"
           role="group"
-          color="#000a16"
           _hover={{ color: "#5E00AB" }}
         >
           <IconButton
@@ -37,28 +83,11 @@ export default function PostInteraction({ comments, postID } : {comments: number
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             fontSize={{ base: 24, md: 26 }}
             variant="ghost"
-            onClick={(async () => {  
-              if(!me?.me?.user){
-                toast({
-                  title: 'Oopsies😭😭',
-                  description: "You can't do that yet, please login",
-                  status: 'error',
-                  duration: 6000,
-                  isClosable: true,
-                  variant:'left-accent'
-                });
-                return null;                
-              }else{        
-              await vote({
-                votePostId: data?.getPost?.post?.id!,
-                value: 1,
-              })
-            }
-            return vote;
-            })}
+            onClick={upvote}
+            color={voteValue?.getPostVoteValue === 1 ? '#5E00AB': '#000A16'}
           />
 
-          <Text>{data?.getPost?.post?.voteCount}</Text>
+          <Text color="#000a16">{data?.getPost?.post?.voteCount!}</Text>
 
           <IconButton
             icon={<IoCaretDown />}
@@ -66,15 +95,10 @@ export default function PostInteraction({ comments, postID } : {comments: number
             fontSize={{ base: 24, md: 26 }}
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             variant="ghost"
-            onClick={(async () => {
-               await vote({
-                votePostId: data?.getPost?.post?.id!,
-                value: -1,
-              })
-
-
-            })}
+            onClick={downvote}
             mr={{ base: 2, md:10 }}
+            color={voteValue?.getPostVoteValue === -1 ? '#5E00AB': '#000a16'}
+
           />
         </Flex>
 

@@ -224,6 +224,7 @@ export type Query = {
   getUniversities: Array<University>;
   getUniversityGroups: Array<Group>;
   getUserGroups: Array<Group>;
+  getUserVoteValue: Scalars['Float'];
   getUsers: Array<User>;
   homePosts: PaginatedPosts;
   me?: Maybe<UserResponse>;
@@ -267,6 +268,11 @@ export type QueryGetPostVoteValueArgs = {
 
 export type QueryGetUniversityGroupsArgs = {
   universityId: Scalars['Float'];
+};
+
+
+export type QueryGetUserVoteValueArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -525,6 +531,13 @@ export type GetUserGroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUserGroupsQuery = { __typename?: 'Query', getUserGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
+
+export type GetUserVoteValueQueryVariables = Exact<{
+  getUserVoteValueId: Scalars['Int'];
+}>;
+
+
+export type GetUserVoteValueQuery = { __typename?: 'Query', getUserVoteValue: number };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1121,6 +1134,15 @@ export const GetUserGroupsDocument = gql`
 
 export function useGetUserGroupsQuery(options?: Omit<Urql.UseQueryArgs<GetUserGroupsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetUserGroupsQuery>({ query: GetUserGroupsDocument, ...options });
+};
+export const GetUserVoteValueDocument = gql`
+    query getUserVoteValue($getUserVoteValueId: Int!) {
+  getUserVoteValue(id: $getUserVoteValueId)
+}
+    `;
+
+export function useGetUserVoteValueQuery(options: Omit<Urql.UseQueryArgs<GetUserVoteValueQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetUserVoteValueQuery>({ query: GetUserVoteValueDocument, ...options });
 };
 export const GetUsersDocument = gql`
     query GetUsers {
