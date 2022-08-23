@@ -45,7 +45,7 @@ const FakePost: React.FC<FakePostProps> = () => {
       </Box>
     ) : (
       data?.trendingPosts?.posts?.map((p) => (
-        <VStack spacing={{ base: 0, md: 5 }} key={p.id}>
+        <VStack spacing={{ base: 0, md: 5 }} key={`fakepost id: ${p.id}`}>
                         <Box
                           borderWidth="1px"
                           borderRadius="lg"

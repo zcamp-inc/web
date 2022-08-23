@@ -1,14 +1,14 @@
 import { HStack, Box, Flex, Icon, Text, IconButton, useToast } from "@chakra-ui/react";
 import { useState } from "react";
-
-
-import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoBookmarkOutline } from "react-icons/io5";
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../utils/createUrqlClient";
+import { BsCaretDown, BsCaretUp } from "react-icons/bs";
+import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoCaretUpOutline, IoCaretDownOutline, IoBookmarkOutline, } from "react-icons/io5";
 import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, useGetUserVoteValueQuery } from "../generated/graphql";
 
 
 
-
-export default function PostInteraction({ comments, postID } : {comments: number, postID: number }) {
+function PostInteraction({ comments, postID } : {comments: number, postID: number }) {
   const [,vote] = useVotePostMutation()
   const [{data}] = useGetPostQuery({
     variables:{
@@ -78,7 +78,7 @@ return
           _hover={{ color: "#5E00AB" }}
         >
           <IconButton
-            icon={<IoCaretUp />}
+            icon={ voteValue?.getPostVoteValue === 1 ? <IoCaretUp/> : <BsCaretUp />}
             aria-label="upvote"
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             fontSize={{ base: 24, md: 26 }}
@@ -90,7 +90,7 @@ return
           <Text color="#000a16">{data?.getPost?.post?.voteCount!}</Text>
 
           <IconButton
-            icon={<IoCaretDown />}
+            icon={ voteValue?.getPostVoteValue === -1 ? <IoCaretDown/> : <BsCaretDown />}
             aria-label="downvote"
             fontSize={{ base: 24, md: 26 }}
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
@@ -153,3 +153,5 @@ return
     </Flex>
   );
 }
+
+export default withUrqlClient(createUrqlClient, { ssr: true })(PostInteraction);

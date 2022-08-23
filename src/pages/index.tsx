@@ -247,7 +247,7 @@ const Index: React.FC<IndexProps> = () => {
                     data?.homePosts?.posts?.map((p) => (
                       <VStack
                         spacing={{ base: 0, md: 5 }}
-                        key={p.id}
+                        key={`Post id: ${p.id}`}
                       >                      
                         <LinkBox
                           as="article"
@@ -651,7 +651,7 @@ const Index: React.FC<IndexProps> = () => {
                     </Box>
                   ) : (
                     data?.homePosts?.posts?.map((p) => (
-                      <VStack spacing={{ base: 0, md: 5 }}>
+                      <VStack spacing={{ base: 0, md: 5 }} key={`new post id: ${p.id}`}>
                         <Box
                           borderWidth="1px"
                           borderRadius="lg"

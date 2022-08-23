@@ -1,5 +1,5 @@
 import { dedupExchange, fetchExchange } from "urql";
-import { LogoutMutation, MeQuery, MeDocument, LoginMutation, RegisterMutation } from "../generated/graphql";
+import { LogoutMutation, MeQuery, MeDocument, LoginMutation, RegisterMutation, VotePostMutation, VotePostMutationVariables, GetPostQuery, GetPostDocument } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import { cacheExchange } from "@urql/exchange-graphcache";
 
@@ -11,8 +11,21 @@ export const createUrqlClient = (ssrExchange: any) => ({
   exchanges: [
     dedupExchange,
     cacheExchange({
+      keys: {
+        PostResponse: () => null,
+        UserResponse: () => null,
+        PaginatedPosts: () => null,
+        VotePost: () => null,
+      },
       updates: {
         Mutation: {
+          // votePost: (_result, args, cache, info) => {
+          //   const { votePostId, value } = args as VotePostMutationVariables;
+          //   const data = cache.readFragment()
+            
+          // }, To be continued...
+
+
           logoutUser: (_result, args, cache, info) => {
             betterUpdateQuery<LogoutMutation, MeQuery>(
               cache, 
@@ -56,7 +69,9 @@ export const createUrqlClient = (ssrExchange: any) => ({
                 }
               }
             )
-          }
+          },
+
+          
         }
       }
     }), fetchExchange, ssrExchange,

@@ -102,16 +102,16 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
             </>
             ) : (
             
-            data?.topGroups.map((groupInfo, i ) => (
-              <>
-                    <Flex w={60} key={i} mt={2} mb={2} justify='space-between'>
+            data?.topGroups.map((groupInfo) => (
+              <Box key={ `groups id: ${groupInfo?.id}`}>
+                    <Flex w={60} mt={2} mb={2} justify='space-between'>
                     <NextLink href={{ pathname: '/z/[university]/[name]', query: { university:"CovenantUniversity", name: groupInfo.name }}} passHref>
                 <Flex w={60} cursor='pointer' mr={2}> 
                 <Avatar src={groupInfo.logoImgUrl} size="sm"  mr={2} zIndex={0} />
                 <Text w={40}> {groupInfo.name}</Text>
                 </Flex>
                   </NextLink>
-                <Flex justify="flex-end" key={i}>
+                <Flex justify="flex-end">
                   <Button
                     colorScheme="blue"
                     borderRadius="md"
@@ -153,7 +153,7 @@ export const TopGroups: React.FC<TopGroupProps> = () => {
               </Flex>
               
               <Divider ml={-5} w={80} />
-              </>
+              </Box>
 
             )))}
           </Flex>
