@@ -18,6 +18,7 @@ import {
   IoCaretUp,
   IoBookmarkOutline,
 } from "react-icons/io5";
+import { BsCaretDown, BsCaretUp } from "react-icons/bs";
 import {
   useGetPostQuery,
   useVoteCommentMutation,
@@ -26,6 +27,7 @@ import {
   useDeleteCommentMutation,
   useUpdateCommentMutation,
   useGetCommentQuery,
+  useGetPostVoteValueQuery
 } from "../generated/graphql";
 import { InputField } from "./InputField";
 import { useRouter } from "next/router";
@@ -58,6 +60,51 @@ export const CommentInteraction = ({
   const { isOpen, onToggle } = useDisclosure();
   const { isOpen: isCommentOpen, onToggle: onCommentToggle} = useDisclosure();
 
+  const [{data: voteValue}] = useGetPostVoteValueQuery({
+    variables: {
+      getPostVoteValueId: commentID 
+    }
+  });
+
+  const upvote = () => {
+    if(!me?.me?.user){
+      toast({
+        title: 'Oopsies😭😭',
+        description: "You can't do that yet, please login",
+        status: 'error',
+        duration: 6000,
+        isClosable: true,
+        variant:'left-accent'
+      });
+      return null;                
+    }
+    vote({
+    voteCommentId: data?.getComment?.comment?.id!,
+    value: 1,
+  })
+ return
+}
+
+const downvote = () => {
+  if(!me?.me?.user){
+    toast({
+      title: 'Oopsies😭😭',
+      description: "You can't do that yet, please login",
+      status: 'error',
+      duration: 6000,
+      isClosable: true,
+      variant:'left-accent'
+    });
+    return null;                
+  }
+  vote({
+  voteCommentId: data?.getComment?.comment?.id!,
+  value: -1,
+})
+return
+
+}
+
 
   return (
     <Flex direction='column'>
@@ -73,48 +120,29 @@ export const CommentInteraction = ({
         _hover={{ color: "#5E00AB" }}
       >
         <IconButton
-          icon={<IoCaretUp />}
+          icon={ voteValue?.getPostVoteValue === 1 ? <IoCaretUp/> : <BsCaretUp />}
           aria-label="upvote"
           _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
           fontSize={{ base: 24, md: 24 }}
           variant="ghost"
           size='sm'
-          onClick={async () => {
-            if (!me?.me?.user) {
-              toast({
-                title: "Oopsies😭😭",
-                description: "You can't do that yet, please login",
-                status: "error",
-                duration: 6000,
-                isClosable: true,
-                variant: "left-accent",
-              });
-              return null;
-            } else {
-              await vote({
-                voteCommentId: data?.getComment?.comment?.id!,
-                value: 1,
-              });
-            }
-            return vote;
-          }}
+          onClick={upvote}
+          color={voteValue?.getPostVoteValue === 1 ? '#5E00AB': '#000a16'}
+
         />
 
         <Text>{data?.getComment?.comment?.voteCount}</Text>
 
         <IconButton
-          icon={<IoCaretDown />}
+          icon={ voteValue?.getPostVoteValue === -1 ? <IoCaretDown/> : <BsCaretDown />}
           aria-label="downvote"
           fontSize={{ base: 24, md: 24 }}
           _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
           variant="ghost"
           size='sm'
-          onClick={async () => {
-            await vote({
-              voteCommentId: data?.getComment?.comment?.id!,
-              value: -1,
-            });
-          }}
+          onClick={downvote}
+          color={voteValue?.getPostVoteValue === -1 ? '#5E00AB': '#000a16'}
+
           mr={2}
         />
       </Flex>
