@@ -1,0 +1,3 @@
+query GetPostVoteValue($getPostVoteValueId: Int!) {
+  getPostVoteValue(id: $getPostVoteValueId)
+}

@@ -45,7 +45,7 @@ const FakePost: React.FC<FakePostProps> = () => {
       </Box>
     ) : (
       data?.trendingPosts?.posts?.map((p) => (
-        <VStack spacing={{ base: 0, md: 5 }} key={p.id}>
+        <VStack spacing={{ base: 0, md: 5 }} key={`fakepost id: ${p.id}`}>
                         <Box
                           borderWidth="1px"
                           borderRadius="lg"
@@ -58,16 +58,17 @@ const FakePost: React.FC<FakePostProps> = () => {
                           <Stack spacing={10}>
                             <Flex
                               direction="row"
-                              justify="space-between"
+                              justify="start"
                               px={3}
                             >
-                              <Flex px={2} pt={2} align="center">
+                              <Flex px={2} pt={2}>
                                 <Avatar
                                   size="md"
                                   src={p.group.logoImgUrl}
                                   mr={-1}
                                 />
                                 <Stack ml={2}>
+                                  <Flex justify='start'>
                                   <Popover
                                     trigger="hover"
                                     isLazy
@@ -79,6 +80,7 @@ const FakePost: React.FC<FakePostProps> = () => {
                                         fontWeight={600}
                                         mb={-2}
                                         mt={-1}
+                                        
                                         variant="none"
                                       >
                                         {p.group.name}
@@ -146,6 +148,7 @@ const FakePost: React.FC<FakePostProps> = () => {
                                       </PopoverContent>
                                     </Portal>
                                   </Popover>
+                                  </Flex>
 
                                   {/* POSTED BY USER SECTION */}
                                   <Flex>
@@ -278,7 +281,7 @@ const FakePost: React.FC<FakePostProps> = () => {
                             </Stack>
                             <Box maxW="full" maxH="lg" alignItems="center">
                               <PostInteraction
-                                postVote={p.voteCount}
+                                postId={p.id}
                                 comments={comments}
                               />
                             </Box>

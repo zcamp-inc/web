@@ -17,10 +17,10 @@ import {
   Button,
   Portal,
   Popover,
-  PopoverTrigger,
   PopoverContent,
   PopoverHeader,
   PopoverBody,
+  PopoverTrigger,
   PopoverFooter,
   Menu,
   MenuButton,
@@ -68,6 +68,7 @@ const Index: React.FC<IndexProps> = () => {
       sortBy: sort,
     },
   });
+  
 
   const [, deletePost] = useDeletePostMutation();
   const router = useRouter();
@@ -75,13 +76,6 @@ const Index: React.FC<IndexProps> = () => {
 
   const me = MeQuery();
   let reme = null;
-  if (!me.data?.me?.user) {
-    reme = (
-      <>
-        <Explore />
-      </>
-    );
-  }
   if (me.fetching) {
     reme = (
       <Center>
@@ -97,7 +91,13 @@ const Index: React.FC<IndexProps> = () => {
         </Box>
       </Center>
     );
-  } else {
+  }
+   else if (!me.data?.me?.user) {
+    reme = (
+       <Explore />
+    );
+  }
+  else{
     reme = (
       <Layout>
         <Flex justify="center" mt={5} minW={{ base: "full", lg: "650px" }}>
@@ -247,7 +247,7 @@ const Index: React.FC<IndexProps> = () => {
                     data?.homePosts?.posts?.map((p) => (
                       <VStack
                         spacing={{ base: 0, md: 5 }}
-                        key={p.id}
+                        key={`Post id: ${p.id}`}
                       >                      
                         <LinkBox
                           as="article"
@@ -266,10 +266,10 @@ const Index: React.FC<IndexProps> = () => {
                               direction="row"
                               justify="space-between"
                               px={3}
-                              zIndex={2}
+                              
                               
                             >
-                              <Flex px={{ base: 0, md: 2 }} pt={2} >
+                              <Flex px={{ base: 0, md: 2 }} pt={2} zIndex={2} >
                                 <Avatar
                                   size="md"
                                   src={p.group.logoImgUrl}
@@ -621,8 +621,7 @@ const Index: React.FC<IndexProps> = () => {
                             <Box maxW="full" maxH="lg" alignItems="center">
                               <PostInteraction
                                 comments={comments}
-                                postID={p.id}
-                              />   
+                                post={p} pageProps={undefined}                              />   
                             </Box>
 
                           </Stack>
@@ -651,7 +650,7 @@ const Index: React.FC<IndexProps> = () => {
                     </Box>
                   ) : (
                     data?.homePosts?.posts?.map((p) => (
-                      <VStack spacing={{ base: 0, md: 5 }}>
+                      <VStack spacing={{ base: 0, md: 5 }} key={`new post id: ${p.id}`}>
                         <Box
                           borderWidth="1px"
                           borderRadius="lg"
@@ -753,7 +752,6 @@ const Index: React.FC<IndexProps> = () => {
           <Box display={{ base: "none", lg: "block" }} ml={5}>
             <RightCard />
           </Box>
-          {/* </SimpleGrid> */}
         </Flex>
       </Layout>
     );

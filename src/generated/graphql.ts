@@ -21,18 +21,24 @@ export type Comment = {
   body: Scalars['String'];
   bodySnippet: Scalars['String'];
   createdAt: Scalars['DateTime'];
-  creator: User;
+  creator: UserResponse;
   id: Scalars['Float'];
   isDisabled: Scalars['Boolean'];
   post: User;
   updatedAt: Scalars['DateTime'];
-  voteCount: Scalars['Int'];
+  voteCount: Scalars['Float'];
   wasEdited: Scalars['Boolean'];
 };
 
 export type CommentResponse = {
   __typename?: 'CommentResponse';
-  comment?: Maybe<Post>;
+  comment?: Maybe<Comment>;
+  errors?: Maybe<Array<FieldError>>;
+};
+
+export type CommentsResponse = {
+  __typename?: 'CommentsResponse';
+  comments?: Maybe<Array<Comment>>;
   errors?: Maybe<Array<FieldError>>;
 };
 
@@ -51,6 +57,7 @@ export type Group = {
   isDisabled: Scalars['Boolean'];
   logoImgUrl: Scalars['String'];
   name: Scalars['String'];
+  university: UniversityResponse;
 };
 
 export type GroupResponse = {
@@ -207,13 +214,17 @@ export type PostResponse = {
 
 export type Query = {
   __typename?: 'Query';
-  getComment?: Maybe<Comment>;
+  getComment?: Maybe<CommentResponse>;
   getGroupByName: GroupResponse;
   getGroupUserCount: Scalars['Float'];
   getGroups: Array<Group>;
   getPost: PostResponse;
+  getPostComments?: Maybe<CommentsResponse>;
+  getPostVoteValue: Scalars['Float'];
   getUniversities: Array<University>;
+  getUniversityGroups: Array<Group>;
   getUserGroups: Array<Group>;
+  getUsers: Array<User>;
   homePosts: PaginatedPosts;
   me?: Maybe<UserResponse>;
   topGroups: Array<Group>;
@@ -241,6 +252,21 @@ export type QueryGetGroupUserCountArgs = {
 
 export type QueryGetPostArgs = {
   id: Scalars['Float'];
+};
+
+
+export type QueryGetPostCommentsArgs = {
+  postId: Scalars['Int'];
+};
+
+
+export type QueryGetPostVoteValueArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetUniversityGroupsArgs = {
+  universityId: Scalars['Float'];
 };
 
 
@@ -280,6 +306,12 @@ export type University = {
   name: Scalars['String'];
 };
 
+export type UniversityResponse = {
+  __typename?: 'UniversityResponse';
+  errors?: Maybe<Array<FieldError>>;
+  university?: Maybe<University>;
+};
+
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['String'];
@@ -304,7 +336,7 @@ export type UsernamePasswordInput = {
 
 export type RegErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type RegPostFragment = { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null } };
+export type RegPostFragment = { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } };
 
 export type RegUserFragment = { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean };
 
@@ -325,7 +357,7 @@ export type CreateCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'CommentResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comment?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'CommentResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comment?: { __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
 
 export type CreateGroupMutationVariables = Exact<{
   description: Scalars['String'];
@@ -343,6 +375,13 @@ export type CreatePostMutationVariables = Exact<{
 
 
 export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+
+export type DeleteCommentMutationVariables = Exact<{
+  deleteCommentId: Scalars['Float'];
+}>;
+
+
+export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: boolean };
 
 export type DeletePostMutationVariables = Exact<{
   deletePostId: Scalars['Float'];
@@ -385,6 +424,14 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null } };
 
+export type UpdateCommentMutationVariables = Exact<{
+  body: Scalars['String'];
+  updateCommentId: Scalars['Int'];
+}>;
+
+
+export type UpdateCommentMutation = { __typename?: 'Mutation', updateComment: { __typename?: 'CommentResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comment?: { __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+
 export type UpdateGroupDetailsMutationVariables = Exact<{
   groupId: Scalars['Float'];
   bannerImgUrl?: InputMaybe<Scalars['String']>;
@@ -403,7 +450,15 @@ export type UpdatePostMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePostMutation = { __typename?: 'Mutation', updatePost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
+
+export type VoteCommentMutationVariables = Exact<{
+  value: Scalars['Float'];
+  voteCommentId: Scalars['Int'];
+}>;
+
+
+export type VoteCommentMutation = { __typename?: 'Mutation', voteComment: boolean };
 
 export type VotePostMutationVariables = Exact<{
   value: Scalars['Float'];
@@ -412,6 +467,13 @@ export type VotePostMutationVariables = Exact<{
 
 
 export type VotePostMutation = { __typename?: 'Mutation', votePost: boolean };
+
+export type GetCommentQueryVariables = Exact<{
+  getCommentId: Scalars['Float'];
+}>;
+
+
+export type GetCommentQuery = { __typename?: 'Query', getComment?: { __typename?: 'CommentResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comment?: { __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } | null };
 
 export type GetGroupByNameQueryVariables = Exact<{
   universityName: Scalars['String'];
@@ -440,6 +502,20 @@ export type GetPostQueryVariables = Exact<{
 
 export type GetPostQuery = { __typename?: 'Query', getPost: { __typename?: 'PostResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } };
 
+export type GetPostCommentsQueryVariables = Exact<{
+  postId: Scalars['Int'];
+}>;
+
+
+export type GetPostCommentsQuery = { __typename?: 'Query', getPostComments?: { __typename?: 'CommentsResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comments?: Array<{ __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } }> | null } | null };
+
+export type GetPostVoteValueQueryVariables = Exact<{
+  getPostVoteValueId: Scalars['Int'];
+}>;
+
+
+export type GetPostVoteValueQuery = { __typename?: 'Query', getPostVoteValue: number };
+
 export type GetUniversitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -449,6 +525,11 @@ export type GetUserGroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUserGroupsQuery = { __typename?: 'Query', getUserGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string }> };
 
 export type HomePostsQueryVariables = Exact<{
   limit: Scalars['Float'];
@@ -494,6 +575,42 @@ export type UserPostsQueryVariables = Exact<{
 
 export type UserPostsQuery = { __typename?: 'Query', userPosts: { __typename?: 'PaginatedPosts', hasMore: boolean, cursor: number, posts?: Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } }> | null } };
 
+export const RegPostFragmentDoc = gql`
+    fragment RegPost on Post {
+  id
+  createdAt
+  updatedAt
+  title
+  body
+  isDisabled
+  voteCount
+  wasEdited
+  bodySnippet
+  group {
+    id
+    createdAt
+    name
+    description
+    isDisabled
+    logoImgUrl
+    bannerImgUrl
+  }
+  creator {
+    errors {
+      field
+      message
+    }
+    user {
+      id
+      createdAt
+      username
+      isDisabled
+      profileImgUrl
+      email
+    }
+  }
+}
+    `;
 export const RegErrorFragmentDoc = gql`
     fragment RegError on FieldError {
   field
@@ -521,22 +638,6 @@ export const RegUserResponseFragmentDoc = gql`
 }
     ${RegErrorFragmentDoc}
 ${RegUserFragmentDoc}`;
-export const RegPostFragmentDoc = gql`
-    fragment RegPost on Post {
-  id
-  createdAt
-  updatedAt
-  title
-  body
-  isDisabled
-  voteCount
-  wasEdited
-  bodySnippet
-  creator {
-    ...RegUserResponse
-  }
-}
-    ${RegUserResponseFragmentDoc}`;
 export const ChangePasswordDocument = gql`
     mutation ChangePassword($newPassword: String!, $token: String!) {
   changePassword(newPassword: $newPassword, token: $token) {
@@ -559,21 +660,11 @@ export const CreateCommentDocument = gql`
       id
       createdAt
       updatedAt
-      title
       body
       isDisabled
-      voteCount
       wasEdited
+      voteCount
       bodySnippet
-      group {
-        id
-        createdAt
-        name
-        description
-        isDisabled
-        logoImgUrl
-        bannerImgUrl
-      }
       creator {
         errors {
           field
@@ -658,6 +749,15 @@ export const CreatePostDocument = gql`
 export function useCreatePostMutation() {
   return Urql.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument);
 };
+export const DeleteCommentDocument = gql`
+    mutation DeleteComment($deleteCommentId: Float!) {
+  deleteComment(id: $deleteCommentId)
+}
+    `;
+
+export function useDeleteCommentMutation() {
+  return Urql.useMutation<DeleteCommentMutation, DeleteCommentMutationVariables>(DeleteCommentDocument);
+};
 export const DeletePostDocument = gql`
     mutation DeletePost($deletePostId: Float!) {
   deletePost(id: $deletePostId)
@@ -716,6 +816,44 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
+export const UpdateCommentDocument = gql`
+    mutation UpdateComment($body: String!, $updateCommentId: Int!) {
+  updateComment(body: $body, id: $updateCommentId) {
+    errors {
+      field
+      message
+    }
+    comment {
+      id
+      createdAt
+      updatedAt
+      body
+      isDisabled
+      wasEdited
+      voteCount
+      bodySnippet
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useUpdateCommentMutation() {
+  return Urql.useMutation<UpdateCommentMutation, UpdateCommentMutationVariables>(UpdateCommentDocument);
+};
 export const UpdateGroupDetailsDocument = gql`
     mutation UpdateGroupDetails($groupId: Float!, $bannerImgUrl: String, $logoImgUrl: String, $description: String, $name: String) {
   updateGroupDetails(
@@ -748,15 +886,6 @@ export const UpdatePostDocument = gql`
       voteCount
       wasEdited
       bodySnippet
-      group {
-        id
-        createdAt
-        name
-        description
-        isDisabled
-        logoImgUrl
-        bannerImgUrl
-      }
       creator {
         errors {
           field
@@ -779,6 +908,15 @@ export const UpdatePostDocument = gql`
 export function useUpdatePostMutation() {
   return Urql.useMutation<UpdatePostMutation, UpdatePostMutationVariables>(UpdatePostDocument);
 };
+export const VoteCommentDocument = gql`
+    mutation VoteComment($value: Float!, $voteCommentId: Int!) {
+  voteComment(value: $value, id: $voteCommentId)
+}
+    `;
+
+export function useVoteCommentMutation() {
+  return Urql.useMutation<VoteCommentMutation, VoteCommentMutationVariables>(VoteCommentDocument);
+};
 export const VotePostDocument = gql`
     mutation VotePost($value: Float!, $votePostId: Int!) {
   votePost(value: $value, id: $votePostId)
@@ -787,6 +925,44 @@ export const VotePostDocument = gql`
 
 export function useVotePostMutation() {
   return Urql.useMutation<VotePostMutation, VotePostMutationVariables>(VotePostDocument);
+};
+export const GetCommentDocument = gql`
+    query GetComment($getCommentId: Float!) {
+  getComment(id: $getCommentId) {
+    errors {
+      field
+      message
+    }
+    comment {
+      id
+      createdAt
+      updatedAt
+      body
+      isDisabled
+      wasEdited
+      voteCount
+      bodySnippet
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useGetCommentQuery(options: Omit<Urql.UseQueryArgs<GetCommentQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetCommentQuery>({ query: GetCommentDocument, ...options });
 };
 export const GetGroupByNameDocument = gql`
     query GetGroupByName($universityName: String!, $groupName: String!) {
@@ -885,6 +1061,53 @@ export const GetPostDocument = gql`
 export function useGetPostQuery(options: Omit<Urql.UseQueryArgs<GetPostQueryVariables>, 'query'>) {
   return Urql.useQuery<GetPostQuery>({ query: GetPostDocument, ...options });
 };
+export const GetPostCommentsDocument = gql`
+    query GetPostComments($postId: Int!) {
+  getPostComments(postId: $postId) {
+    errors {
+      field
+      message
+    }
+    comments {
+      id
+      createdAt
+      updatedAt
+      body
+      isDisabled
+      wasEdited
+      voteCount
+      bodySnippet
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useGetPostCommentsQuery(options: Omit<Urql.UseQueryArgs<GetPostCommentsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPostCommentsQuery>({ query: GetPostCommentsDocument, ...options });
+};
+export const GetPostVoteValueDocument = gql`
+    query GetPostVoteValue($getPostVoteValueId: Int!) {
+  getPostVoteValue(id: $getPostVoteValueId)
+}
+    `;
+
+export function useGetPostVoteValueQuery(options: Omit<Urql.UseQueryArgs<GetPostVoteValueQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPostVoteValueQuery>({ query: GetPostVoteValueDocument, ...options });
+};
 export const GetUniversitiesDocument = gql`
     query GetUniversities {
   getUniversities {
@@ -918,6 +1141,22 @@ export const GetUserGroupsDocument = gql`
 
 export function useGetUserGroupsQuery(options?: Omit<Urql.UseQueryArgs<GetUserGroupsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetUserGroupsQuery>({ query: GetUserGroupsDocument, ...options });
+};
+export const GetUsersDocument = gql`
+    query GetUsers {
+  getUsers {
+    id
+    createdAt
+    username
+    isDisabled
+    profileImgUrl
+    email
+  }
+}
+    `;
+
+export function useGetUsersQuery(options?: Omit<Urql.UseQueryArgs<GetUsersQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetUsersQuery>({ query: GetUsersDocument, ...options });
 };
 export const HomePostsDocument = gql`
     query HomePosts($limit: Float!, $sortBy: String, $cursor: Float) {

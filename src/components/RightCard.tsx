@@ -63,7 +63,7 @@ export default function RightCard() {
   const [, createpost] = useCreatePostMutation();
   const UserGroup = GetUserGroup();
   return (
-    <Stack spacing={4} direction="column" mt={-5} >
+    <Stack spacing={4} direction="column" >
             <TopGroups />
 
       <Box borderRadius="10px" px={1} pt={1} mb={3}>

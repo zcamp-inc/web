@@ -1,22 +1,18 @@
-fragment RegPost on Post {
+mutation UpdateComment($body: String!, $updateCommentId: Int!) {
+  updateComment(body: $body, id: $updateCommentId) {
+    errors {
+      field
+      message
+    }
+    comment {
       id
       createdAt
       updatedAt
-      title
       body
       isDisabled
-      voteCount
       wasEdited
+      voteCount
       bodySnippet
-      group {
-        id
-        createdAt
-        name
-        description
-        isDisabled
-        logoImgUrl
-        bannerImgUrl
-      }
       creator {
         errors {
           field
@@ -31,4 +27,7 @@ fragment RegPost on Post {
           email
         }
       }
+      
+    }
+  }
 }

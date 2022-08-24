@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { withUrqlClient } from "next-urql";
 import {
   Heading,
@@ -18,10 +18,7 @@ import {
   Stack,
   Text,
   Link,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
+  useToast,
 } from "@chakra-ui/react";
 import { Layout } from "../../../../../components/Layout";
 import { useGetPostFromUrl } from "../../../../../utils/getPostFromUrl";
@@ -31,20 +28,24 @@ import { BsThreeDots } from "react-icons/bs";
 import PostInteraction from "../../../../../components/PostInteraction";
 import NextLink from "next/link";
 import GroupCard from "../../../../../components/group/GroupCard";
-import { MeQuery } from "../../../..";
 import { InputField } from "../../../../../components/InputField";
-import { group } from "console";
 import { Formik, Form } from "formik";
-import router from "next/router";
 import { IoCaretDown } from "react-icons/io5";
-import { useCreateCommentMutation } from "../../../../../generated/graphql";
+import { useCreateCommentMutation, useMeQuery, useGetPostCommentsQuery } from "../../../../../generated/graphql";
+import { useRouter } from "next/router";
+import { Comments } from "../../../../../components/Comments";
 
 const Post = ({}) => {
   const [{ data, error, fetching }] = useGetPostFromUrl();
-  const me = MeQuery();
   const [, createcomment] = useCreateCommentMutation();
+  const [{data: me}] = useMeQuery();
+  const getPostId = data?.getPost?.post?.id!
 
-  let getPostId = data?.getPost?.post?.id!
+  const router = useRouter();
+  const toast = useToast();
+
+
+
 
   let comments = 2;
 
@@ -243,7 +244,7 @@ const Post = ({}) => {
                   </Stack>
                   <Box maxW="full" maxH="lg" alignItems="center">
                     <PostInteraction
-                      postVote={data?.getPost?.post?.voteCount!}
+                      postID={data?.getPost?.post?.id!}
                       comments={comments}
                     />
                   </Box>
@@ -253,7 +254,7 @@ const Post = ({}) => {
                 pb={2}
                 px={4}
                 w={{ base: "370px", md: "768px", lg: "650px" }}
-                h={5}
+                h={3}
                 mb={{ base: 2 }}
                 mt={-3}
                 bg='gray.200'
@@ -265,6 +266,7 @@ const Post = ({}) => {
                 w={{ base: "370px", md: "768px", lg: "650px" }}
                 minH={40}
                 mb={{ base: 2 }}
+                
               >
                 <Flex direction='row' w='full' mb={4}>
                 <Text w='full'>
@@ -291,9 +293,23 @@ const Post = ({}) => {
                     body: values.body,
                     postId: getPostId
                   });
-                  if (response?.data?.createComment?.comment) {
-                    router.push('/');
+                  if (response?.data?.createComment?.errors) {
+                    toast({
+                      title: 'Comments Error😓😓',
+                      description: "We've could not post your comment.",
+                      status: 'success',
+                      duration: 5000,
+                      isClosable: true,
+                    }); 
                   }
+                  toast({
+                    title: 'Comment Posted.🤗🤗',
+                    description: "We've sent your comment.",
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                  });
+                  router.reload();
                 }}
               >
                 {({ isSubmitting }) => (
@@ -315,12 +331,16 @@ const Post = ({}) => {
                         isLoading={isSubmitting}
                       >
                         Post
+
                       </Button>
+                      <Button onClick={() => router.push("/")} variant='outline' colorScheme='blue'>Cancel</Button>
                     </Flex>
                   </Form>
                 )}
               </Formik>
-              </Box>
+              </Box>             
+              <Comments postID={getPostId} />
+          
             </Flex>
 
             {/* <Box

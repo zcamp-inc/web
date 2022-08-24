@@ -1,19 +1,74 @@
-import { HStack, Box, Flex, Icon, Text, IconButton } from "@chakra-ui/react";
+import { HStack, Box, Flex, Icon, Text, IconButton, useToast } from "@chakra-ui/react";
+import { useState } from "react";
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../utils/createUrqlClient";
+import { BsCaretDown, BsCaretUp } from "react-icons/bs";
+import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoCaretUpOutline, IoCaretDownOutline, IoBookmarkOutline, } from "react-icons/io5";
+import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, useGetUserVoteValueQuery, RegPostFragment } from "../generated/graphql";
 
 
-import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoBookmarkOutline } from "react-icons/io5";
-import { useVotePostMutation, GetPostQuery, useGetPostQuery  } from "../generated/graphql";
+interface PostInteractionProps{
+  post: RegPostFragment;
+  comments: number;
+}
 
-
-
-
-export default function PostInteraction({ comments, postID } : {comments: number, postID: number }) {
+const PostInteraction: React.FC<PostInteractionProps> = ({ comments, post }) => {
   const [,vote] = useVotePostMutation()
+  const gpi = post?.id! as number
   const [{data}] = useGetPostQuery({
     variables:{
-      getPostId: postID
+      getPostId: gpi
     }
   })
+  
+  const [{data: voteValue}] = useGetPostVoteValueQuery({
+    variables: {
+      getPostVoteValueId: gpi
+    }
+  });
+
+  const toast = useToast();
+  
+  const [{data: me}] = useMeQuery();
+  const upvote = () => {
+    if(!me?.me?.user){
+      toast({
+        title: 'Oopsies😭😭',
+        description: "You can't do that yet, please login",
+        status: 'error',
+        duration: 6000,
+        isClosable: true,
+        variant:'left-accent'
+      });
+      return null;                
+    }
+    vote({
+    votePostId: data?.getPost?.post?.id!,
+    value: 1,
+  })
+ return
+}
+
+const downvote = () => {
+  if(!me?.me?.user){
+    toast({
+      title: 'Oopsies😭😭',
+      description: "You can't do that yet, please login",
+      status: 'error',
+      duration: 6000,
+      isClosable: true,
+      variant:'left-accent'
+    });
+    return null;                
+  }
+  vote({
+  votePostId: data?.getPost?.post?.id!,
+  value: -1,
+})
+return
+
+}
+
   return (
 
     // <HStack spacing={{ base: 40, md: 60 }}>
@@ -25,48 +80,30 @@ export default function PostInteraction({ comments, postID } : {comments: number
           ml={{ base: 2, md: 5 }}
           borderRadius="lg"
           role="group"
-          color="#000a16"
           _hover={{ color: "#5E00AB" }}
         >
           <IconButton
-            icon={<IoCaretUp />}
+            icon={ voteValue?.getPostVoteValue === 1 ? <IoCaretUp/> : <BsCaretUp />}
             aria-label="upvote"
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             fontSize={{ base: 24, md: 26 }}
             variant="ghost"
-            onClick={(async () => {
-              if (data?.getPost.post?.voteCount === 1){
-                return;
-              }
-             
-              await vote({
-                votePostId: data?.getPost?.post?.id!,
-                value: 1,
-              })
-
-            })}
+            onClick={upvote}
+            color={voteValue?.getPostVoteValue === 1 ? '#5E00AB': '#000A16'}
           />
 
-          <Text>{data?.getPost?.post?.voteCount}</Text>
+          <Text color="#000a16">{post?.voteCount!}</Text>
 
           <IconButton
-            icon={<IoCaretDown />}
+            icon={ voteValue?.getPostVoteValue === -1 ? <IoCaretDown/> : <BsCaretDown />}
             aria-label="downvote"
             fontSize={{ base: 24, md: 26 }}
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             variant="ghost"
-            onClick={(async () => {
-              if (data?.getPost.post?.voteCount === -1){
-                return;
-              }
-             
-              await vote({
-                votePostId: data?.getPost?.post?.id!,
-                value: -1,
-              })
-
-            })}
+            onClick={downvote}
             mr={{ base: 2, md:10 }}
+            color={voteValue?.getPostVoteValue === -1 ? '#5E00AB': '#000a16'}
+
           />
         </Flex>
 
@@ -121,3 +158,5 @@ export default function PostInteraction({ comments, postID } : {comments: number
     </Flex>
   );
 }
+
+export default withUrqlClient(createUrqlClient, { ssr: true })(PostInteraction);

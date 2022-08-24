@@ -93,14 +93,14 @@ export const UserGroups: React.FC<UserGroupsProps> = () => {
                 </Flex>
               </>
             ) : (
-              data?.getUserGroups.map((groupInfo, i) => (
-                <>
-                  <Flex w={60} key={i} mt={2} mb={2} justify="space-between">
+              data?.getUserGroups.map((groupInfo) => (
+                <Box key={ `groupInfo id: ${groupInfo?.id}`}>
+                  <Flex w={60}  mt={2} mb={2} justify="space-between">
                     <Flex w={60}>
                       <Avatar src={groupInfo.logoImgUrl} size="sm" mr={2} />
                       <Text w={40}> {groupInfo.name}</Text>
                     </Flex>
-                    <Flex justify="flex-end" key={i}>
+                    <Flex justify="flex-end">
                       <NextLink
                         href={{
                           pathname: "/z/[university]/[name]",
@@ -122,7 +122,7 @@ export const UserGroups: React.FC<UserGroupsProps> = () => {
                   </Flex>
 
                   <Divider ml={-5} w={80} />
-                </>
+                </Box>
               ))
             )}
           </Flex>
