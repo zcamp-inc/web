@@ -266,10 +266,10 @@ const Index: React.FC<IndexProps> = () => {
                               direction="row"
                               justify="space-between"
                               px={3}
-                              zIndex={2}
+                              
                               
                             >
-                              <Flex px={{ base: 0, md: 2 }} pt={2} >
+                              <Flex px={{ base: 0, md: 2 }} pt={2} zIndex={2} >
                                 <Avatar
                                   size="md"
                                   src={p.group.logoImgUrl}
@@ -621,8 +621,7 @@ const Index: React.FC<IndexProps> = () => {
                             <Box maxW="full" maxH="lg" alignItems="center">
                               <PostInteraction
                                 comments={comments}
-                                postID={p.id}
-                              />   
+                                post={p} pageProps={undefined}                              />   
                             </Box>
 
                           </Stack>

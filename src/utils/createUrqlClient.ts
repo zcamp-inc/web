@@ -1,5 +1,5 @@
-import { dedupExchange, fetchExchange } from "urql";
-import { LogoutMutation, MeQuery, MeDocument, LoginMutation, RegisterMutation, VotePostMutation, VotePostMutationVariables, GetPostQuery, GetPostDocument } from "../generated/graphql";
+import { dedupExchange, fetchExchange, gql } from "urql";
+import { LogoutMutation, MeQuery, MeDocument, LoginMutation, RegisterMutation, VotePostMutation, VotePostMutationVariables, GetPostQuery, GetPostDocument, GetPostVoteValueQueryVariables } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import { cacheExchange } from "@urql/exchange-graphcache";
 
@@ -19,11 +19,47 @@ export const createUrqlClient = (ssrExchange: any) => ({
       },
       updates: {
         Mutation: {
-          // votePost: (_result, args, cache, info) => {
-          //   const { votePostId, value } = args as VotePostMutationVariables;
-          //   const data = cache.readFragment()
+          votePost: (_result, args, cache, info) => {
+            const { votePostId, value } = args as VotePostMutationVariables;
+            const data = cache.readFragment(
+              gql`
+                fragment _ on Post{
+                  id
+                  voteCount
+                }              
+              `, { id: votePostId } as any
+            );
+            const post_data = cache.readFragment(
+              gql`
+                fragment _ on PostVote{
+                  value
+                  postId
+                }
+              `, {postId: votePostId} as any
+            );
+
+            if(post_data & data){
+              if(post_data.value === value){
+                return;
+              }
+              const newPoints = (data.voteCount as number) + (!post_data.value ? 1 : 2) * value;
+              cache.writeFragment(
+                gql`
+                  fragment __ on Post{
+                    voteCount
+                  }
+                `, {id: votePostId, voteCount: newPoints} as any,               
+              );
+              cache.writeFragment(
+                gql`
+                  fragment __ on PostVote{
+                    value
+                  }
+                `, { value: value} as any
+              );
+            }
             
-          // }, To be continued...
+          },
 
 
           logoutUser: (_result, args, cache, info) => {

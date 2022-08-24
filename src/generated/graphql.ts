@@ -224,7 +224,6 @@ export type Query = {
   getUniversities: Array<University>;
   getUniversityGroups: Array<Group>;
   getUserGroups: Array<Group>;
-  getUserVoteValue: Scalars['Float'];
   getUsers: Array<User>;
   homePosts: PaginatedPosts;
   me?: Maybe<UserResponse>;
@@ -268,11 +267,6 @@ export type QueryGetPostVoteValueArgs = {
 
 export type QueryGetUniversityGroupsArgs = {
   universityId: Scalars['Float'];
-};
-
-
-export type QueryGetUserVoteValueArgs = {
-  id: Scalars['Int'];
 };
 
 
@@ -342,7 +336,7 @@ export type UsernamePasswordInput = {
 
 export type RegErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type RegPostFragment = { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null } };
+export type RegPostFragment = { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } };
 
 export type RegUserFragment = { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean };
 
@@ -532,13 +526,6 @@ export type GetUserGroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetUserGroupsQuery = { __typename?: 'Query', getUserGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }> };
 
-export type GetUserVoteValueQueryVariables = Exact<{
-  getUserVoteValueId: Scalars['Int'];
-}>;
-
-
-export type GetUserVoteValueQuery = { __typename?: 'Query', getUserVoteValue: number };
-
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -588,6 +575,42 @@ export type UserPostsQueryVariables = Exact<{
 
 export type UserPostsQuery = { __typename?: 'Query', userPosts: { __typename?: 'PaginatedPosts', hasMore: boolean, cursor: number, posts?: Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } }> | null } };
 
+export const RegPostFragmentDoc = gql`
+    fragment RegPost on Post {
+  id
+  createdAt
+  updatedAt
+  title
+  body
+  isDisabled
+  voteCount
+  wasEdited
+  bodySnippet
+  group {
+    id
+    createdAt
+    name
+    description
+    isDisabled
+    logoImgUrl
+    bannerImgUrl
+  }
+  creator {
+    errors {
+      field
+      message
+    }
+    user {
+      id
+      createdAt
+      username
+      isDisabled
+      profileImgUrl
+      email
+    }
+  }
+}
+    `;
 export const RegErrorFragmentDoc = gql`
     fragment RegError on FieldError {
   field
@@ -615,22 +638,6 @@ export const RegUserResponseFragmentDoc = gql`
 }
     ${RegErrorFragmentDoc}
 ${RegUserFragmentDoc}`;
-export const RegPostFragmentDoc = gql`
-    fragment RegPost on Post {
-  id
-  createdAt
-  updatedAt
-  title
-  body
-  isDisabled
-  voteCount
-  wasEdited
-  bodySnippet
-  creator {
-    ...RegUserResponse
-  }
-}
-    ${RegUserResponseFragmentDoc}`;
 export const ChangePasswordDocument = gql`
     mutation ChangePassword($newPassword: String!, $token: String!) {
   changePassword(newPassword: $newPassword, token: $token) {
@@ -1134,15 +1141,6 @@ export const GetUserGroupsDocument = gql`
 
 export function useGetUserGroupsQuery(options?: Omit<Urql.UseQueryArgs<GetUserGroupsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetUserGroupsQuery>({ query: GetUserGroupsDocument, ...options });
-};
-export const GetUserVoteValueDocument = gql`
-    query getUserVoteValue($getUserVoteValueId: Int!) {
-  getUserVoteValue(id: $getUserVoteValueId)
-}
-    `;
-
-export function useGetUserVoteValueQuery(options: Omit<Urql.UseQueryArgs<GetUserVoteValueQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetUserVoteValueQuery>({ query: GetUserVoteValueDocument, ...options });
 };
 export const GetUsersDocument = gql`
     query GetUsers {

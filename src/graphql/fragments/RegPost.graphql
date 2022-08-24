@@ -1,14 +1,34 @@
 fragment RegPost on Post {
-  id
-  createdAt
-  updatedAt
-  title
-  body
-  isDisabled
-  voteCount
-  wasEdited
-  bodySnippet
-  creator {
-      ...RegUserResponse
-  }
+      id
+      createdAt
+      updatedAt
+      title
+      body
+      isDisabled
+      voteCount
+      wasEdited
+      bodySnippet
+      group {
+        id
+        createdAt
+        name
+        description
+        isDisabled
+        logoImgUrl
+        bannerImgUrl
+      }
+      creator {
+        errors {
+          field
+          message
+        }
+        user {
+          id
+          createdAt
+          username
+          isDisabled
+          profileImgUrl
+          email
+        }
+      }
 }

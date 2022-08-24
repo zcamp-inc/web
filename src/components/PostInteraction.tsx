@@ -4,21 +4,26 @@ import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { BsCaretDown, BsCaretUp } from "react-icons/bs";
 import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoCaretUpOutline, IoCaretDownOutline, IoBookmarkOutline, } from "react-icons/io5";
-import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, useGetUserVoteValueQuery } from "../generated/graphql";
+import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, useGetUserVoteValueQuery, RegPostFragment } from "../generated/graphql";
 
 
+interface PostInteractionProps{
+  post: RegPostFragment;
+  comments: number;
+}
 
-function PostInteraction({ comments, postID } : {comments: number, postID: number }) {
+const PostInteraction: React.FC<PostInteractionProps> = ({ comments, post }) => {
   const [,vote] = useVotePostMutation()
+  const gpi = post?.id! as number
   const [{data}] = useGetPostQuery({
     variables:{
-      getPostId: postID
+      getPostId: gpi
     }
   })
   
   const [{data: voteValue}] = useGetPostVoteValueQuery({
     variables: {
-      getPostVoteValueId: postID 
+      getPostVoteValueId: gpi
     }
   });
 
@@ -87,7 +92,7 @@ return
             color={voteValue?.getPostVoteValue === 1 ? '#5E00AB': '#000A16'}
           />
 
-          <Text color="#000a16">{data?.getPost?.post?.voteCount!}</Text>
+          <Text color="#000a16">{post?.voteCount!}</Text>
 
           <IconButton
             icon={ voteValue?.getPostVoteValue === -1 ? <IoCaretDown/> : <BsCaretDown />}
