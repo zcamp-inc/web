@@ -20,8 +20,8 @@ import {
 } from "react-icons/io5";
 import { BsCaretDown, BsCaretUp } from "react-icons/bs";
 import {
-  useGetPostQuery,
   useVoteCommentMutation,
+  useUnvoteCommentMutation,
   useMeQuery,
   useCreateCommentMutation,
   useDeleteCommentMutation,
@@ -41,18 +41,15 @@ export const CommentInteraction = ({
   postID: number;
 }) => {
     const [{ data: me }] = useMeQuery();
-    const [, vote] = useVoteCommentMutation();
+    const [, vote] = useVoteCommentMutation();    
+    const [{ data: voteData }] = useVoteCommentMutation()
+    const [, unvote] = useUnvoteCommentMutation();
     const [, createcomment] = useCreateCommentMutation();
     const [, deleteComment] = useDeleteCommentMutation();
     const [, updatecomment] = useUpdateCommentMutation();
      const [{ data }] = useGetCommentQuery({
         variables: {
         getCommentId: commentID,
-        },
-    });
-    const [{ data: post }] = useGetPostQuery({
-        variables: {
-        getPostId: postID,
         },
     });
   const toast = useToast();
@@ -78,11 +75,17 @@ export const CommentInteraction = ({
       });
       return null;                
     }
+    if( voteValue?.getPostVoteValue === 1){
+      unvote({
+        unvoteCommentId: data?.getComment?.comment?.id!
+      })
+    }
     vote({
     voteCommentId: data?.getComment?.comment?.id!,
     value: 1,
-  })
- return
+  });
+ return alert(voteData?.voteComment?.voteCount!)
+ 
 }
 
 const downvote = () => {
@@ -96,6 +99,11 @@ const downvote = () => {
       variant:'left-accent'
     });
     return null;                
+  }
+  if( voteValue?.getPostVoteValue === 1){
+    unvote({
+      unvoteCommentId: data?.getComment?.comment?.id!
+    })
   }
   vote({
   voteCommentId: data?.getComment?.comment?.id!,

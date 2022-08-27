@@ -4,7 +4,7 @@ import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { BsCaretDown, BsCaretUp } from "react-icons/bs";
 import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoCaretUpOutline, IoCaretDownOutline, IoBookmarkOutline, } from "react-icons/io5";
-import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, useGetUserVoteValueQuery, RegPostFragment } from "../generated/graphql";
+import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, useGetUserVoteValueQuery, RegPostFragment, useUnvotePostMutation } from "../generated/graphql";
 
 
 interface PostInteractionProps{
@@ -14,6 +14,7 @@ interface PostInteractionProps{
 
 const PostInteraction: React.FC<PostInteractionProps> = ({ comments, post }) => {
   const [,vote] = useVotePostMutation()
+  const [, unvote] = useUnvotePostMutation()
   const gpi = post?.id! as number
   const [{data}] = useGetPostQuery({
     variables:{
@@ -42,11 +43,16 @@ const PostInteraction: React.FC<PostInteractionProps> = ({ comments, post }) => 
       });
       return null;                
     }
+    if( voteValue?.getPostVoteValue === 1){
+      unvote({
+        unvotePostId: data?.getPost?.post?.id!
+      })
+    }
     vote({
     votePostId: data?.getPost?.post?.id!,
     value: 1,
   })
- return
+ return 
 }
 
 const downvote = () => {
@@ -60,6 +66,11 @@ const downvote = () => {
       variant:'left-accent'
     });
     return null;                
+  }
+  if( voteValue?.getPostVoteValue === -1){
+    unvote({
+      unvotePostId: data?.getPost?.post?.id!
+    })
   }
   vote({
   votePostId: data?.getPost?.post?.id!,

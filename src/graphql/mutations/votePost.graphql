@@ -1,3 +1,6 @@
 mutation VotePost($value: Float!, $votePostId: Int!) {
-  votePost(value: $value, id: $votePostId)
+  votePost(value: $value, id: $votePostId) {
+    success
+    voteCount
+  }
 }

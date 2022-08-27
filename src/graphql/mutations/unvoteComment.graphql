@@ -1,0 +1,6 @@
+mutation UnvoteComment($unvoteCommentId: Int!) {
+  unvoteComment(id: $unvoteCommentId) {
+    success
+    voteCount
+  }
+}

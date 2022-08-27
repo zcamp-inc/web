@@ -1,3 +1,6 @@
 mutation VoteComment($value: Float!, $voteCommentId: Int!) {
-  voteComment(value: $value, id: $voteCommentId)
+  voteComment(value: $value, id: $voteCommentId) {
+    success
+    voteCount
+  }
 }
