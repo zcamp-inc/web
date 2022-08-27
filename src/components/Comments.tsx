@@ -22,6 +22,7 @@ import {
   useGetUsersQuery,
   useMeQuery,
   useCreateCommentMutation,
+  useGetCommentQuery,
 } from "../generated/graphql";
 import { InputField } from "./InputField";
 import { useRouter } from "next/router"
@@ -34,6 +35,12 @@ export const Comments = ({ postID }: { postID: number }) => {
       postId: postID,
     },
   });
+  const commentID = postComments?.getPostComments?.comments?.map((p) => (p.id))! as any
+  const [{ data: comment }] = useGetCommentQuery({
+    variables: {
+      getCommentId: commentID
+    }
+  })
   const [{data: user}] = useGetUsersQuery()
   const getName = user?.getUsers?.map((p) => (p.username));
   const getArr = ["johnmiiiicheal", "deez_noughts"]
@@ -41,6 +48,7 @@ export const Comments = ({ postID }: { postID: number }) => {
   return (
     <>
       {postComments?.getPostComments?.comments?.map((c) => (
+        <>        
         <Flex direction="row" w='full' bg='white' px={4}>
           <Flex direction="column">
             <Avatar src={c.creator.user?.profileImgUrl} size="sm" />
@@ -56,9 +64,10 @@ export const Comments = ({ postID }: { postID: number }) => {
             </Box>
             
             <CommentInteraction commentID={c.id} postID={postID} />
-          </Flex>
-          
+          </Flex>          
         </Flex>
+        
+        </>
       ))}
     </>
   );

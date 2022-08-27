@@ -81,11 +81,13 @@ export type Mutation = {
   registerUser: UserResponse;
   savePost: Scalars['Boolean'];
   seedUniversities: Scalars['String'];
+  unvoteComment: VoteResponse;
+  unvotePost: VoteResponse;
   updateComment: CommentResponse;
   updateGroupDetails: Scalars['Boolean'];
   updatePost: PostResponse;
-  voteComment: Scalars['Boolean'];
-  votePost: Scalars['Boolean'];
+  voteComment: VoteResponse;
+  votePost: VoteResponse;
 };
 
 
@@ -147,6 +149,16 @@ export type MutationRegisterUserArgs = {
 
 
 export type MutationSavePostArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationUnvoteCommentArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationUnvotePostArgs = {
   id: Scalars['Int'];
 };
 
@@ -219,7 +231,7 @@ export type Query = {
   getGroupUserCount: Scalars['Float'];
   getGroups: Array<Group>;
   getPost: PostResponse;
-  getPostComments?: Maybe<CommentsResponse>;
+  getPostComments: CommentsResponse;
   getPostVoteValue: Scalars['Float'];
   getUniversities: Array<University>;
   getUniversityGroups: Array<Group>;
@@ -334,6 +346,12 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
+export type VoteResponse = {
+  __typename?: 'VoteResponse';
+  success: Scalars['Boolean'];
+  voteCount?: Maybe<Scalars['Float']>;
+};
+
 export type RegErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
 export type RegPostFragment = { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, body: string, isDisabled: boolean, voteCount: number, wasEdited: boolean, bodySnippet: string, group: { __typename?: 'Group', id: number, createdAt: any, name: string, description: string, isDisabled: boolean, logoImgUrl: string, bannerImgUrl: string }, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } };
@@ -424,6 +442,20 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, profileImgUrl: string, isDisabled: boolean } | null } };
 
+export type UnvoteCommentMutationVariables = Exact<{
+  unvoteCommentId: Scalars['Int'];
+}>;
+
+
+export type UnvoteCommentMutation = { __typename?: 'Mutation', unvoteComment: { __typename?: 'VoteResponse', success: boolean, voteCount?: number | null } };
+
+export type UnvotePostMutationVariables = Exact<{
+  unvotePostId: Scalars['Int'];
+}>;
+
+
+export type UnvotePostMutation = { __typename?: 'Mutation', unvotePost: { __typename?: 'VoteResponse', success: boolean, voteCount?: number | null } };
+
 export type UpdateCommentMutationVariables = Exact<{
   body: Scalars['String'];
   updateCommentId: Scalars['Int'];
@@ -458,7 +490,7 @@ export type VoteCommentMutationVariables = Exact<{
 }>;
 
 
-export type VoteCommentMutation = { __typename?: 'Mutation', voteComment: boolean };
+export type VoteCommentMutation = { __typename?: 'Mutation', voteComment: { __typename?: 'VoteResponse', success: boolean, voteCount?: number | null } };
 
 export type VotePostMutationVariables = Exact<{
   value: Scalars['Float'];
@@ -466,7 +498,7 @@ export type VotePostMutationVariables = Exact<{
 }>;
 
 
-export type VotePostMutation = { __typename?: 'Mutation', votePost: boolean };
+export type VotePostMutation = { __typename?: 'Mutation', votePost: { __typename?: 'VoteResponse', success: boolean, voteCount?: number | null } };
 
 export type GetCommentQueryVariables = Exact<{
   getCommentId: Scalars['Float'];
@@ -507,7 +539,7 @@ export type GetPostCommentsQueryVariables = Exact<{
 }>;
 
 
-export type GetPostCommentsQuery = { __typename?: 'Query', getPostComments?: { __typename?: 'CommentsResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comments?: Array<{ __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } }> | null } | null };
+export type GetPostCommentsQuery = { __typename?: 'Query', getPostComments: { __typename?: 'CommentsResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comments?: Array<{ __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } }> | null } };
 
 export type GetPostVoteValueQueryVariables = Exact<{
   getPostVoteValueId: Scalars['Int'];
@@ -816,6 +848,30 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
+export const UnvoteCommentDocument = gql`
+    mutation UnvoteComment($unvoteCommentId: Int!) {
+  unvoteComment(id: $unvoteCommentId) {
+    success
+    voteCount
+  }
+}
+    `;
+
+export function useUnvoteCommentMutation() {
+  return Urql.useMutation<UnvoteCommentMutation, UnvoteCommentMutationVariables>(UnvoteCommentDocument);
+};
+export const UnvotePostDocument = gql`
+    mutation UnvotePost($unvotePostId: Int!) {
+  unvotePost(id: $unvotePostId) {
+    success
+    voteCount
+  }
+}
+    `;
+
+export function useUnvotePostMutation() {
+  return Urql.useMutation<UnvotePostMutation, UnvotePostMutationVariables>(UnvotePostDocument);
+};
 export const UpdateCommentDocument = gql`
     mutation UpdateComment($body: String!, $updateCommentId: Int!) {
   updateComment(body: $body, id: $updateCommentId) {
@@ -910,7 +966,10 @@ export function useUpdatePostMutation() {
 };
 export const VoteCommentDocument = gql`
     mutation VoteComment($value: Float!, $voteCommentId: Int!) {
-  voteComment(value: $value, id: $voteCommentId)
+  voteComment(value: $value, id: $voteCommentId) {
+    success
+    voteCount
+  }
 }
     `;
 
@@ -919,7 +978,10 @@ export function useVoteCommentMutation() {
 };
 export const VotePostDocument = gql`
     mutation VotePost($value: Float!, $votePostId: Int!) {
-  votePost(value: $value, id: $votePostId)
+  votePost(value: $value, id: $votePostId) {
+    success
+    voteCount
+  }
 }
     `;
 
