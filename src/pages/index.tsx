@@ -4,6 +4,7 @@ import {
   Flex,
   Box,
   Heading,
+  Icon,
   IconButton,
   Tab,
   TabList,
@@ -140,14 +141,9 @@ const Index: React.FC<IndexProps> = () => {
                     }}
                     mr={{ base: 0, md: 2 }}
                   >
-                    <IconButton
-                      icon={<IoHeartCircleOutline />}
-                      borderRadius="md"
+                    <Icon
+                      as={IoHeartCircleOutline}
                       fontSize={{ base: 24, md: 26 }}
-                      // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
-                      _hover={{ color: "none", bg: "none" }}
-                      aria-label="Home"
-                      variant="ghost"
                     />
                     <Text ml="1" pr={2}>
                       For You
@@ -169,14 +165,9 @@ const Index: React.FC<IndexProps> = () => {
                     }}
                     mr={{ base: 0, md: 2 }}
                   >
-                    <IconButton
-                      icon={<IoRibbonOutline />}
-                      borderRadius="md"
+                    <Icon
+                      as={IoRibbonOutline}
                       fontSize={{ base: 24, md: 26 }}
-                      // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
-                      _hover={{ color: "none", bg: "none" }}
-                      aria-label="Home"
-                      variant="ghost"
                     />
                     <Text ml="1" pr={2}>
                       New
@@ -195,14 +186,9 @@ const Index: React.FC<IndexProps> = () => {
                     }}
                     mr={{ base: 0, md: 2 }}
                   >
-                    <IconButton
-                      icon={<IoRocketOutline />}
-                      borderRadius="md"
+                    <Icon
+                      as={IoRocketOutline}
                       fontSize={{ base: 24, md: 26 }}
-                      // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
-                      _hover={{ color: "none", bg: "none" }}
-                      aria-label="Home"
-                      variant="ghost"
                     />
                     <Text ml="1" pr={2}>
                       Cringe
@@ -621,7 +607,7 @@ const Index: React.FC<IndexProps> = () => {
                             <Box maxW="full" maxH="lg" alignItems="center">
                               <PostInteraction
                                 comments={comments}
-                                post={p} pageProps={undefined}                              />   
+                                postID={p.id} pageProps={undefined}                              />   
                             </Box>
 
                           </Stack>
@@ -733,9 +719,8 @@ const Index: React.FC<IndexProps> = () => {
                             </Stack>
                             <Box maxW="full" maxH="lg" alignItems="center">
                               <PostInteraction
-                               comments={comments}
-                               postID={p.id}
-                              />
+                                comments={comments}
+                                postID={p.id} pageProps={undefined}                              />
                             </Box>
                           </Stack>
                         </Box>

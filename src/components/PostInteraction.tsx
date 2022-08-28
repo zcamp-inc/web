@@ -4,38 +4,44 @@ import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { BsCaretDown, BsCaretUp } from "react-icons/bs";
 import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoCaretUpOutline, IoCaretDownOutline, IoBookmarkOutline, } from "react-icons/io5";
-import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, useGetUserVoteValueQuery, RegPostFragment, useUnvotePostMutation } from "../generated/graphql";
+import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, RegPostFragment, useUnvotePostMutation } from "../generated/graphql";
 
 
 interface PostInteractionProps{
-  post: RegPostFragment;
+  postID: number;
   comments: number;
 }
 
-const PostInteraction: React.FC<PostInteractionProps> = ({ comments, post }) => {
-  const [,vote] = useVotePostMutation()
+const PostInteraction: React.FC<PostInteractionProps> = ({ comments, postID }) => {
+  const [{ data: voteData, fetching, error}, vote] = useVotePostMutation()
   const [, unvote] = useUnvotePostMutation()
-  const gpi = post?.id! as number
-  const [{data}] = useGetPostQuery({
+  const [{data, }] = useGetPostQuery({
     variables:{
-      getPostId: gpi
+      getPostId: postID
     }
+
   })
   
   const [{data: voteValue}] = useGetPostVoteValueQuery({
     variables: {
-      getPostVoteValueId: gpi
+      getPostVoteValueId: postID
     }
   });
+  let newVoteCount;
+
 
   const toast = useToast();
-  
   const [{data: me}] = useMeQuery();
+  let pointer = voteValue?.getPostVoteValue?.valueOf()!
+  let point = data?.getPost?.post?.voteCount!
+  const [points, setPoints] = useState(data?.getPost?.post?.voteCount!);
+  const [value, setValue] = useState(voteValue?.getPostVoteValue!);
+
   const upvote = () => {
     if(!me?.me?.user){
       toast({
         title: 'Oopsies😭😭',
-        description: "You can't do that yet, please login",
+        description: "You can't do that yet, please login!!",
         status: 'error',
         duration: 6000,
         isClosable: true,
@@ -43,16 +49,22 @@ const PostInteraction: React.FC<PostInteractionProps> = ({ comments, post }) => 
       });
       return null;                
     }
-    if( voteValue?.getPostVoteValue === 1){
-      unvote({
-        unvotePostId: data?.getPost?.post?.id!
-      })
-    }
-    vote({
-    votePostId: data?.getPost?.post?.id!,
-    value: 1,
-  })
- return 
+    if( voteValue?.getPostVoteValue !== 1){
+      vote({
+      votePostId: data?.getPost?.post?.id!,
+      value: 1,
+    })
+    pointer = 1
+    alert(voteData?.votePost?.voteCount?.valueOf()!)
+    setPoints(data?.getPost?.post?.voteCount! + 1)
+    } else  {
+    unvote({
+      unvotePostId: data?.getPost?.post?.id!
+    })
+    pointer = 0
+    setPoints(data?.getPost?.post?.voteCount! - 1)
+  }
+  return
 }
 
 const downvote = () => {
@@ -67,18 +79,23 @@ const downvote = () => {
     });
     return null;                
   }
-  if( voteValue?.getPostVoteValue === -1){
-    unvote({
-      unvotePostId: data?.getPost?.post?.id!
-    })
-  }
-  vote({
-  votePostId: data?.getPost?.post?.id!,
-  value: -1,
-})
-return
-
+  if( voteValue?.getPostVoteValue !== -1){
+    vote({
+    votePostId: data?.getPost?.post?.id!,
+    value: -1,
+  })
+  pointer = -1
+  setPoints(data?.getPost?.post?.voteCount! - 1)
+  } else {
+  unvote({
+    unvotePostId: data?.getPost?.post?.id!
+  })
+  pointer = 0
+  setPoints(data?.getPost?.post?.voteCount! + 1)
 }
+return 
+}
+
 
   return (
 
@@ -94,26 +111,26 @@ return
           _hover={{ color: "#5E00AB" }}
         >
           <IconButton
-            icon={ voteValue?.getPostVoteValue === 1 ? <IoCaretUp/> : <BsCaretUp />}
+            icon={ pointer === 1 ? <IoCaretUp/> : <BsCaretUp />}
             aria-label="upvote"
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             fontSize={{ base: 24, md: 26 }}
             variant="ghost"
             onClick={upvote}
-            color={voteValue?.getPostVoteValue === 1 ? '#5E00AB': '#000A16'}
+            color={pointer === 1 ? '#5E00AB': '#000A16'}
           />
 
-          <Text color="#000a16">{post?.voteCount!}</Text>
+          <Text color="#000a16">{point} = {pointer}</Text>
 
           <IconButton
-            icon={ voteValue?.getPostVoteValue === -1 ? <IoCaretDown/> : <BsCaretDown />}
+            icon={ pointer === -1 ? <IoCaretDown/> : <BsCaretDown />}
             aria-label="downvote"
             fontSize={{ base: 24, md: 26 }}
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             variant="ghost"
             onClick={downvote}
             mr={{ base: 2, md:10 }}
-            color={voteValue?.getPostVoteValue === -1 ? '#5E00AB': '#000a16'}
+            color={pointer === -1 ? '#5E00AB': '#000a16'}
 
           />
         </Flex>
