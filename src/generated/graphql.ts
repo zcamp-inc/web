@@ -227,6 +227,7 @@ export type PostResponse = {
 export type Query = {
   __typename?: 'Query';
   getComment?: Maybe<CommentResponse>;
+  getCommentVoteValue: Scalars['Float'];
   getGroupByName: GroupResponse;
   getGroupUserCount: Scalars['Float'];
   getGroups: Array<Group>;
@@ -248,6 +249,11 @@ export type Query = {
 
 export type QueryGetCommentArgs = {
   id: Scalars['Float'];
+};
+
+
+export type QueryGetCommentVoteValueArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -506,6 +512,13 @@ export type GetCommentQueryVariables = Exact<{
 
 
 export type GetCommentQuery = { __typename?: 'Query', getComment?: { __typename?: 'CommentResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, comment?: { __typename?: 'Comment', id: number, createdAt: any, updatedAt: any, body: string, isDisabled: boolean, wasEdited: boolean, voteCount: number, bodySnippet: string, creator: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, createdAt: string, username: string, isDisabled: boolean, profileImgUrl: string, email: string } | null } } | null } | null };
+
+export type GetCommentVoteValueQueryVariables = Exact<{
+  getCommentVoteValueId: Scalars['Int'];
+}>;
+
+
+export type GetCommentVoteValueQuery = { __typename?: 'Query', getCommentVoteValue: number };
 
 export type GetGroupByNameQueryVariables = Exact<{
   universityName: Scalars['String'];
@@ -1025,6 +1038,15 @@ export const GetCommentDocument = gql`
 
 export function useGetCommentQuery(options: Omit<Urql.UseQueryArgs<GetCommentQueryVariables>, 'query'>) {
   return Urql.useQuery<GetCommentQuery>({ query: GetCommentDocument, ...options });
+};
+export const GetCommentVoteValueDocument = gql`
+    query GetCommentVoteValue($getCommentVoteValueId: Int!) {
+  getCommentVoteValue(id: $getCommentVoteValueId)
+}
+    `;
+
+export function useGetCommentVoteValueQuery(options: Omit<Urql.UseQueryArgs<GetCommentVoteValueQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetCommentVoteValueQuery>({ query: GetCommentVoteValueDocument, ...options });
 };
 export const GetGroupByNameDocument = gql`
     query GetGroupByName($universityName: String!, $groupName: String!) {

@@ -27,7 +27,7 @@ import {
   useDeleteCommentMutation,
   useUpdateCommentMutation,
   useGetCommentQuery,
-  useGetPostVoteValueQuery
+  useGetCommentVoteValueQuery
 } from "../generated/graphql";
 import { InputField } from "./InputField";
 import { useRouter } from "next/router";
@@ -57,9 +57,9 @@ export const CommentInteraction = ({
   const { isOpen, onToggle } = useDisclosure();
   const { isOpen: isCommentOpen, onToggle: onCommentToggle} = useDisclosure();
 
-  const [{data: voteValue}] = useGetPostVoteValueQuery({
+  const [{data: voteValue}] = useGetCommentVoteValueQuery({
     variables: {
-      getPostVoteValueId: commentID 
+      getCommentVoteValueId: commentID 
     }
   });
 
@@ -75,15 +75,16 @@ export const CommentInteraction = ({
       });
       return null;                
     }
-    if( voteValue?.getPostVoteValue === 1){
-      unvote({
+  if( voteValue?.getCommentVoteValue !== 1){
+    vote({
+      voteCommentId: data?.getComment?.comment?.id!,
+      value: 1,
+    });
+   } else{ 
+    unvote({
         unvoteCommentId: data?.getComment?.comment?.id!
       })
     }
-    vote({
-    voteCommentId: data?.getComment?.comment?.id!,
-    value: 1,
-  });
  return alert(voteData?.voteComment?.voteCount!)
  
 }
@@ -100,15 +101,16 @@ const downvote = () => {
     });
     return null;                
   }
-  if( voteValue?.getPostVoteValue === 1){
+  if( voteValue?.getCommentVoteValue !== -1 ){
+    vote({
+      voteCommentId: data?.getComment?.comment?.id!,
+      value: -1,
+    })
+  } else {
     unvote({
       unvoteCommentId: data?.getComment?.comment?.id!
     })
   }
-  vote({
-  voteCommentId: data?.getComment?.comment?.id!,
-  value: -1,
-})
 return
 
 }
@@ -128,28 +130,28 @@ return
         _hover={{ color: "#5E00AB" }}
       >
         <IconButton
-          icon={ voteValue?.getPostVoteValue === 1 ? <IoCaretUp/> : <BsCaretUp />}
+          icon={ voteValue?.getCommentVoteValue === 1 ? <IoCaretUp/> : <BsCaretUp />}
           aria-label="upvote"
           _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
           fontSize={{ base: 24, md: 24 }}
           variant="ghost"
           size='sm'
           onClick={upvote}
-          color={voteValue?.getPostVoteValue === 1 ? '#5E00AB': '#000a16'}
+          color={voteValue?.getCommentVoteValue === 1 ? '#5E00AB': '#000a16'}
 
         />
 
         <Text>{data?.getComment?.comment?.voteCount}</Text>
 
         <IconButton
-          icon={ voteValue?.getPostVoteValue === -1 ? <IoCaretDown/> : <BsCaretDown />}
+          icon={ voteValue?.getCommentVoteValue === -1 ? <IoCaretDown/> : <BsCaretDown />}
           aria-label="downvote"
           fontSize={{ base: 24, md: 24 }}
           _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
           variant="ghost"
           size='sm'
           onClick={downvote}
-          color={voteValue?.getPostVoteValue === -1 ? '#5E00AB': '#000a16'}
+          color={voteValue?.getCommentVoteValue === -1 ? '#5E00AB': '#000a16'}
 
           mr={2}
         />
