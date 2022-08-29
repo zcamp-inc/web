@@ -1,0 +1,8 @@
+fragment RegPostResponse on PostResponse{
+    errors{
+        ...RegError
+    }
+    post{
+        ...RegPost
+    }
+}

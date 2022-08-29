@@ -54,7 +54,7 @@ import {
 } from "../generated/graphql";
 import moment from "moment";
 import { BsThreeDots } from "react-icons/bs";
-import PostInteraction from "../components/PostInteraction";
+import PostInteraction from "../components/post/PostInteraction";
 import { MeQuery } from ".";
 
 const Trending = () => {

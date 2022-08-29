@@ -216,7 +216,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
                     groupId: group,
                   });
                   if (response?.data?.createPost?.post) {
-                    router.reload();
+                    router.push('/');
                   }
                 }}
               >

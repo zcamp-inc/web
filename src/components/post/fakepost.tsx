@@ -22,7 +22,7 @@ import {
 import { BsThreeDots } from "react-icons/bs";
 import { useTrendingPostsQuery } from "../../generated/graphql";
 import moment from 'moment';
-import PostInteraction from "../PostInteraction";
+import PostInteraction from "./PostInteraction";
 import NextLink from "next/link";
 
 interface FakePostProps {}
@@ -283,6 +283,8 @@ const FakePost: React.FC<FakePostProps> = () => {
                               <PostInteraction
                                 postId={p.id}
                                 comments={comments}
+                                post={p}
+                                pageProps={undefined}
                               />
                             </Box>
                           </Stack>

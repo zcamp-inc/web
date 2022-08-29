@@ -1,18 +1,19 @@
 import { HStack, Box, Flex, Icon, Text, IconButton, useToast } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../utils/createUrqlClient";
+import { createUrqlClient } from "../../utils/createUrqlClient";
 import { BsCaretDown, BsCaretUp } from "react-icons/bs";
 import { IoChatbubbleOutline,IoShareSocialOutline, IoCaretDown, IoCaretUp, IoCaretUpOutline, IoCaretDownOutline, IoBookmarkOutline, } from "react-icons/io5";
-import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, RegPostFragment, useUnvotePostMutation } from "../generated/graphql";
+import { useVotePostMutation, useMeQuery, useGetPostQuery, useGetPostVoteValueQuery, useUnvotePostMutation, Post } from "../../generated/graphql";
 
 
 interface PostInteractionProps{
   postID: number;
   comments: number;
+  post: Partial<Post>;
 }
 
-const PostInteraction: React.FC<PostInteractionProps> = ({ comments, postID }) => {
+const PostInteraction: React.FC<PostInteractionProps> = ({ comments, postID, post }) => {
   const [{ data: voteData, fetching, error}, vote] = useVotePostMutation()
   const [, unvote] = useUnvotePostMutation()
   const [{data, }] = useGetPostQuery({
@@ -22,22 +23,26 @@ const PostInteraction: React.FC<PostInteractionProps> = ({ comments, postID }) =
 
   })
   
-  const [{data: voteValue}] = useGetPostVoteValueQuery({
+  const [{data: voteValue}] =  useGetPostVoteValueQuery({
     variables: {
       getPostVoteValueId: postID
     }
   });
-  let newVoteCount;
-
-
   const toast = useToast();
   const [{data: me}] = useMeQuery();
-  let pointer = voteValue?.getPostVoteValue?.valueOf()!
-  let point = data?.getPost?.post?.voteCount!
-  const [points, setPoints] = useState(data?.getPost?.post?.voteCount!);
-  const [value, setValue] = useState(voteValue?.getPostVoteValue!);
+  
+  const [points, setPoints] = useState(post?.voteCount!);
 
-  const upvote = () => {
+  const _value = voteValue?.getPostVoteValue!
+  const [value, setValue] = useState(0)
+
+  useEffect(() => {
+    if(_value){
+      setValue(_value)
+    }
+  })
+
+  const upvote = async() => {
     if(!me?.me?.user){
       toast({
         title: 'Oopsies😭😭',
@@ -49,25 +54,29 @@ const PostInteraction: React.FC<PostInteractionProps> = ({ comments, postID }) =
       });
       return null;                
     }
-    if( voteValue?.getPostVoteValue !== 1){
-      vote({
+    if(voteValue?.getPostVoteValue !== 1){
+     const voteresponse = await vote({
       votePostId: data?.getPost?.post?.id!,
       value: 1,
     })
-    pointer = 1
-    alert(voteData?.votePost?.voteCount?.valueOf()!)
-    setPoints(data?.getPost?.post?.voteCount! + 1)
-    } else  {
-    unvote({
+    setValue(1)
+    if(voteresponse?.data?.votePost?.success){
+      setPoints(voteresponse?.data?.votePost?.voteCount!)
+    }
+    }
+    if(value === 1){
+    const undid = await unvote({
       unvotePostId: data?.getPost?.post?.id!
     })
-    pointer = 0
-    setPoints(data?.getPost?.post?.voteCount! - 1)
+    setValue(0)
+    if(undid?.data?.unvotePost?.success){
+      setPoints(undid?.data?.unvotePost?.voteCount!)
+    }
   }
   return
 }
 
-const downvote = () => {
+const downvote = async() => {
   if(!me?.me?.user){
     toast({
       title: 'Oopsies😭😭',
@@ -80,18 +89,23 @@ const downvote = () => {
     return null;                
   }
   if( voteValue?.getPostVoteValue !== -1){
-    vote({
+   const downRes = await vote({
     votePostId: data?.getPost?.post?.id!,
     value: -1,
   })
-  pointer = -1
-  setPoints(data?.getPost?.post?.voteCount! - 1)
-  } else {
-  unvote({
-    unvotePostId: data?.getPost?.post?.id!
-  })
-  pointer = 0
-  setPoints(data?.getPost?.post?.voteCount! + 1)
+  setValue(-1)
+  if(downRes?.data?.votePost?.success){
+    setPoints(downRes?.data?.votePost?.voteCount!)
+  }
+  }
+  if(value===-1){
+    const undid = await unvote({
+      unvotePostId: data?.getPost?.post?.id!
+    })
+    setValue(0)
+    if(undid?.data?.unvotePost?.success){
+      setPoints(undid?.data?.unvotePost?.voteCount!)
+    }
 }
 return 
 }
@@ -111,26 +125,26 @@ return
           _hover={{ color: "#5E00AB" }}
         >
           <IconButton
-            icon={ pointer === 1 ? <IoCaretUp/> : <BsCaretUp />}
+            icon={ value === 1 ? <IoCaretUp/> : <BsCaretUp />}
             aria-label="upvote"
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             fontSize={{ base: 24, md: 26 }}
             variant="ghost"
             onClick={upvote}
-            color={pointer === 1 ? '#5E00AB': '#000A16'}
+            color={value === 1 ? '#5E00AB': '#000A16'}
           />
 
-          <Text color="#000a16">{point} = {pointer}</Text>
+          <Text color="#000a16">{ points }</Text>
 
           <IconButton
-            icon={ pointer === -1 ? <IoCaretDown/> : <BsCaretDown />}
+            icon={ value === -1 ? <IoCaretDown/> : <BsCaretDown />}
             aria-label="downvote"
             fontSize={{ base: 24, md: 26 }}
             _hover={{ color: "#5E00AB", bg: "#DDB2FF" }}
             variant="ghost"
             onClick={downvote}
             mr={{ base: 2, md:10 }}
-            color={pointer === -1 ? '#5E00AB': '#000a16'}
+            color={value === -1 ? '#5E00AB': '#000a16'}
 
           />
         </Flex>

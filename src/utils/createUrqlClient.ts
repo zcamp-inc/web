@@ -1,7 +1,18 @@
 import { dedupExchange, fetchExchange, gql } from "urql";
-import { LogoutMutation, MeQuery, MeDocument, LoginMutation, RegisterMutation, VotePostMutation, VotePostMutationVariables, GetPostQuery, GetPostDocument, GetPostVoteValueQueryVariables } from "../generated/graphql";
+import { LogoutMutation, MeQuery, MeDocument, LoginMutation,
+   RegisterMutation, VotePostMutation, VotePostMutationVariables,
+    GetPostQuery, GetPostDocument, GetPostVoteValueQueryVariables,
+     UpdatePostMutation, DeletePostMutationVariables } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
-import { cacheExchange } from "@urql/exchange-graphcache";
+import { cacheExchange, Cache } from "@urql/exchange-graphcache";
+
+function invalidateAllPosts(cache: Cache){
+  const allFields = cache.inspectFields("Query");
+  const fieldInfos = allFields.filter((info) => info.fieldName === "post");
+  fieldInfos.forEach((fi) => {
+    cache.invalidate("Query", "post", fi.arguments || {});
+  });
+}
 
 export const createUrqlClient = (ssrExchange: any) => ({
     url: "http://localhost:4000/graphql",
@@ -18,7 +29,14 @@ export const createUrqlClient = (ssrExchange: any) => ({
         VotePost: () => null,
       },
       updates: {
-        Mutation: {
+        Mutation: {    
+          deletePost: (_result, args, cache, info) => {
+            cache.invalidate({
+              __typename: "Post",
+              id: (args as DeletePostMutationVariables).deletePostId,
+            });
+          },
+
           logoutUser: (_result, args, cache, info) => {
             betterUpdateQuery<LogoutMutation, MeQuery>(
               cache, 

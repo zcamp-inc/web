@@ -2,7 +2,7 @@ import { IconButton, Flex, Image, Box, Center  } from "@chakra-ui/react";
 import UserProfile from "./user/UserProfile";
 import { useRouter } from "next/router";
 
-export default function Header({ onOpen, ...rest }: {onOpen: any}) {
+export default function Header({ onOpen, ...rest }: any) {
   const router = useRouter(); 
   return (
  

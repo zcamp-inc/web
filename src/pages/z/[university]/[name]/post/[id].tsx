@@ -25,7 +25,7 @@ import { useGetPostFromUrl } from "../../../../../utils/getPostFromUrl";
 import { createUrqlClient } from "../../../../../utils/createUrqlClient";
 import moment from "moment";
 import { BsThreeDots } from "react-icons/bs";
-import PostInteraction from "../../../../../components/PostInteraction";
+import PostInteraction from "../../../../../components/post/PostInteraction";
 import NextLink from "next/link";
 import GroupCard from "../../../../../components/group/GroupCard";
 import { InputField } from "../../../../../components/InputField";

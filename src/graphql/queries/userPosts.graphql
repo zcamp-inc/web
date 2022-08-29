@@ -18,6 +18,21 @@ query UserPosts($limit: Float!, $sortBy: String, $cursor: Float) {
         isDisabled
         logoImgUrl
         bannerImgUrl
+        university {
+          errors {
+            field
+            message
+          }
+          university {
+            id
+            createdAt
+            name
+            description
+            isDisabled
+            logoImgUrl
+            bannerImgUrl
+          }
+        }
       }
       creator {
         errors {

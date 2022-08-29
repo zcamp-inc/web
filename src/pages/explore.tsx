@@ -46,7 +46,7 @@ import { fakedata } from "../../data";
 import { Layout } from "../components/Layout";
 import CreatePost from "../components/post/CreatePost";
 import FakePost from "../components/post/fakepost";
-import PostInteraction from "../components/PostInteraction";
+import PostInteraction from "../components/post/PostInteraction";
 import RightCard from "../components/RightCard";
 import { useTrendingPostsQuery, useMeQuery } from "../generated/graphql";
 
