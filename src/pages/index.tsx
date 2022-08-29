@@ -142,6 +142,7 @@ const Index: React.FC<IndexProps> = () => {
                       bg: "gray.200",
                     }}
                     mr={{ base: 0, md: 2 }}
+                    p={1}
                   >
                     <Icon
                       as={IoHeartCircleOutline}
@@ -166,6 +167,7 @@ const Index: React.FC<IndexProps> = () => {
                       bg: "gray.200",
                     }}
                     mr={{ base: 0, md: 2 }}
+                    p={1}
                   >
                     <Icon
                       as={IoRibbonOutline}
@@ -177,7 +179,7 @@ const Index: React.FC<IndexProps> = () => {
                   </Flex>
                 </Tab>
 
-                <Tab _selected={{ color: "blue" }}>
+                <Tab _selected={{ color: "blue.600" }}>
                   <Flex
                     align="center"
                     borderRadius="md"
@@ -186,14 +188,14 @@ const Index: React.FC<IndexProps> = () => {
                     _hover={{
                       bg: "gray.200",
                     }}
-                    mr={{ base: 0, md: 2 }}
+                    mr={{ base: 0, md: 2 }} p={1}
                   >
                     <Icon
                       as={IoRocketOutline}
                       fontSize={{ base: 24, md: 26 }}
                     />
                     <Text ml="1" pr={2}>
-                      Cringe
+                      Top
                     </Text>
                   </Flex>
                 </Tab>

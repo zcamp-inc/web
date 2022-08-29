@@ -37,7 +37,7 @@ interface PostsProps {
   p: Partial<Post>;
 }
 
-const Posts: React.FC<PostsProps> = ({ p }) => {
+const UserPosts: React.FC<PostsProps> = ({ p }) => {
     const router = useRouter();
     const toast = useToast();
     const [, deletePost] = useDeletePostMutation();
@@ -354,4 +354,4 @@ const Posts: React.FC<PostsProps> = ({ p }) => {
   );
 };
 
-export default Posts;
+export default UserPosts;
