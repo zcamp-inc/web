@@ -27,6 +27,7 @@ export const createUrqlClient = (ssrExchange: any) => ({
         UserResponse: () => null,
         PaginatedPosts: () => null,
         VotePost: () => null,
+        UniversityResponse: () => null,
       },
       updates: {
         Mutation: {    

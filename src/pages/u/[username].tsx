@@ -18,7 +18,9 @@ import {
   VStack,
   SkeletonCircle,
   SkeletonText,
+  Icon,
 } from "@chakra-ui/react";
+import React, {useState} from 'react';
 import {
   IoGridOutline,
   IoChatbubbleEllipsesOutline,
@@ -50,6 +52,7 @@ const UserProfile = () => {
       sortBy: "recent",
     },
   });
+  const[sort, setSort] = useState("recent");
   const me = MeQuery();
 
   let user = null;
@@ -164,14 +167,14 @@ const UserProfile = () => {
 
               </Flex>
           </Flex>
-          <Flex direction="column" mt={{ base: 2, md: 10 }}>
-
-
-            <Tabs
+          <Flex direction="column" mt={{ base: 2, lg: 10 }} minW={{ base: "full", lg: "650px"}}>
+          <Tabs
               isFitted
               variant="unstyled"
               alignSelf="center"
-              minW={{ base: "full", lg: "650px" }}
+              w={{ lg: "680px" }}
+              minW={{ lg: "600px" }}
+              px={3}
             >
               <TabList
                 bg="white"
@@ -180,7 +183,10 @@ const UserProfile = () => {
                 fontWeight={600}
                 color="gray.500"
               >
-                <Tab _selected={{ color: "#ff3333" }}>
+                <Tab
+                  _selected={{ color: "blue.300" }}
+                  onClick={() => setSort("recent")}
+                >
                   <Flex
                     align="center"
                     borderRadius="md"
@@ -189,30 +195,24 @@ const UserProfile = () => {
                     _hover={{
                       bg: "gray.200",
                     }}
-                    mr={{ base: -8, md: 1 }}
-                    ml={{ base: -8 }}
-                    px={1}
+                    mr={{ base: 0, md: 2 }}
+                    py={1}
+                    pl={1}
                   >
-                    <IconButton
-                      icon={<IoGridOutline />}
-                      borderRadius="md"
-                      fontSize={{ base: 16, md: 22 }}
-                      // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
-                      _hover={{ color: "none", bg: "none" }}
-                      aria-label="Home"
-                      variant="ghost"
+                    <Icon
+                      as={IoGridOutline}
+                      fontSize={{ base: 24, md: 26 }}
                     />
-                    <Text
-                      ml={{ base: -2, md: "1" }}
-                      pr={{ base: -1, md: 1 }}
-                      fontSize={{ base: 16, md: 18 }}
-                    >
+                    <Text ml="1" pr={2}>
                       Posts
                     </Text>
                   </Flex>
                 </Tab>
 
-                <Tab _selected={{ color: "#8225CE" }}>
+                <Tab
+                  _selected={{ color: "#487D8D" }}
+                  onClick={() => setSort("new")}
+                >
                   <Flex
                     align="center"
                     borderRadius="md"
@@ -221,28 +221,21 @@ const UserProfile = () => {
                     _hover={{
                       bg: "gray.200",
                     }}
-                    mr={{ base: -8, md: 2 }}
+                    mr={{ base: 0, md: 2 }}
+                    py={1}
+                    pl={1}
                   >
-                    <IconButton
-                      icon={<IoChatbubbleEllipsesOutline />}
-                      borderRadius="md"
-                      fontSize={{ base: 16, md: 22 }}
-                      // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
-                      _hover={{ color: "none", bg: "none" }}
-                      aria-label="Home"
-                      variant="ghost"
+                    <Icon
+                      as={IoChatbubbleEllipsesOutline}
+                      fontSize={{ base: 24, md: 26 }}
                     />
-                    <Text
-                      ml={{ base: -2, md: 1 }}
-                      pr={1}
-                      fontSize={{ base: 16, md: 18 }}
-                    >
+                    <Text ml="1" pr={2}>
                       Comments
                     </Text>
                   </Flex>
                 </Tab>
 
-                <Tab _selected={{ color: "blue" }} display={me.data?.me?.user?.id === data?.user?.user?.id
+                <Tab _selected={{ color: "#FF377F" }} display={me.data?.me?.user?.id === data?.user?.user?.id
                         ? "flex" : 'none' }>
                   <Flex
                     align="center"
@@ -252,28 +245,21 @@ const UserProfile = () => {
                     _hover={{
                       bg: "gray.200",
                     }}
-                    mr={{ base: -8, md: 2 }}
+                    mr={{ base: 0, md: 2 }}
+                    py={1}
+                    pl={1}
                   >
-                    <IconButton
-                      icon={<IoBookmarksOutline />}
-                      borderRadius="md"
-                      fontSize={{ base: 16, md: 22 }}
-                      // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
-                      _hover={{ color: "none", bg: "none" }}
-                      aria-label="Home"
-                      variant="ghost"
+                    <Icon
+                      as={IoBookmarksOutline}
+                      fontSize={{ base: 24, md: 26 }}
                     />
-                    <Text
-                      ml={{ base: -2, md: 1 }}
-                      pr={1}
-                      fontSize={{ base: 16, md: 18 }}
-                    >
+                    <Text ml="1" pr={2}>
                       Saved
                     </Text>
                   </Flex>
                 </Tab>
 
-                <Tab _selected={{ color: "blue" }} display={me.data?.me?.user?.id === data?.user?.user?.id
+                <Tab _selected={{ color: "#5E00AB" }} display={me.data?.me?.user?.id === data?.user?.user?.id
                         ? "flex" : 'none' }>
                   <Flex
                     align="center"
@@ -283,30 +269,24 @@ const UserProfile = () => {
                     _hover={{
                       bg: "gray.200",
                     }}
-                    mr={{ base: -2, md: 2 }}
+                    mr={{ base: 0, md: 2 }}
+                    py={1}
+                    pl={1}
                   >
-                    <IconButton
-                      icon={<IoCaretUpCircleOutline />}
-                      borderRadius="md"
-                      fontSize={{ base: 16, md: 22 }}
-                      // _groupHover={{ color: "#5E00AB", bg: "#DDB2FF" }}
-                      _hover={{ color: "none", bg: "none" }}
-                      aria-label="Home"
-                      variant="ghost"
+                    <Icon
+                      as={IoCaretUpCircleOutline}
+                      fontSize={{ base: 24, md: 26 }}
                     />
-                    <Text
-                      ml={{ base: -2 }}
-                      pr={1}
-                      fontSize={{ base: 16, md: 18 }}
-                    >
-                      Upvoted
+                    <Text ml="1" pr={2}>
+                      Upvotes
                     </Text>
                   </Flex>
                 </Tab>
               </TabList>
               <TabPanels>
+                {/* USER POST SECTION */}
                 <TabPanel>
-                  {!userpost && fetchuser ? (
+                  {!data && fetching ? (
                      <VStack spacing={{ base: 0, md: 5 }}>
                      <Box
                        borderWidth="1px"
@@ -337,15 +317,11 @@ const UserProfile = () => {
                      </Box>
                    </VStack>
                   ) : (
-                    userpost?.userPosts?.posts?.map((p) => (
-                     <UserPosts p={p} />
+                   userpost?.userPosts?.posts?.map((p) => (
+                      <UserPosts p={p} key={p.id} />
                     ))
                   )}
-                  <Flex justify="center" display={!userpost?.userPosts.posts ? 'flex' : 'none' }>
-                 {me.data?.me?.user?.id === data?.user?.user?.id
-                        ? "Create a post to see it here😎" : `Sorry, I haven't made a post yet😭` }
-                  </Flex>
-                  <Flex justify="center" display={!userpost?.userPosts.posts ? 'none' : 'flex' }>
+                  <Flex justify="center">
                     <Button
                       colorScheme="blue"
                       borderRadius="md"
@@ -357,21 +333,120 @@ const UserProfile = () => {
                     </Button>
                   </Flex>
                 </TabPanel>
+
+                {/** COMMENTS SECTION */}
                 <TabPanel>
-                <Flex justify="center">
-                {me.data?.me?.user?.id === data?.user?.user?.id
-                        ? "post a comment to see it here🥸" : `Sorry, I haven't made a comment yet😣` }
-                  </Flex>
+                  {!data && fetching ? (
+                    <VStack spacing={{ base: 0, md: 5 }}>
+                    <Box
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      bg="white"
+                      p={4}
+                      boxShadow='lg'
+                      w={{ base: "370px", md: "768px", lg: "650px" }}
+                      minH={40}
+                      mb={{ base: 2 }}
+                    >
+                      <SkeletonCircle size="10" />
+                      <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                    </Box>
+
+                    <Box
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      bg="white"
+                      p={4}
+                      boxShadow='lg'
+                      w={{ base: "370px", md: "768px", lg: "650px" }}
+                      minH={40}
+                      mb={{ base: 2 }}
+                    >
+                      <SkeletonCircle size="10" />
+                      <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                    </Box>
+                  </VStack>
+                  ) : (
+                    <Flex justify="center">
+                    {me.data?.me?.user?.id === data?.user?.user?.id
+                            ? "post a comment to see it here🥸" : `Sorry, I haven't made a comment yet😣` }
+                      </Flex>
+                  )}
                 </TabPanel>
                 <TabPanel>
-                <Flex justify="center" >
-                        Save a post to see it here🤗
-                  </Flex>
+                {!data && fetching ? (
+                    <VStack spacing={{ base: 0, md: 5 }}>
+                    <Box
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      bg="white"
+                      p={4}
+                      boxShadow='lg'
+                      w={{ base: "370px", md: "768px", lg: "650px" }}
+                      minH={40}
+                      mb={{ base: 2 }}
+                    >
+                      <SkeletonCircle size="10" />
+                      <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                    </Box>
+
+                    <Box
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      bg="white"
+                      p={4}
+                      boxShadow='lg'
+                      w={{ base: "370px", md: "768px", lg: "650px" }}
+                      minH={40}
+                      mb={{ base: 2 }}
+                    >
+                      <SkeletonCircle size="10" />
+                      <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                    </Box>
+                  </VStack>
+                  ) : (
+                    <Flex justify="center" >
+                    Save a post to see it here🤗
+              </Flex>
+                  )}
                 </TabPanel>
-                <TabPanel>
-                <Flex justify="center" >
-                        Upvote a post to see it here🤩
-                  </Flex>
+
+                 <TabPanel>
+                {!data && fetching ? (
+                    <VStack spacing={{ base: 0, md: 5 }}>
+                    <Box
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      bg="white"
+                      p={4}
+                      boxShadow='lg'
+                      w={{ base: "370px", md: "768px", lg: "650px" }}
+                      minH={40}
+                      mb={{ base: 2 }}
+                    >
+                      <SkeletonCircle size="10" />
+                      <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                    </Box>
+
+                    <Box
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      bg="white"
+                      p={4}
+                      boxShadow='lg'
+                      w={{ base: "370px", md: "768px", lg: "650px" }}
+                      minH={40}
+                      mb={{ base: 2 }}
+                    >
+                      <SkeletonCircle size="10" />
+                      <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                    </Box>
+                  </VStack>
+                  ) : (
+                    <Flex justify="center" >
+                    Upvote a post to see it here🤩
+              </Flex>
+                  )}
                 </TabPanel>
               </TabPanels>
             </Tabs>
